@@ -62,7 +62,7 @@ export default function StatsBadge() {
   }, []);
 
   return (
-    <div className="fixed left-3 top-3 z-[60] flex items-center gap-2 rounded-full border border-rock-700/70 bg-rock-950/80 px-3 py-1.5 text-xs font-mono text-rock-300 shadow-lg backdrop-blur">
+    <div className="fixed left-3 top-3 z-[60] flex items-center gap-2 rounded-full border border-cyber-400/30 bg-rock-950/70 px-3 py-1.5 text-xs font-mono text-rock-300 shadow-glow-cyber backdrop-blur-md">
       <span className="flex items-center gap-1.5" title="Total page visits">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
           <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" />
@@ -73,7 +73,7 @@ export default function StatsBadge() {
         </span>
       </span>
 
-      <span className="h-3 w-px bg-rock-700" aria-hidden />
+      <span className="h-3 w-px bg-cyber-400/30" aria-hidden />
 
       <span className="flex items-center gap-1.5" title="Total downloads">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>

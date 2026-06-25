@@ -1,12 +1,27 @@
 import Link from "next/link";
 import { nav, site } from "@/lib/site";
+import AuroraGradient from "@/components/AuroraGradient";
+import Constellations from "@/components/Constellations";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-rock-800/80 bg-rock-950">
-      <div className="container-content flex flex-col gap-8 py-12 md:flex-row md:items-start md:justify-between">
+    <footer className="relative isolate overflow-hidden border-t border-cyber-400/10 bg-rock-950/40">
+      {/* Aurora (northern-lights) backdrop */}
+      <AuroraGradient />
+      {/* Darken slightly so the footer text stays legible over the aurora */}
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-0 bg-gradient-to-t from-rock-950/90 via-rock-950/55 to-rock-950/70"
+      />
+      {/* Twinkling constellations (Orion & Scorpius) over the aurora */}
+      <div className="absolute inset-0 z-[5]">
+        <Constellations />
+      </div>
+      {/* Glowing hairline at the top of the footer */}
+      <div className="absolute inset-x-0 top-0 z-10 h-px bg-gradient-to-r from-transparent via-cyber-400/50 to-transparent" />
+      <div className="container-content relative z-10 flex flex-col gap-8 py-12 md:flex-row md:items-start md:justify-between">
         <div className="max-w-sm">
-          <p className="font-semibold text-rock-50">{site.name}</p>
+          <p className="font-semibold text-gradient">{site.name}</p>
           <p className="mt-2 text-sm text-rock-400">{site.intro}</p>
           <p className="mt-2 text-sm text-rock-500">{site.location}</p>
         </div>
@@ -48,7 +63,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-rock-900">
+      <div className="relative z-10 border-t border-cyber-400/10">
         <div className="container-content py-5 text-xs text-rock-500">
           © {new Date().getFullYear()} {site.name}. Built with Next.js & TailwindCSS.
         </div>

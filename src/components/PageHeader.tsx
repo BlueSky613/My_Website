@@ -1,3 +1,5 @@
+import Reveal from "@/components/Reveal";
+
 export default function PageHeader({
   eyebrow,
   title,
@@ -8,14 +10,24 @@ export default function PageHeader({
   description?: string;
 }) {
   return (
-    <div className="border-b border-rock-800/80 bg-gradient-to-b from-rock-900/60 to-rock-950">
+    <div className="relative border-b border-cyber-400/10 bg-gradient-to-b from-rock-900/40 to-transparent">
+      {/* glowing baseline */}
+      <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-cyber-400/30 to-transparent" />
       <div className="container-content py-14 sm:py-20">
-        {eyebrow && <p className="eyebrow mb-3">{eyebrow}</p>}
-        <h1 className="text-3xl font-bold tracking-tight text-rock-50 sm:text-4xl">
-          {title}
-        </h1>
+        {eyebrow && (
+          <Reveal>
+            <p className="eyebrow mb-3">{eyebrow}</p>
+          </Reveal>
+        )}
+        <Reveal delay={120} zoom>
+          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+            <span className="text-gradient">{title}</span>
+          </h1>
+        </Reveal>
         {description && (
-          <p className="mt-4 max-w-2xl text-rock-300">{description}</p>
+          <Reveal delay={240}>
+            <p className="mt-4 max-w-2xl text-rock-300">{description}</p>
+          </Reveal>
         )}
       </div>
     </div>

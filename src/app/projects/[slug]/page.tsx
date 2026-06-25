@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProject, projects } from "@/lib/projects";
 import DownloadLink from "@/components/DownloadLink";
+import Reveal from "@/components/Reveal";
 
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
@@ -105,27 +106,36 @@ export default function ProjectDetailPage({
           {/* Content */}
           <div className="max-w-2xl space-y-14">
             {project.sections.map((s) => (
-              <div key={s.heading} id={slugify(s.heading)} className="scroll-mt-24">
-                <h2 className="text-xl font-bold text-rock-50">{s.heading}</h2>
-                <div className="mt-4 space-y-4 leading-relaxed text-rock-300">
-                  {s.body.map((para, i) => (
-                    <p key={i}>{para}</p>
-                  ))}
-                </div>
-                {s.bullets && (
-                  <ul className="mt-4 space-y-2">
-                    {s.bullets.map((b) => (
-                      <li
-                        key={b}
-                        className="flex items-start gap-2 text-sm text-rock-300"
-                      >
-                        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-terrain-400" />
-                        {b}
-                      </li>
+              <Reveal
+                key={s.heading}
+                as="div"
+                className="scroll-mt-24"
+              >
+                <div id={slugify(s.heading)} className="scroll-mt-24">
+                  <h2 className="flex items-center gap-3 text-xl font-bold text-rock-50">
+                    <span className="h-5 w-1 rounded-full bg-gradient-to-b from-cyber-400 to-ore-500 shadow-glow-cyber" />
+                    {s.heading}
+                  </h2>
+                  <div className="mt-4 space-y-4 leading-relaxed text-rock-300">
+                    {s.body.map((para, i) => (
+                      <p key={i}>{para}</p>
                     ))}
-                  </ul>
-                )}
-              </div>
+                  </div>
+                  {s.bullets && (
+                    <ul className="mt-4 space-y-2">
+                      {s.bullets.map((b) => (
+                        <li
+                          key={b}
+                          className="flex items-start gap-2 text-sm text-rock-300"
+                        >
+                          <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-terrain-400" />
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </Reveal>
             ))}
 
             {/* Downloads at bottom */}

@@ -15,6 +15,11 @@ body {
   @apply bg-rock-950 text-rock-100 antialiased;
 }
 
+/* Custom scrollbar for the futuristic feel */
+::selection {
+  @apply bg-cyber-400/30 text-rock-50;
+}
+
 @layer components {
   .container-content {
     @apply mx-auto w-full max-w-content px-5 sm:px-8;
@@ -25,29 +30,53 @@ body {
   }
 
   .eyebrow {
-    @apply text-xs font-mono uppercase tracking-[0.25em] text-ore-400;
+    @apply text-xs font-mono uppercase tracking-[0.25em] text-cyber-400;
   }
 
+  /* Glassmorphism card with neon hover */
   .card {
-    @apply rounded-xl border border-rock-700/60 bg-rock-900/60 p-6 transition
-           hover:border-ore-500/50 hover:bg-rock-900;
+    @apply relative rounded-xl border border-rock-700/60 bg-rock-900/50 p-6
+           backdrop-blur-sm transition duration-300
+           hover:border-cyber-400/50 hover:bg-rock-900/70 hover:shadow-glow-soft;
   }
 
   .btn {
     @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5
-           text-sm font-medium transition;
+           text-sm font-medium transition duration-300;
   }
 
+  /* Primary: glowing gold */
   .btn-primary {
-    @apply btn bg-ore-500 text-rock-950 hover:bg-ore-400;
+    @apply btn bg-ore-500 text-rock-950 shadow-glow-ore
+           hover:bg-ore-400 hover:shadow-[0_0_30px_-2px_rgba(217,158,43,0.6)];
   }
 
+  /* Ghost: neon-cyan outline */
   .btn-ghost {
-    @apply btn border border-rock-700 text-rock-100 hover:border-ore-500/60 hover:text-ore-400;
+    @apply btn border border-cyber-400/40 text-rock-100
+           hover:border-cyber-400 hover:text-cyber-300 hover:shadow-glow-cyber;
   }
 
   .tag {
-    @apply inline-block rounded-full border border-rock-700 bg-rock-800/60
-           px-3 py-1 text-xs font-mono text-rock-200;
+    @apply inline-block rounded-full border border-cyber-400/20 bg-rock-800/60
+           px-3 py-1 text-xs font-mono text-cyber-300/90;
+  }
+
+  /* Gradient text accent */
+  .text-gradient {
+    @apply bg-gradient-to-r from-ore-400 via-ore-500 to-cyber-400
+           bg-clip-text text-transparent;
+  }
+
+  /* Hairline divider with a glowing center */
+  .glow-divider {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-cyber-400/40 to-transparent;
+  }
+}
+
+@layer utilities {
+  /* Futuristic grid backdrop */
+  .bg-tech-grid {
+    background-image: var(--tw-bg-grid, none);
   }
 }

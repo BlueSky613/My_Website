@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 import ProjectCard from "@/components/ProjectCard";
+import Reveal from "@/components/Reveal";
 import { projects } from "@/lib/projects";
 
 export const metadata: Metadata = { title: "Projects" };
@@ -16,8 +17,10 @@ export default function ProjectsPage() {
 
       <section className="section">
         <div className="container-content grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {projects.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
+          {projects.map((project, i) => (
+            <Reveal key={project.slug} delay={i * 100} zoom>
+              <ProjectCard project={project} />
+            </Reveal>
           ))}
         </div>
       </section>

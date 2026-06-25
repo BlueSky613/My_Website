@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
+import Reveal from "@/components/Reveal";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = { title: "About" };
@@ -22,7 +23,7 @@ export default function AboutPage() {
 
       <section className="section">
         <div className="container-content grid gap-12 md:grid-cols-[1fr_320px]">
-          <div className="space-y-6 text-rock-300 leading-relaxed">
+          <Reveal from="left" className="space-y-6 text-rock-300 leading-relaxed">
             <p>
               I am an aspiring GIS and Geological Mapping Specialist with a strong
               interest in mineral exploration across Western Australia. My work
@@ -67,10 +68,15 @@ export default function AboutPage() {
                 ))}
               </ul>
             </div>
-          </div>
+          </Reveal>
 
           {/* Quick facts */}
-          <aside className="h-fit rounded-xl border border-rock-700/60 bg-rock-900/60 p-6">
+          <Reveal
+            as="aside"
+            from="right"
+            delay={120}
+            className="h-fit rounded-xl border border-cyber-400/20 bg-rock-900/60 p-6 shadow-glow-soft backdrop-blur-sm"
+          >
             <p className="eyebrow mb-4">Quick Facts</p>
             <dl className="space-y-4">
               {facts.map((fact) => (
@@ -82,7 +88,7 @@ export default function AboutPage() {
                 </div>
               ))}
             </dl>
-          </aside>
+          </Reveal>
         </div>
       </section>
     </>

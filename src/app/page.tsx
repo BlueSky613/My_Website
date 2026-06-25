@@ -3,21 +3,16 @@ import Link from "next/link";
 import { site } from "@/lib/site";
 import { featuredProjects, projects } from "@/lib/projects";
 import ProjectCard from "@/components/ProjectCard";
+import HeroSlideshow from "@/components/HeroSlideshow";
+import Reveal from "@/components/Reveal";
 
 export default function HomePage() {
   return (
     <>
-      {/* Hero — full-bleed background image */}
+      {/* Hero — full-bleed background slideshow (4 cross-fading images) */}
       <section className="relative isolate overflow-hidden">
-        {/* Background image */}
-        <Image
-          src="/images/hero-gis-resources.png"
-          alt="Satellite imagery, GIS data management and resource exploration workflow"
-          fill
-          priority
-          sizes="100vw"
-          className="-z-10 object-cover"
-        />
+        {/* Rotating background images */}
+        <HeroSlideshow />
         {/* Light overlay — keeps the image vivid while softening it behind text */}
         <div
           aria-hidden
@@ -26,36 +21,45 @@ export default function HomePage() {
 
         <div className="container-content relative py-28 sm:py-36 lg:py-44">
           <div className="max-w-3xl">
-            <p className="eyebrow mb-4">{site.role}</p>
-            <h1 className="text-4xl font-bold leading-tight tracking-tight text-rock-50 drop-shadow sm:text-5xl lg:text-6xl">
-              {site.taglines[0]}
-              <span className="block text-rock-300">{site.taglines[1]}</span>
-            </h1>
-            <p className="mt-6 max-w-xl text-lg text-rock-200 drop-shadow">
-              {site.intro}
-            </p>
+            <Reveal>
+              <h1 className="text-4xl font-bold leading-tight tracking-tight text-rock-50 drop-shadow sm:text-5xl lg:text-6xl">
+                {site.taglines[0]}
+                <span className="mt-1 block text-gradient drop-shadow-none">
+                  {site.taglines[1]}
+                </span>
+              </h1>
+            </Reveal>
+            <Reveal delay={120}>
+              <p className="mt-6 max-w-xl text-lg text-rock-200 drop-shadow">
+                {site.intro}
+              </p>
+            </Reveal>
 
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/projects" className="btn-primary">
-                View Projects
-              </Link>
-              <Link href="/contact" className="btn-ghost bg-rock-950/40 backdrop-blur">
-                Get in Touch
-              </Link>
-            </div>
+            <Reveal delay={240}>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link href="/projects" className="btn-primary">
+                  View Projects
+                </Link>
+                <Link href="/contact" className="btn-ghost bg-rock-950/40 backdrop-blur">
+                  Get in Touch
+                </Link>
+              </div>
+            </Reveal>
 
-            <div className="mt-8 flex items-center gap-4 text-sm text-rock-200">
-              <span className="inline-flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-terrain-400" />
-                {site.location}
-              </span>
-            </div>
+            <Reveal delay={360}>
+              <div className="mt-8 flex items-center gap-4 text-sm text-rock-200">
+                <span className="inline-flex items-center gap-2">
+                  <span className="h-2 w-2 rounded-full bg-cyber-400 shadow-glow-cyber" />
+                  {site.location}
+                </span>
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>
 
       {/* Featured projects — Kalgoorlie map as background */}
-      <section className="relative isolate overflow-hidden border-t border-rock-800/80">
+      <section className="relative isolate overflow-hidden border-t border-cyber-400/10">
         {/* Background image */}
         <Image
           src="/images/featured-projects-bg.png"
@@ -71,33 +75,37 @@ export default function HomePage() {
         />
 
         <div className="container-content section">
-          <div className="flex items-end justify-between gap-4">
-            <div>
-              <p className="eyebrow mb-3">Selected Work</p>
-              <h2 className="text-2xl font-bold tracking-tight text-rock-50 drop-shadow sm:text-3xl">
-                Featured Projects
-              </h2>
+          <Reveal>
+            <div className="flex items-end justify-between gap-4">
+              <div>
+                <p className="eyebrow mb-3">Selected Work</p>
+                <h2 className="text-2xl font-bold tracking-tight text-rock-50 drop-shadow sm:text-3xl">
+                  Featured Projects
+                </h2>
+              </div>
+              <Link
+                href="/projects"
+                className="hidden text-sm font-medium text-cyber-300 transition hover:text-cyber-400 sm:inline"
+              >
+                All projects →
+              </Link>
             </div>
-            <Link
-              href="/projects"
-              className="hidden text-sm font-medium text-ore-400 hover:text-ore-500 sm:inline"
-            >
-              All projects →
-            </Link>
-          </div>
+          </Reveal>
 
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {(featuredProjects.length ? featuredProjects : projects)
               .slice(0, 3)
-              .map((project) => (
-                <ProjectCard key={project.slug} project={project} />
+              .map((project, i) => (
+                <Reveal key={project.slug} delay={i * 120} zoom>
+                  <ProjectCard project={project} />
+                </Reveal>
               ))}
           </div>
         </div>
       </section>
 
       {/* Focus areas — Python/GIS stack as background */}
-      <section className="relative isolate overflow-hidden border-t border-rock-800/80">
+      <section className="relative isolate overflow-hidden border-t border-cyber-400/10">
         {/* Background image */}
         <Image
           src="/images/python-gis-stack.png"
@@ -113,10 +121,12 @@ export default function HomePage() {
         />
 
         <div className="container-content section">
-          <p className="eyebrow mb-3">What I Do</p>
-          <h2 className="text-2xl font-bold tracking-tight text-rock-50 drop-shadow sm:text-3xl">
-            Spatial analysis for the resources sector
-          </h2>
+          <Reveal>
+            <p className="eyebrow mb-3">What I Do</p>
+            <h2 className="text-2xl font-bold tracking-tight text-rock-50 drop-shadow sm:text-3xl">
+              Spatial analysis for the resources sector
+            </h2>
+          </Reveal>
 
           <div className="mt-10 grid gap-6 sm:grid-cols-3">
             {[
@@ -132,15 +142,17 @@ export default function HomePage() {
                 title: "Spatial Automation",
                 desc: "Reproducible Python (GeoPandas, GDAL) and PostGIS pipelines for repeatable analysis.",
               },
-            ].map((item) => (
-              <div key={item.title} className="card bg-rock-900/70 backdrop-blur">
-                <h3 className="text-lg font-semibold text-rock-50">
-                  {item.title}
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed text-rock-200">
-                  {item.desc}
-                </p>
-              </div>
+            ].map((item, i) => (
+              <Reveal key={item.title} delay={i * 120} zoom>
+                <div className="card group h-full bg-rock-900/70 backdrop-blur">
+                  <h3 className="text-lg font-semibold text-rock-50 transition group-hover:text-cyber-300">
+                    {item.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-rock-200">
+                    {item.desc}
+                  </p>
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>

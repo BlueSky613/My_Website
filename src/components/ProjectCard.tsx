@@ -11,7 +11,7 @@ export default function ProjectCard({ project }: { project: Project }) {
         <span className="tag">{project.category}</span>
       </div>
 
-      <h3 className="mt-4 text-lg font-semibold text-rock-50 group-hover:text-ore-400">
+      <h3 className="mt-4 text-lg font-semibold text-rock-50 transition group-hover:text-cyber-300">
         {project.title}
       </h3>
       <p className="mt-1 text-sm text-rock-400">{project.location}</p>
