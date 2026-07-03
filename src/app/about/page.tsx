@@ -78,23 +78,23 @@ export default function AboutPage() {
           </Reveal>
 
           {/* Quick facts */}
-          <Reveal
-            as="aside"
-            from="right"
-            delay={120}
-            className="h-fit rounded-xl border border-cyber-400/20 bg-rock-900/60 p-6 shadow-glow-soft backdrop-blur-sm"
-          >
-            <p className="eyebrow mb-4">Quick Facts</p>
-            <dl className="space-y-4">
-              {facts.map((fact) => (
-                <div key={fact.label}>
-                  <dt className="text-xs font-mono uppercase tracking-wider text-rock-500">
-                    {fact.label}
-                  </dt>
-                  <dd className="mt-1 text-sm text-rock-100">{fact.value}</dd>
-                </div>
-              ))}
-            </dl>
+          <Reveal as="aside" from="right" delay={120} className="h-fit">
+            <div
+              data-tilt
+              className="rounded-xl border border-cyber-400/20 bg-rock-900/60 p-6 shadow-glow-soft backdrop-blur-sm"
+            >
+              <p className="eyebrow mb-4">Quick Facts</p>
+              <dl className="space-y-4">
+                {facts.map((fact) => (
+                  <div key={fact.label}>
+                    <dt className="text-xs font-mono uppercase tracking-wider text-rock-500">
+                      {fact.label}
+                    </dt>
+                    <dd className="mt-1 text-sm text-rock-100">{fact.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
           </Reveal>
         </div>
       </section>
