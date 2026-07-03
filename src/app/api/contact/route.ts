@@ -2,15 +2,14 @@ import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import { site } from "@/lib/site";
 
-// Allowed recipients — keep in sync with ContactForm. This prevents the client
-// from sending mail to an arbitrary address.
-const allowedRecipients = new Set([site.email, site.emailSecondary]);
+// Allowed recipient. The client never chooses the address — mail always goes
+// to the single configured contact email.
+const allowedRecipient = site.email;
 
 export async function POST(request: Request) {
   let payload: {
     name?: string;
     email?: string;
-    recipient?: string;
     message?: string;
   };
 
@@ -23,7 +22,6 @@ export async function POST(request: Request) {
   const name = payload.name?.trim();
   const email = payload.email?.trim();
   const message = payload.message?.trim();
-  const recipient = payload.recipient?.trim();
 
   if (!name || !email || !message) {
     return NextResponse.json(
@@ -32,9 +30,8 @@ export async function POST(request: Request) {
     );
   }
 
-  // Validate recipient against the whitelist; fall back to the primary email.
-  const to =
-    recipient && allowedRecipients.has(recipient) ? recipient : site.email;
+  // Mail always goes to the single configured contact address.
+  const to = allowedRecipient;
 
   const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } = process.env;
 

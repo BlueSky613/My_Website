@@ -15,11 +15,6 @@ export default function ContactPage() {
       value: site.email,
       href: `mailto:${site.email}`,
     },
-    {
-      label: "Email (secondary)",
-      value: site.emailSecondary,
-      href: `mailto:${site.emailSecondary}`,
-    },
     { label: "LinkedIn", value: "View profile", href: site.links.linkedin },
     { label: "GitHub", value: "View repositories", href: site.links.github },
   ];

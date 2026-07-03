@@ -3,6 +3,7 @@ import PageHeader from "@/components/PageHeader";
 import Reveal from "@/components/Reveal";
 import BinaryField from "@/components/BinaryField";
 import DemTerrain from "@/components/DemTerrain";
+import WaterCursor from "@/components/WaterCursor";
 
 export const metadata: Metadata = { title: "Skills" };
 
@@ -33,6 +34,7 @@ const skillGroups = [
 export default function SkillsPage() {
   return (
     <>
+      <WaterCursor />
       {/* Scattered 0/1 field that scatters away from the cursor */}
       <div className="relative isolate">
         <PageHeader

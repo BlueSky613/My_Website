@@ -7,6 +7,9 @@ import { useEffect, useRef } from "react";
 //  - when the pointer nears an interactive element (button / link / [data-magnetic]),
 //    the ring is pulled toward that element's center and grows, and the element
 //    itself is nudged slightly toward the cursor ("magnetic" attraction)
+//  - cards (.card) don't get nudged; instead they TILT around their own center,
+//    leaning toward the cursor in 3D (rotateX/rotateY) — like a panel pivoting on
+//    a pin rather than sliding after the pointer.
 // Disabled on touch devices and when the user prefers reduced motion (there the
 // native cursor stays completely normal and nothing is rendered).
 
@@ -15,6 +18,9 @@ const SELECTOR =
 
 // How far (px) from an element's center the magnetic field reaches.
 const RADIUS = 90;
+
+// Max tilt in degrees a card leans toward the cursor.
+const MAX_TILT = 9;
 
 export default function MagneticCursor() {
   const ringRef = useRef<HTMLDivElement>(null);
@@ -36,12 +42,32 @@ export default function MagneticCursor() {
     let ringY = mouseY;
     let raf = 0;
 
-    // Track the element currently being attracted so we can reset its transform.
+    // Track the element currently being nudged / tilted so we can reset it.
     let pulled: HTMLElement | null = null;
+    let tiltedCard: HTMLElement | null = null;
 
     const onMove = (e: MouseEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
+    };
+
+    const resetCard = (el: HTMLElement) => {
+      el.style.transition = "transform 350ms ease-out";
+      el.style.transform = "";
+    };
+
+    // Lean the card toward the cursor: pivot around its center in 3D so the edge
+    // nearest the pointer rises toward the viewer (a "look-at-cursor" tilt).
+    const tiltCard = (el: HTMLElement) => {
+      const r = el.getBoundingClientRect();
+      const px = (mouseX - r.left) / r.width; // 0 (left) .. 1 (right)
+      const py = (mouseY - r.top) / r.height; // 0 (top) .. 1 (bottom)
+      const rotateY = (px - 0.5) * 2 * MAX_TILT;
+      const rotateX = -(py - 0.5) * 2 * MAX_TILT;
+      el.style.transition = "transform 120ms ease-out";
+      el.style.transformStyle = "preserve-3d";
+      el.style.willChange = "transform";
+      el.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
     };
 
     const nearestTarget = (): { el: HTMLElement; cx: number; cy: number; d: number } | null => {
@@ -61,8 +87,30 @@ export default function MagneticCursor() {
     const tick = () => {
       const target = nearestTarget();
 
-      // Reset a previously-pulled element if it's no longer the target.
-      if (pulled && (!target || target.el !== pulled)) {
+      // The card (or opted-in [data-tilt] element) under the pointer tilts
+      // instead of nudging.
+      const node = document.elementFromPoint(mouseX, mouseY) as HTMLElement | null;
+      const card =
+        (node?.closest(".card, [data-tilt]") as HTMLElement | null) ?? null;
+
+      // Reset a card that's no longer hovered.
+      if (tiltedCard && tiltedCard !== card) {
+        resetCard(tiltedCard);
+        tiltedCard = null;
+      }
+      if (card) {
+        tiltCard(card);
+        tiltedCard = card;
+      }
+
+      // Reset a previously-nudged element if it's no longer the (non-tilt) target.
+      const nudgeTarget =
+        target &&
+        !target.el.classList.contains("card") &&
+        !target.el.hasAttribute("data-tilt")
+          ? target
+          : null;
+      if (pulled && (!nudgeTarget || nudgeTarget.el !== pulled)) {
         pulled.style.transform = "";
         pulled.style.transition = "transform 250ms ease-out";
         pulled = null;
@@ -81,11 +129,14 @@ export default function MagneticCursor() {
         destY = mouseY + (target.cy - mouseY) * pull * 0.6;
         scale = 1 + pull * 1.4;
 
-        // Nudge the element toward the cursor.
-        const nudge = 0.22 * pull;
-        target.el.style.transition = "transform 120ms ease-out";
-        target.el.style.transform = `translate(${(mouseX - target.cx) * nudge}px, ${(mouseY - target.cy) * nudge}px)`;
-        pulled = target.el;
+        // Nudge the element toward the cursor — but only non-card targets;
+        // cards get the 3D tilt above instead.
+        if (nudgeTarget) {
+          const nudge = 0.22 * pull;
+          nudgeTarget.el.style.transition = "transform 120ms ease-out";
+          nudgeTarget.el.style.transform = `translate(${(mouseX - nudgeTarget.cx) * nudge}px, ${(mouseY - nudgeTarget.cy) * nudge}px)`;
+          pulled = nudgeTarget.el;
+        }
       }
 
       // Smoothly ease the ring toward its destination.
@@ -106,6 +157,7 @@ export default function MagneticCursor() {
       window.removeEventListener("mousemove", onMove);
       cancelAnimationFrame(raf);
       if (pulled) pulled.style.transform = "";
+      if (tiltedCard) tiltedCard.style.transform = "";
       document.documentElement.classList.remove("has-magnetic-cursor");
     };
   }, []);

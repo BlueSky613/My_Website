@@ -9,9 +9,9 @@ export const metadata: Metadata = { title: "Downloads" };
 
 const files = [
   {
-    name: "Resume.pdf",
-    desc: "One-page resume — GIS & geological mapping.",
-    href: "/downloads/Resume.pdf",
+    name: "GIS Capability Summary.pdf",
+    desc: "One-page summary of GIS & geological mapping capabilities.",
+    href: "/downloads/GIS%20Capability%20Summary.pdf",
   },
   {
     name: "CV.pdf",

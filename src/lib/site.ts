@@ -2,7 +2,7 @@
 // Edit values here to update your name, links, and contact details everywhere.
 
 export const site = {
-  name: "Alexandros Martin",
+  name: "Martin Guthrie",
   role: "GIS Analyst",
   taglines: [
     "Geological Mapping Specialist",
@@ -11,11 +11,10 @@ export const site = {
   intro:
     "Spatial Analysis for Geology, Mineral Exploration and Mapping.",
   location: "Columbia Falls, MT",
-  // Primary email is used for the contact button and form.
-  email: "alexandrosmartin0422@gmail.com",
-  emailSecondary: "martinguku37@gmail.com",
+  // Email is used for the contact button and form.
+  email: "martinguku37@gmail.com",
   links: {
-    github: "https://github.com/alexandrosmartin0422-cpu",
+    github: "https://github.com/martinguthrie93",
     linkedin: "https://www.linkedin.com/", // TODO: replace with your LinkedIn URL
   },
 };

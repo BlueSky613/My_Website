@@ -26,27 +26,38 @@ export default function HomePage() {
 
         <div className="container-content relative py-28 sm:py-36 lg:py-44">
           <div className="max-w-3xl">
-            <h1 className="text-4xl font-bold leading-tight tracking-tight text-rock-50 drop-shadow sm:text-5xl lg:text-6xl">
-              <TextReveal as="span" className="block" text={site.taglines[0]} />
-              <TextReveal
-                as="span"
-                className="mt-1 block text-rock-100 drop-shadow"
-                text={site.taglines[1]}
-                delay={site.taglines[0].split(" ").length * 90}
-              />
-            </h1>
-            <Reveal delay={120}>
-              <p className="mt-6 max-w-xl text-lg text-rock-200 drop-shadow">
-                {site.intro}
-              </p>
-            </Reveal>
+            {/* Glassmorphism panel — floating text block */}
+            <div
+              data-tilt
+              className="animate-float rounded-2xl border border-cyber-400/20 bg-rock-950/40 px-7 py-8 shadow-glow-soft backdrop-blur-md motion-reduce:animate-none sm:px-9 sm:py-10"
+            >
+              <h1 className="text-4xl font-bold leading-tight tracking-tight text-rock-50 drop-shadow sm:text-5xl lg:text-6xl">
+                <TextReveal as="span" className="block" text={site.taglines[0]} />
+                <TextReveal
+                  as="span"
+                  className="mt-1 block text-rock-100 drop-shadow"
+                  text={site.taglines[1]}
+                  delay={site.taglines[0].split(" ").length * 90}
+                />
+              </h1>
+              <Reveal delay={120}>
+                <p className="mt-6 max-w-xl text-lg text-rock-200 drop-shadow">
+                  {site.intro}
+                </p>
+              </Reveal>
+            </div>
 
+            {/* Floating glass button bar — offset phase for a parallax feel */}
             <Reveal delay={240}>
-              <div className="mt-8 flex flex-wrap gap-3">
+              <div
+                data-tilt
+                className="animate-float mt-8 inline-flex flex-wrap gap-3 rounded-2xl border border-cyber-400/20 bg-rock-950/40 p-3 shadow-glow-soft backdrop-blur-md motion-reduce:animate-none"
+                style={{ animationDelay: "-2.6s" }}
+              >
                 <Link href="/projects" className="btn-primary">
                   View Projects
                 </Link>
-                <Link href="/contact" className="btn-ghost bg-rock-950/40 backdrop-blur">
+                <Link href="/contact" className="btn-ghost">
                   Get in Touch
                 </Link>
               </div>

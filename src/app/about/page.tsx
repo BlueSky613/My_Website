@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 import Reveal from "@/components/Reveal";
 import ContourLines from "@/components/ContourLines";
+import WaterCursor from "@/components/WaterCursor";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = { title: "About" };
@@ -16,6 +17,7 @@ export default function AboutPage() {
 
   return (
     <>
+      <WaterCursor />
       <div className="relative isolate">
         <PageHeader
           eyebrow="About Me"

@@ -1,30 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { site } from "@/lib/site";
-
-// Available recipients for the contact form. The `to` value must match one of
-// these so a user can't inject an arbitrary address via the URL/state.
-const recipients = [
-  { value: site.email, label: "General enquiry" },
-  { value: site.emailSecondary, label: "Project / collaboration" },
-] as const;
 
 type Status = "idle" | "sending" | "sent" | "error";
 
 export default function ContactForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [recipient, setRecipient] = useState(recipients[0].value);
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    // Only allow a known recipient; fall back to the primary email otherwise.
-    const to =
-      recipients.find((r) => r.value === recipient)?.value ?? site.email;
 
     setStatus("sending");
     setErrorMsg("");
@@ -33,7 +21,7 @@ export default function ContactForm() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, recipient: to, message }),
+        body: JSON.stringify({ name, email, message }),
       });
 
       if (!res.ok) {
@@ -45,7 +33,6 @@ export default function ContactForm() {
       setName("");
       setEmail("");
       setMessage("");
-      setRecipient(recipients[0].value);
     } catch (err) {
       setStatus("error");
       setErrorMsg(err instanceof Error ? err.message : "Something went wrong.");
@@ -86,24 +73,6 @@ export default function ContactForm() {
             placeholder="you@example.com"
           />
         </div>
-      </div>
-
-      <div>
-        <label htmlFor="recipient" className="mb-2 block text-sm text-rock-300">
-          Send to
-        </label>
-        <select
-          id="recipient"
-          value={recipient}
-          onChange={(e) => setRecipient(e.target.value)}
-          className={field}
-        >
-          {recipients.map((r) => (
-            <option key={r.value} value={r.value} className="bg-rock-900">
-              {r.label}
-            </option>
-          ))}
-        </select>
       </div>
 
       <div>

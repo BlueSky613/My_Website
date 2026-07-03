@@ -33,7 +33,7 @@ export const projects: Project[] = [
       "Spatial analysis of the relationship between major fault systems and gold deposit distribution across the Eastern Goldfields, using GIS and remote sensing.",
     tags: ["QGIS", "Structural Geology", "Remote Sensing", "Python"],
     featured: true,
-    github: "https://github.com/alexandrosmartin0422-cpu/My_Website",
+    github: "https://github.com/martinguthrie93",
     downloads: [
       { label: "Kalgoorlie_Report.pdf", href: "/downloads/Kalgoorlie_Report.pdf" },
     ],
