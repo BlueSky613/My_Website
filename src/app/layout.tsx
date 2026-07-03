@@ -7,6 +7,7 @@ import StatsBadge from "@/components/StatsBadge";
 import AmbientBackground from "@/components/AmbientBackground";
 import ScrollProgress from "@/components/ScrollProgress";
 import MagneticCursor from "@/components/MagneticCursor";
+import AnimatedFavicon from "@/components/AnimatedFavicon";
 import { site } from "@/lib/site";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
@@ -30,6 +31,7 @@ export default function RootLayout({
       <body className="flex min-h-screen flex-col">
         <AmbientBackground />
         <ScrollProgress />
+        <AnimatedFavicon />
         <MagneticCursor />
         <StatsBadge />
         <Navbar />
