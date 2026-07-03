@@ -13,7 +13,7 @@ export default function Navbar() {
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-cyber-400/10 bg-rock-950/70 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-cyber-400/10 bg-rock-950/20 backdrop-blur-md">
       {/* Glowing hairline under the navbar */}
       <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-cyber-400/40 to-transparent" />
       <nav className="container-content flex h-16 items-center justify-between">
