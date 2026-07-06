@@ -1,15 +1,43 @@
 /** Client-side rules for when a homepage visit should increment the global counter. */
 
-/** Per document load — dedupes React Strict Mode remounts within the same page load. */
-const loadVisitState = new Map<number, "pending" | "done">();
+const COUNTED_PREFIX = "stats:visit:done:";
+const PENDING_PREFIX = "stats:visit:pending:";
 
-function loadId(): number {
-  return performance.timeOrigin;
+/**
+ * Unique id for the current navigation (new on every full page load / refresh).
+ * Uses the Navigation Timing navigationId when available (Chrome 110+, Safari 17+).
+ */
+function getNavigationId(): string {
+  const nav = performance.getEntriesByType("navigation")[0] as
+    | (PerformanceNavigationTiming & { navigationId?: string })
+    | undefined;
+
+  if (nav?.navigationId) return nav.navigationId;
+
+  // Fallback for older browsers: one id per document load, rotated on reload.
+  const bootKey = "stats:visit:boot-id";
+  if (nav?.type === "reload") {
+    sessionStorage.removeItem(bootKey);
+  }
+  let id = sessionStorage.getItem(bootKey);
+  if (!id) {
+    id = crypto.randomUUID();
+    sessionStorage.setItem(bootKey, id);
+  }
+  return id;
+}
+
+function countedKey(): string {
+  return COUNTED_PREFIX + getNavigationId();
+}
+
+function pendingKey(): string {
+  return PENDING_PREFIX + getNavigationId();
 }
 
 /**
  * Count a homepage visit only on a full document load of `/`:
- * - refresh while on `/` (new performance.timeOrigin each time)
+ * - each refresh (new navigation id)
  * - first open of the site directly on `/`
  *
  * Does NOT count client-side navigation to `/` after landing on another page.
@@ -20,31 +48,28 @@ export function shouldCountHomeVisit(
 ): boolean {
   if (currentPath !== "/") return false;
 
-  const state = loadVisitState.get(loadId());
-  if (state === "pending" || state === "done") return false;
+  if (sessionStorage.getItem(countedKey()) || sessionStorage.getItem(pendingKey())) {
+    return false;
+  }
 
   const nav = performance.getEntriesByType("navigation")[0] as
     | PerformanceNavigationTiming
     | undefined;
 
-  // Explicit browser reload of the homepage.
   if (nav?.type === "reload") return true;
 
-  // First paint of this document was the homepage (not a later SPA hop to /).
   return initialPath === "/";
 }
 
 export function markHomeVisitPending(): void {
-  loadVisitState.set(loadId(), "pending");
+  sessionStorage.setItem(pendingKey(), "1");
 }
 
 export function markHomeVisitCounted(): void {
-  loadVisitState.set(loadId(), "done");
+  sessionStorage.setItem(countedKey(), "1");
+  sessionStorage.removeItem(pendingKey());
 }
 
 export function clearHomeVisitPending(): void {
-  const id = loadId();
-  if (loadVisitState.get(id) === "pending") {
-    loadVisitState.delete(id);
-  }
+  sessionStorage.removeItem(pendingKey());
 }
