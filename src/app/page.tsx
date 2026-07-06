@@ -7,8 +7,11 @@ import HeroSlideshow from "@/components/HeroSlideshow";
 import Reveal from "@/components/Reveal";
 import TextReveal from "@/components/TextReveal";
 import CursorEffects from "@/components/CursorEffects";
+import { recordHomeVisitIfNeeded } from "@/lib/record-home-visit";
 
-export default function HomePage() {
+export default async function HomePage() {
+  await recordHomeVisitIfNeeded();
+
   return (
     <>
       {/* Cursor smoke trail + click ripple/fireworks — Home page only */}

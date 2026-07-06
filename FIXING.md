@@ -21,6 +21,7 @@ JS hook: `useViewport()` — see `src/lib/viewport.ts`
 - [x] **Stats counters on Vercel** — Replaced ephemeral JSON file with Upstash Redis (`@upstash/redis`). Falls back to `.data/stats.json` locally when Redis env vars are unset. Requires Upstash Redis integration in Vercel project settings.
 - [x] **Stats badge stuck on "—" in dev** — React Strict Mode remount skipped the stats fetch; badge now always refreshes totals on mount even when visit POST is deduped.
 - [x] **Visit count on every tab click** — Visits now increment only on homepage hard loads (refresh or new tab/session), not on client-side nav between pages.
+- [x] **Visit count client logic bugs** — Moved counting to server (`recordHomeVisitIfNeeded` on `/`) using Sec-Fetch headers; badge only displays totals.
 - [x] **Viewport infrastructure** — Breakpoints, `ViewportProvider`, `useViewport` hook, CSS utilities (`only-narrow`, `hide-short`, etc.), and `data-viewport` on `<html>`.
 - [x] **Dev server 500 / missing vendor-chunks** — Caused by corrupted `.next` cache (often from multiple `npm run dev` instances). Fix: stop all dev servers, delete `.next`, restart once.
 
@@ -58,7 +59,7 @@ JS hook: `useViewport()` — see `src/lib/viewport.ts`
 | Badge shows **"—"** | API failed or Strict Mode skipped fetch (fixed in code) | Redeploy; check browser Network tab for `/api/counters` |
 | Counts stay at **0** or reset | **No Redis on Vercel** — file storage is ephemeral on serverless | Add Upstash Redis integration (below) |
 | Counts work locally, not in production | `.env.local` has no Redis vars; local uses `.data/stats.json` | Connect Redis to Vercel project + redeploy |
-| Refresh shows same visit count | In-memory Map blocked 2nd+ refresh (`done` before `reload` check); fixed with per-navigation `navigationId` | Each refresh gets a new navigation id in sessionStorage |
+| Refresh shows same visit count | Client dedup logic was unreliable; counting now runs on server for document loads of `/` | Redeploy; refresh homepage on Vercel |
 | Railway deploy resets counts | No Volume or `STATS_DIR` not set | Attach Volume at `/data`, set `STATS_DIR=/data` |
 
 ## Vercel setup (stats) — required for production

@@ -1,13 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import {
-  clearHomeVisitPending,
-  markHomeVisitCounted,
-  markHomeVisitPending,
-  shouldCountHomeVisit,
-} from "@/lib/visit-tracking";
 
 type Stats = { visits: number; downloads: number };
 
@@ -18,56 +12,28 @@ export const DOWNLOAD_EVENT = "stats:download";
 export default function StatsBadge() {
   const pathname = usePathname();
   const [stats, setStats] = useState<Stats | null>(null);
-  const initialPathRef = useRef<string | null>(null);
 
-  if (initialPathRef.current === null) {
-    initialPathRef.current = pathname;
-  }
-
-  // Increment only on homepage hard loads (refresh or new session). Always refresh display.
+  // Display totals only — homepage visits are recorded on the server.
   useEffect(() => {
     let cancelled = false;
 
-    async function refresh(): Promise<Stats | null> {
+    async function refresh() {
       try {
         const res = await fetch("/api/counters", { cache: "no-store" });
-        if (!res.ok) return null;
-        return (await res.json()) as Stats;
+        if (!res.ok) return;
+        const data: Stats = await res.json();
+        if (!cancelled) setStats(data);
       } catch {
-        return null;
+        /* ignore */
       }
     }
 
-    async function run() {
-      const initialPath = initialPathRef.current ?? pathname;
-
-      if (shouldCountHomeVisit(initialPath, pathname)) {
-        markHomeVisitPending();
-        try {
-          const res = await fetch("/api/counters/visit", { method: "POST" });
-          if (res.ok) {
-            markHomeVisitCounted();
-            const data: Stats = await res.json();
-            if (!cancelled) setStats(data);
-            return;
-          }
-          clearHomeVisitPending();
-        } catch {
-          clearHomeVisitPending();
-        }
-      }
-
-      const data = await refresh();
-      if (!cancelled && data) setStats(data);
-    }
-
-    run();
+    refresh();
     return () => {
       cancelled = true;
     };
   }, [pathname]);
 
-  // Update the download number live when a download happens.
   useEffect(() => {
     function onDownload(e: Event) {
       const detail = (e as CustomEvent<Stats>).detail;
