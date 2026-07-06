@@ -18,31 +18,37 @@ export default function StatsBadge() {
   useEffect(() => {
     let cancelled = false;
 
-    async function countVisit() {
-      // Guard against React Strict Mode double-invoking the effect for the
-      // same path in development.
-      if (lastCounted.current === pathname) return;
-      lastCounted.current = pathname;
-
+    async function refresh(): Promise<Stats | null> {
       try {
-        const res = await fetch("/api/stats/visit", { method: "POST" });
-        if (!res.ok) throw new Error("visit failed");
-        const data: Stats = await res.json();
-        if (!cancelled) setStats(data);
+        const res = await fetch("/api/stats", { cache: "no-store" });
+        if (!res.ok) return null;
+        return (await res.json()) as Stats;
       } catch {
-        // On failure, at least try to show the current totals.
-        if (!cancelled) refresh();
+        return null;
       }
     }
 
-    async function refresh() {
-      try {
-        const res = await fetch("/api/stats", { cache: "no-store" });
-        const data: Stats = await res.json();
-        if (!cancelled) setStats(data);
-      } catch {
-        /* ignore */
+    async function countVisit() {
+      const shouldIncrement = lastCounted.current !== pathname;
+
+      if (shouldIncrement) {
+        lastCounted.current = pathname;
+        try {
+          const res = await fetch("/api/stats/visit", { method: "POST" });
+          if (res.ok) {
+            const data: Stats = await res.json();
+            if (!cancelled) setStats(data);
+            return;
+          }
+        } catch {
+          /* fall through to refresh */
+        }
       }
+
+      // Strict Mode remounts reuse lastCounted — still load totals for display.
+      // Also covers POST failures (e.g. missing Redis on Vercel).
+      const data = await refresh();
+      if (!cancelled && data) setStats(data);
     }
 
     countVisit();

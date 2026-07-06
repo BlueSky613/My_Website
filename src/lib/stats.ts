@@ -24,20 +24,30 @@ const EMPTY: Stats = { visits: 0, downloads: 0 };
 let redisClient: Redis | null | undefined;
 let writeLock: Promise<unknown> = Promise.resolve();
 
-function getRedis(): Redis | null {
-  if (redisClient !== undefined) return redisClient;
-
+export function isRedisConfigured(): boolean {
   const url =
     process.env.UPSTASH_REDIS_REST_URL ?? process.env.KV_REST_API_URL;
   const token =
     process.env.UPSTASH_REDIS_REST_TOKEN ?? process.env.KV_REST_API_TOKEN;
+  return Boolean(url && token);
+}
 
-  if (!url || !token) {
+function getRedis(): Redis | null {
+  if (redisClient !== undefined) return redisClient;
+
+  if (!isRedisConfigured()) {
     redisClient = null;
+    if (process.env.VERCEL) {
+      console.warn(
+        "[stats] Upstash Redis is not configured on Vercel. " +
+          "Visit/download counts will not persist. " +
+          "Add the Upstash Redis integration and set UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN."
+      );
+    }
     return null;
   }
 
-  redisClient = new Redis({ url, token });
+  redisClient = Redis.fromEnv();
   return redisClient;
 }
 
