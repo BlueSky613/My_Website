@@ -17,7 +17,7 @@ export default function DownloadLink({
 }) {
   async function handleClick() {
     try {
-      const res = await fetch("/api/stats/download", { method: "POST" });
+      const res = await fetch("/api/counters/download", { method: "POST" });
       if (res.ok) {
         const data: Stats = await res.json();
         // Tell the badge to update its download number immediately.

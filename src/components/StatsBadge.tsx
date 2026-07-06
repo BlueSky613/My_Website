@@ -3,7 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import {
+  clearHomeVisitPending,
   markHomeVisitCounted,
+  markHomeVisitPending,
   shouldCountHomeVisit,
 } from "@/lib/visit-tracking";
 
@@ -28,7 +30,7 @@ export default function StatsBadge() {
 
     async function refresh(): Promise<Stats | null> {
       try {
-        const res = await fetch("/api/stats", { cache: "no-store" });
+        const res = await fetch("/api/counters", { cache: "no-store" });
         if (!res.ok) return null;
         return (await res.json()) as Stats;
       } catch {
@@ -40,16 +42,18 @@ export default function StatsBadge() {
       const initialPath = initialPathRef.current ?? pathname;
 
       if (shouldCountHomeVisit(initialPath, pathname)) {
-        markHomeVisitCounted();
+        markHomeVisitPending();
         try {
-          const res = await fetch("/api/stats/visit", { method: "POST" });
+          const res = await fetch("/api/counters/visit", { method: "POST" });
           if (res.ok) {
+            markHomeVisitCounted();
             const data: Stats = await res.json();
             if (!cancelled) setStats(data);
             return;
           }
+          clearHomeVisitPending();
         } catch {
-          /* fall through to refresh */
+          clearHomeVisitPending();
         }
       }
 
