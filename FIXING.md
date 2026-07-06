@@ -20,6 +20,7 @@ JS hook: `useViewport()` — see `src/lib/viewport.ts`
 
 - [x] **Stats counters on Vercel** — Replaced ephemeral JSON file with Upstash Redis (`@upstash/redis`). Falls back to `.data/stats.json` locally when Redis env vars are unset. Requires Upstash Redis integration in Vercel project settings.
 - [x] **Stats badge stuck on "—" in dev** — React Strict Mode remount skipped the stats fetch; badge now always refreshes totals on mount even when visit POST is deduped.
+- [x] **Visit count on every tab click** — Visits now increment only on homepage hard loads (refresh or new tab/session), not on client-side nav between pages.
 - [x] **Viewport infrastructure** — Breakpoints, `ViewportProvider`, `useViewport` hook, CSS utilities (`only-narrow`, `hide-short`, etc.), and `data-viewport` on `<html>`.
 - [x] **Dev server 500 / missing vendor-chunks** — Caused by corrupted `.next` cache (often from multiple `npm run dev` instances). Fix: stop all dev servers, delete `.next`, restart once.
 

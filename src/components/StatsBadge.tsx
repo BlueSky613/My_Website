@@ -2,6 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
+import {
+  markHomeVisitCounted,
+  shouldCountHomeVisit,
+} from "@/lib/visit-tracking";
 
 type Stats = { visits: number; downloads: number };
 
@@ -12,9 +16,13 @@ export const DOWNLOAD_EVENT = "stats:download";
 export default function StatsBadge() {
   const pathname = usePathname();
   const [stats, setStats] = useState<Stats | null>(null);
-  const lastCounted = useRef<string | null>(null);
+  const initialPathRef = useRef<string | null>(null);
 
-  // Count a visit on every route change (one increment per navigation).
+  if (initialPathRef.current === null) {
+    initialPathRef.current = pathname;
+  }
+
+  // Increment only on homepage hard loads (refresh or new session). Always refresh display.
   useEffect(() => {
     let cancelled = false;
 
@@ -28,11 +36,11 @@ export default function StatsBadge() {
       }
     }
 
-    async function countVisit() {
-      const shouldIncrement = lastCounted.current !== pathname;
+    async function run() {
+      const initialPath = initialPathRef.current ?? pathname;
 
-      if (shouldIncrement) {
-        lastCounted.current = pathname;
+      if (shouldCountHomeVisit(initialPath, pathname)) {
+        markHomeVisitCounted();
         try {
           const res = await fetch("/api/stats/visit", { method: "POST" });
           if (res.ok) {
@@ -45,13 +53,11 @@ export default function StatsBadge() {
         }
       }
 
-      // Strict Mode remounts reuse lastCounted — still load totals for display.
-      // Also covers POST failures (e.g. missing Redis on Vercel).
       const data = await refresh();
       if (!cancelled && data) setStats(data);
     }
 
-    countVisit();
+    run();
     return () => {
       cancelled = true;
     };
