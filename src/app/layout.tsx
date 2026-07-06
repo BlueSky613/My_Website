@@ -9,12 +9,14 @@ import ScrollProgress from "@/components/ScrollProgress";
 import MagneticCursor from "@/components/MagneticCursor";
 import AnimatedFavicon from "@/components/AnimatedFavicon";
 import ViewportProvider from "@/components/ViewportProvider";
+import { getMetadataBase } from "@/lib/metadata-base";
 import { site } from "@/lib/site";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
 
 export const metadata: Metadata = {
+  metadataBase: getMetadataBase(),
   title: {
     default: `${site.name} — ${site.role}`,
     template: `%s — ${site.name}`,

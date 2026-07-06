@@ -11,6 +11,8 @@ export const site = {
   intro:
     "Spatial Analysis for Geology, Mineral Exploration and Mapping.",
   location: "Columbia Falls, MT",
+  // Public site URL (Open Graph, metadataBase). Override with NEXT_PUBLIC_SITE_URL if needed.
+  url: "https://martin-guthrie-gis.vercel.app",
   // Email is used for the contact button and form.
   email: "martinguku37@gmail.com",
   links: {
