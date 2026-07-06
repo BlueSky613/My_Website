@@ -4,6 +4,7 @@ import DownloadLink from "@/components/DownloadLink";
 import Reveal from "@/components/Reveal";
 import SatelliteCursor from "@/components/SatelliteCursor";
 import SpectralUpload from "@/components/SpectralUpload";
+import DigitalGlobe from "@/components/DigitalGlobe";
 
 export const metadata: Metadata = { title: "Downloads" };
 
@@ -34,13 +35,20 @@ export default function DownloadsPage() {
   return (
     <>
       <SatelliteCursor />
-      <div className="relative isolate overflow-hidden">
-        <PageHeader
+      <div className="relative isolate min-h-[280px] overflow-hidden">
+        <DigitalGlobe />
+        <div className="relative z-10">
+          <PageHeader
         eyebrow="Downloads"
         title="Resume & Portfolio Files"
         description="Downloadable documents for recruiters and collaborators. (Add the PDF files to /public/downloads/.)"
-      />
+        />
+        </div>
         <SpectralUpload />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-[5] bg-gradient-to-b from-transparent via-rock-950/20 to-rock-950/85"
+        />
       </div>
 
       <section className="section">
