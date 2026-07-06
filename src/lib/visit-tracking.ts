@@ -1,48 +1,37 @@
 /** Client-side rules for when a homepage visit should increment the global counter. */
 
-const SESSION_COUNTED_KEY = "stats:home-session-counted";
-
-/** Per hard page load — survives React Strict Mode remounts in dev. */
+/** Per document load — dedupes React Strict Mode remounts within the same page load. */
 const loadVisitState = new Map<number, "pending" | "done">();
 
 function loadId(): number {
   return performance.timeOrigin;
 }
 
-function isHardHomeLoad(initialPath: string, currentPath: string): boolean {
-  if (currentPath !== "/") return false;
-
-  const nav = performance.getEntriesByType("navigation")[0] as
-    | PerformanceNavigationTiming
-    | undefined;
-  const navType = nav?.type;
-
-  if (navType === "reload") return true;
-
-  if (navType === "navigate" && initialPath === "/") {
-    return !sessionStorage.getItem(SESSION_COUNTED_KEY);
-  }
-
-  // Some browsers / embeds omit navigation timing — treat first paint on `/` as a hard load.
-  if (!navType && initialPath === "/") {
-    return !sessionStorage.getItem(SESSION_COUNTED_KEY);
-  }
-
-  return false;
-}
-
 /**
- * Whether this page load should POST /api/counters/visit.
- * Dedupes React Strict Mode double-mounts without blocking retry after a failed POST.
+ * Count a homepage visit only on a full document load of `/`:
+ * - refresh while on `/` (new performance.timeOrigin each time)
+ * - first open of the site directly on `/`
+ *
+ * Does NOT count client-side navigation to `/` after landing on another page.
  */
 export function shouldCountHomeVisit(
   initialPath: string,
   currentPath: string
 ): boolean {
-  if (!isHardHomeLoad(initialPath, currentPath)) return false;
+  if (currentPath !== "/") return false;
 
   const state = loadVisitState.get(loadId());
-  return state !== "pending" && state !== "done";
+  if (state === "pending" || state === "done") return false;
+
+  const nav = performance.getEntriesByType("navigation")[0] as
+    | PerformanceNavigationTiming
+    | undefined;
+
+  // Explicit browser reload of the homepage.
+  if (nav?.type === "reload") return true;
+
+  // First paint of this document was the homepage (not a later SPA hop to /).
+  return initialPath === "/";
 }
 
 export function markHomeVisitPending(): void {
@@ -51,7 +40,6 @@ export function markHomeVisitPending(): void {
 
 export function markHomeVisitCounted(): void {
   loadVisitState.set(loadId(), "done");
-  sessionStorage.setItem(SESSION_COUNTED_KEY, "1");
 }
 
 export function clearHomeVisitPending(): void {

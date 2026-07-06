@@ -58,7 +58,7 @@ JS hook: `useViewport()` — see `src/lib/viewport.ts`
 | Badge shows **"—"** | API failed or Strict Mode skipped fetch (fixed in code) | Redeploy; check browser Network tab for `/api/counters` |
 | Counts stay at **0** or reset | **No Redis on Vercel** — file storage is ephemeral on serverless | Add Upstash Redis integration (below) |
 | Counts work locally, not in production | `.env.local` has no Redis vars; local uses `.data/stats.json` | Connect Redis to Vercel project + redeploy |
-| Refresh shows same visit count | `POST /api/counters/visit` blocked or skipped; `GET` still works | Renamed from `/api/stats` to avoid ad blockers; mark-after-POST fix |
+| Refresh shows same visit count | `SESSION_COUNTED_KEY` blocked refresh when nav type was `navigate` (fixed) | Each full load of `/` now counts via `performance.timeOrigin` |
 | Railway deploy resets counts | No Volume or `STATS_DIR` not set | Attach Volume at `/data`, set `STATS_DIR=/data` |
 
 ## Vercel setup (stats) — required for production
