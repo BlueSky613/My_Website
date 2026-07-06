@@ -3,7 +3,6 @@ import PageHeader from "@/components/PageHeader";
 import DownloadLink from "@/components/DownloadLink";
 import Reveal from "@/components/Reveal";
 import SatelliteCursor from "@/components/SatelliteCursor";
-import SpectralUpload from "@/components/SpectralUpload";
 import DigitalGlobe from "@/components/DigitalGlobe";
 
 export const metadata: Metadata = { title: "Downloads" };
@@ -44,7 +43,6 @@ export default function DownloadsPage() {
         description="Downloadable documents for recruiters and collaborators. (Add the PDF files to /public/downloads/.)"
         />
         </div>
-        <SpectralUpload />
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 -z-[5] bg-gradient-to-b from-transparent via-rock-950/20 to-rock-950/85"

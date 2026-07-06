@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { DIGITAL_GLOBE_HOVER_EVENT } from "@/components/DigitalGlobe";
 
 // Projects-page custom cursor shaped like the flying satellites: a satellite
 // floats above the pointer and aims a fixed scan beam straight down to the
@@ -46,6 +47,13 @@ export default function SatelliteCursor() {
     const trail: { x: number; y: number; ch: string; life: number; size: number }[] = [];
     let lastTrailX = -9999;
     let lastTrailY = -9999;
+    let cursorZoom = 1;
+    let targetCursorZoom = 1;
+
+    const onGlobeHover = (e: Event) => {
+      const active = (e as CustomEvent<{ active: boolean }>).detail.active;
+      targetCursorZoom = active ? 1.45 : 1;
+    };
 
     const onMove = (e: MouseEvent) => {
       mx = e.clientX;
@@ -93,11 +101,17 @@ export default function SatelliteCursor() {
     let raf = 0;
     const draw = (now: number) => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      cursorZoom += (targetCursorZoom - cursorZoom) * 0.1;
 
       if (mx > -9000) {
         const sx = mx;
-        const sy = my - BEAM_LEN; // satellite floats above the click point
+        const sy = my - BEAM_LEN;
         const topY = sy + 4;
+
+        ctx.save();
+        ctx.translate(mx, my);
+        ctx.scale(cursorZoom, cursorZoom);
+        ctx.translate(-mx, -my);
 
         // fixed scan beam down to the footprint (= cursor / click point)
         const grad = ctx.createLinearGradient(0, topY, 0, my);
@@ -178,6 +192,7 @@ export default function SatelliteCursor() {
         }
 
         drawSat(sx, sy);
+        ctx.restore();
       }
 
       // DEM contour patches (terrain "logo") from clicks
@@ -233,12 +248,14 @@ export default function SatelliteCursor() {
     window.addEventListener("mousemove", onMove, { passive: true });
     window.addEventListener("mousedown", onDown);
     window.addEventListener("resize", resize);
+    window.addEventListener(DIGITAL_GLOBE_HOVER_EVENT, onGlobeHover);
     raf = requestAnimationFrame(draw);
 
     return () => {
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mousedown", onDown);
       window.removeEventListener("resize", resize);
+      window.removeEventListener(DIGITAL_GLOBE_HOVER_EVENT, onGlobeHover);
       cancelAnimationFrame(raf);
     };
   }, []);
