@@ -5,6 +5,10 @@
 :root {
   --font-sans: "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* Viewport compatibility thresholds (see src/lib/viewport.ts) */
+  --viewport-max-width: 1000px;
+  --viewport-max-height: 600px;
 }
 
 html {
@@ -126,5 +130,49 @@ body {
   /* Futuristic grid backdrop */
   .bg-tech-grid {
     background-image: var(--tw-bg-grid, none);
+  }
+
+  /*
+   * Viewport-case helpers (html[data-viewport] set by ViewportProvider).
+   * Prefer Tailwind narrow:/short:/compact: prefixes in components; use these
+   * when a global rule must apply across many elements at once.
+   */
+  .only-narrow {
+    @apply hidden;
+  }
+  .only-short {
+    @apply hidden;
+  }
+  .only-compact {
+    @apply hidden;
+  }
+  .hide-narrow {
+    @apply block;
+  }
+  .hide-short {
+    @apply block;
+  }
+  .hide-compact {
+    @apply block;
+  }
+
+  html[data-viewport="narrow"] .only-narrow,
+  html[data-viewport="short"] .only-short,
+  html[data-viewport="compact"] .only-compact {
+    @apply block;
+  }
+
+  html[data-viewport="narrow"] .hide-narrow,
+  html[data-viewport="compact"] .hide-narrow {
+    @apply hidden;
+  }
+
+  html[data-viewport="short"] .hide-short,
+  html[data-viewport="compact"] .hide-short {
+    @apply hidden;
+  }
+
+  html[data-viewport="compact"] .hide-compact {
+    @apply hidden;
   }
 }

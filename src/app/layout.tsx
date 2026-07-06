@@ -8,6 +8,7 @@ import AmbientBackground from "@/components/AmbientBackground";
 import ScrollProgress from "@/components/ScrollProgress";
 import MagneticCursor from "@/components/MagneticCursor";
 import AnimatedFavicon from "@/components/AnimatedFavicon";
+import ViewportProvider from "@/components/ViewportProvider";
 import { site } from "@/lib/site";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
@@ -29,6 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${mono.variable}`}>
       <body className="flex min-h-screen flex-col">
+        <ViewportProvider />
         <AmbientBackground />
         <ScrollProgress />
         <AnimatedFavicon />

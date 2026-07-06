@@ -1,10 +1,26 @@
 import type { Config } from "tailwindcss";
 
+/** Width ≤ 1000px — use `narrow:` prefix. Height ≤ 600px — use `short:`. Both — `compact:`. */
+const VIEWPORT_MAX_WIDTH = "1000px";
+const VIEWPORT_MAX_HEIGHT = "600px";
+
 const config: Config = {
   content: [
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    screens: {
+      sm: "640px",
+      md: "768px",
+      lg: "1024px",
+      xl: "1280px",
+      "2xl": "1536px",
+      narrow: { max: VIEWPORT_MAX_WIDTH },
+      short: { raw: `(max-height: ${VIEWPORT_MAX_HEIGHT})` },
+      compact: {
+        raw: `(max-width: ${VIEWPORT_MAX_WIDTH}) and (max-height: ${VIEWPORT_MAX_HEIGHT})`,
+      },
+    },
     extend: {
       colors: {
         // Earthy / geological palette
