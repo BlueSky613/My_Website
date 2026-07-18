@@ -48,9 +48,10 @@ export default function HeroSlideshow() {
           // Only the first image needs to load eagerly for the initial paint.
           priority={i === 0}
           sizes="100vw"
-          className={`object-cover transition-opacity duration-1000 ease-in-out ${
+          className={`absolute inset-0 object-cover transition-opacity duration-1000 ease-in-out ${
             i === current ? "opacity-100" : "opacity-0"
           }`}
+          unoptimized
         />
       ))}
     </div>

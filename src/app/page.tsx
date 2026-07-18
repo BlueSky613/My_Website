@@ -77,7 +77,8 @@ export default async function HomePage() {
           alt="Satellite, global network and terrain data visualization"
           fill
           sizes="100vw"
-          className="hidden -z-10 object-cover"
+          unoptimized
+          className="-z-10 object-cover"
         />
         {/* Darker overlay over the background artwork — background stays faintly visible */}
         <div
@@ -123,7 +124,8 @@ export default async function HomePage() {
           alt="Python connecting ArcGIS and QGIS in a geospatial data processing stack"
           fill
           sizes="100vw"
-          className="hidden -z-10 object-cover"
+          unoptimized
+          className="-z-10 object-cover"
         />
         {/* Very dark overlay — background artwork only faintly visible */}
         <div
