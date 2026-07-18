@@ -24,5 +24,10 @@ export async function recordHomeVisitIfNeeded(): Promise<void> {
     if (!accept.includes("text/html")) return;
   }
 
-  await incrementVisits();
+  try {
+    await incrementVisits();
+  } catch (err) {
+    // Never fail the page render because of counters.
+    console.error("[visit] recordHomeVisitIfNeeded failed:", err);
+  }
 }

@@ -86,9 +86,16 @@ async function readFromRedis(redis: Redis): Promise<Stats> {
 }
 
 export async function readStats(): Promise<Stats> {
-  const redis = getRedis();
-  if (redis) return readFromRedis(redis);
-  return readFromFile();
+  try {
+    const redis = getRedis();
+    if (redis) return await readFromRedis(redis);
+    // On Vercel the filesystem is read-only — never touch disk without Redis.
+    if (process.env.VERCEL) return { ...EMPTY };
+    return await readFromFile();
+  } catch (err) {
+    console.error("[stats] readStats failed:", err);
+    return { ...EMPTY };
+  }
 }
 
 async function incrementInRedis(
@@ -118,9 +125,18 @@ async function incrementInFile(field: keyof Stats): Promise<Stats> {
 }
 
 async function increment(field: keyof Stats): Promise<Stats> {
-  const redis = getRedis();
-  if (redis) return incrementInRedis(redis, field);
-  return incrementInFile(field);
+  try {
+    const redis = getRedis();
+    if (redis) return await incrementInRedis(redis, field);
+    if (process.env.VERCEL) {
+      // Avoid EROFS on the serverless read-only filesystem.
+      return { ...EMPTY };
+    }
+    return await incrementInFile(field);
+  } catch (err) {
+    console.error(`[stats] increment(${field}) failed:`, err);
+    return { ...EMPTY };
+  }
 }
 
 export function incrementVisits(): Promise<Stats> {
