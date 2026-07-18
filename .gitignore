@@ -35,3 +35,6 @@ next-env.d.ts
 # local source/working images (not used by the site; copies live in public/images)
 /image
 /*.png
+
+.vercel
+.env*.local

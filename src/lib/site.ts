@@ -16,7 +16,7 @@ export const site = {
   // Email is used for the contact button and form.
   email: "martinguku37@gmail.com",
   links: {
-    github: "https://github.com/martinguthrie93",
+    github: "https://github.com/BlueSky613",
     linkedin: "https://www.linkedin.com/", // TODO: replace with your LinkedIn URL
   },
 };
