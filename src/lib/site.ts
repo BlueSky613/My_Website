@@ -2,7 +2,7 @@
 // Edit values here to update your name, links, and contact details everywhere.
 
 export const site = {
-  name: "Martin Guthrie",
+  name: "bluesky",
   role: "GIS Analyst",
   taglines: [
     "Geological Mapping Specialist",
