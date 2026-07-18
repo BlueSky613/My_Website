@@ -2,8 +2,12 @@ import Link from "next/link";
 import type { Project } from "@/lib/projects";
 
 export default function ProjectCard({ project }: { project: Project }) {
-  return (
-    <Link href={`/projects/${project.slug}`} className="group card flex flex-col">
+  const isExternal = Boolean(project.externalUrl);
+  const href = project.externalUrl ?? `/projects/${project.slug}`;
+  const cta = isExternal ? "Open live viewer" : "View project";
+
+  const body = (
+    <>
       <div className="flex items-center justify-between">
         <span className="font-mono text-xs text-ore-400">
           Project {project.number}
@@ -29,11 +33,62 @@ export default function ProjectCard({ project }: { project: Project }) {
       </div>
 
       <span className="mt-6 inline-flex items-center gap-1 text-sm font-medium text-ore-400">
-        View project
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="transition group-hover:translate-x-1">
-          <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
+        {cta}
+        {isExternal ? (
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            className="transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            aria-hidden
+          >
+            <path
+              d="M7 17L17 7M8 7h9v9"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        ) : (
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            className="transition group-hover:translate-x-1"
+            aria-hidden
+          >
+            <path
+              d="M5 12h14M13 6l6 6-6 6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        )}
       </span>
+    </>
+  );
+
+  if (isExternal) {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group card flex flex-col"
+      >
+        {body}
+      </a>
+    );
+  }
+
+  return (
+    <Link href={href} className="group card flex flex-col">
+      {body}
     </Link>
   );
 }

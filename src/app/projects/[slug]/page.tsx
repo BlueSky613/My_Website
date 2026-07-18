@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getProject, projects } from "@/lib/projects";
+import { getInternalProjects, getProject } from "@/lib/projects";
 import DownloadLink from "@/components/DownloadLink";
 import Reveal from "@/components/Reveal";
 import TextReveal from "@/components/TextReveal";
 import SatelliteCursor from "@/components/SatelliteCursor";
 
 export function generateStaticParams() {
-  return projects.map((p) => ({ slug: p.slug }));
+  // External-link projects open off-site; do not generate detail pages for them.
+  return getInternalProjects().map((p) => ({ slug: p.slug }));
 }
 
 export function generateMetadata({
@@ -26,7 +27,9 @@ export default function ProjectDetailPage({
   params: { slug: string };
 }) {
   const project = getProject(params.slug);
-  if (!project) notFound();
+  if (!project || project.externalUrl) notFound();
+
+  const sections = project.sections ?? [];
 
   return (
     <>
@@ -97,7 +100,7 @@ export default function ProjectDetailPage({
             <div className="sticky top-24">
               <p className="eyebrow mb-4">Sections</p>
               <ul className="space-y-2 text-sm">
-                {project.sections.map((s) => (
+                {sections.map((s) => (
                   <li key={s.heading}>
                     <a
                       href={`#${slugify(s.heading)}`}
@@ -113,7 +116,7 @@ export default function ProjectDetailPage({
 
           {/* Content */}
           <div className="max-w-2xl space-y-14">
-            {project.sections.map((s) => (
+            {sections.map((s) => (
               <Reveal
                 key={s.heading}
                 as="div"

@@ -18,8 +18,11 @@ export type Project = {
   featured?: boolean;
   thumbnail?: string; // path under /public, optional
   github?: string;
+  /** When set, cards open this URL instead of /projects/[slug]. */
+  externalUrl?: string;
   downloads?: { label: string; href: string }[];
-  sections: ProjectSection[];
+  /** Detail-page sections; omit for link-only / external projects. */
+  sections?: ProjectSection[];
 };
 
 export const projects: Project[] = [
@@ -99,10 +102,27 @@ export const projects: Project[] = [
       },
     ],
   },
+  {
+    slug: "stavely-geology-viewer",
+    number: "02",
+    title: "Stavely 3D Geology Viewer",
+    location: "Stavely Region, Victoria, Australia",
+    category: "3D Geological Modelling",
+    summary:
+      "Interactive VTK.js WebGL viewer for the Stavely 3D Geological Model — lithology layers, faults, voxet cross-sections, object provenance, and server-side mesh volume, built for exploration and education.",
+    tags: ["VTK.js", "TypeScript", "3D Geology", "WebGL", "GSV"],
+    featured: true,
+    externalUrl: "https://stavely-geology-viewer.vercel.app/",
+  },
 ];
 
 export function getProject(slug: string): Project | undefined {
   return projects.find((p) => p.slug === slug);
+}
+
+/** Projects that have an internal detail page (not external-link-only). */
+export function getInternalProjects(): Project[] {
+  return projects.filter((p) => !p.externalUrl);
 }
 
 export const featuredProjects = projects.filter((p) => p.featured);
