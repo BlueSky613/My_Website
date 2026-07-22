@@ -15,10 +15,9 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-black/10 bg-[#e4e6ea]">
       <nav className="container-content flex h-16 items-center justify-between">
-        {/* Left margin clears the fixed StatsBadge in the top-left corner. */}
         <Link
           href="/"
-          className="group flex items-center gap-2 pl-[130px] font-mono text-sm text-black sm:pl-[150px]"
+          className="group flex items-center gap-2 font-mono text-sm text-black"
         >
           <span className="grid h-8 w-8 place-items-center rounded-md bg-black font-bold text-white transition group-hover:bg-black/85">
             {initials}

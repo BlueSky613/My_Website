@@ -3,7 +3,6 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import StatsBadge from "@/components/StatsBadge";
 import ScrollProgress from "@/components/ScrollProgress";
 import MagneticCursor from "@/components/MagneticCursor";
 import CursorEffects from "@/components/CursorEffects";
@@ -37,7 +36,6 @@ export default function RootLayout({
         <AnimatedFavicon />
         <MagneticCursor />
         <CursorEffects />
-        <StatsBadge />
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
