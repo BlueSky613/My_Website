@@ -3,7 +3,7 @@ import { nav, site } from "@/lib/site";
 
 export default function Footer() {
   return (
-    <footer className="relative isolate overflow-hidden border-t border-black/10 bg-white/40">
+    <footer className="relative overflow-hidden border-t border-black/10 bg-[#e4e6ea]">
       <div className="container-content relative z-10 flex flex-col gap-8 py-12 md:flex-row md:items-start md:justify-between">
         <div className="max-w-sm">
           <p className="text-sm text-black/75">{site.intro}</p>

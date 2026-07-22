@@ -24,12 +24,12 @@ export default async function HomePage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative isolate overflow-hidden">
+      <section className="relative overflow-hidden">
         <div className="container-content relative py-28 sm:py-36 lg:py-44">
           <div className="max-w-3xl">
             <div
               data-tilt
-              className="animate-float rounded-2xl border border-black/10 bg-white/50 px-7 py-8 shadow-sm backdrop-blur-md motion-reduce:animate-none sm:px-9 sm:py-10"
+              className="animate-float rounded-2xl border border-black/10 bg-[#eceef1] px-7 py-8 shadow-sm motion-reduce:animate-none sm:px-9 sm:py-10"
             >
               <p className="eyebrow mb-4">Geospatial Solutions by {site.name}</p>
               <h1 className="text-4xl font-bold leading-tight tracking-tight text-black sm:text-5xl lg:text-6xl">
@@ -51,7 +51,7 @@ export default async function HomePage() {
             <Reveal delay={240}>
               <div
                 data-tilt
-                className="animate-float mt-8 inline-flex flex-wrap gap-3 rounded-2xl border border-black/10 bg-white/50 p-3 shadow-sm backdrop-blur-md motion-reduce:animate-none"
+                className="animate-float mt-8 inline-flex flex-wrap gap-3 rounded-2xl border border-black/10 bg-[#eceef1] p-3 shadow-sm motion-reduce:animate-none"
                 style={{ animationDelay: "-2.6s" }}
               >
                 <Link href="/projects" className="btn-primary">
@@ -68,7 +68,7 @@ export default async function HomePage() {
 
       {/* Featured Project (single highlight) */}
       {highlight && (
-        <section className="relative isolate overflow-hidden border-t border-black/10">
+        <section className="relative overflow-hidden">
           <div className="container-content section">
             <Reveal>
               <p className="eyebrow mb-3">Featured Project</p>
@@ -103,7 +103,7 @@ export default async function HomePage() {
       )}
 
       {/* Expertise / GIS Skills */}
-      <section className="relative isolate overflow-hidden border-t border-black/10">
+      <section className="relative overflow-hidden">
         <div className="container-content section">
           <Reveal>
             <p className="eyebrow mb-3">Expertise</p>
@@ -134,7 +134,7 @@ export default async function HomePage() {
       </section>
 
       {/* Featured Projects grid */}
-      <section className="relative isolate overflow-hidden border-t border-black/10">
+      <section className="relative overflow-hidden">
         <div className="container-content section">
           <Reveal>
             <div className="flex items-end justify-between gap-4">
@@ -172,7 +172,7 @@ export default async function HomePage() {
       {/* Get in Touch */}
       <section
         id="contact"
-        className="relative isolate scroll-mt-24 overflow-hidden border-t border-black/10"
+        className="relative scroll-mt-24 overflow-hidden"
       >
         <div className="container-content section">
           <div className="grid gap-12 md:grid-cols-[1fr_1fr] md:items-start">
@@ -203,7 +203,7 @@ export default async function HomePage() {
             </Reveal>
 
             <Reveal from="right" delay={120}>
-              <div className="rounded-xl border border-black/10 bg-white/55 p-6 shadow-sm backdrop-blur-sm">
+              <div className="rounded-xl border border-black/10 bg-[#eceef1] p-6 shadow-sm">
                 <ContactForm />
               </div>
             </Reveal>

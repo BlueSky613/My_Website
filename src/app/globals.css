@@ -18,18 +18,17 @@
 
 html {
   scroll-behavior: smooth;
+  background-color: var(--bg-silver);
+  /* Prevent a white gutter on the right (html default) forming a ㄱ-shaped band
+     with the sticky header when any child overflows horizontally. */
+  overflow-x: hidden;
 }
 
 body {
   background-color: var(--bg-silver);
-  background-image: linear-gradient(
-    165deg,
-    #eceef1 0%,
-    #e4e6ea 40%,
-    #d8dbe1 100%
-  );
-  background-attachment: fixed;
-  @apply text-black antialiased;
+  background-image: none;
+  @apply min-h-screen w-full text-black antialiased;
+  overflow-x: hidden;
 }
 
 ::selection {
@@ -57,9 +56,9 @@ body {
   }
 
   .card {
-    @apply relative rounded-xl border border-black/10 bg-white/55 p-6
-           backdrop-blur-sm transition duration-300 ease-out
-           hover:-translate-y-1 hover:border-black/25 hover:bg-white/75 hover:shadow-md;
+    @apply relative rounded-xl border border-black/10 bg-[#eceef1] p-6
+           transition duration-300 ease-out
+           hover:-translate-y-1 hover:border-black/25 hover:bg-[#e8eaee] hover:shadow-md;
   }
 
   .btn {
@@ -79,7 +78,7 @@ body {
   }
 
   .tag {
-    @apply inline-block rounded-full border border-black/15 bg-white/50
+    @apply inline-block rounded-full border border-black/15 bg-[#e4e6ea]
            px-3 py-1 text-xs font-mono text-black/80 transition duration-200
            hover:border-black/40 hover:text-black;
   }

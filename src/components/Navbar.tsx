@@ -13,7 +13,7 @@ export default function Navbar() {
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-black/10 bg-[#e4e6ea]/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-black/10 bg-[#e4e6ea]">
       <nav className="container-content flex h-16 items-center justify-between">
         {/* Left margin clears the fixed StatsBadge in the top-left corner. */}
         <Link
