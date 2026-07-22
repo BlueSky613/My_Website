@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 import ProjectCard from "@/components/ProjectCard";
 import Reveal from "@/components/Reveal";
-import SatelliteCursor from "@/components/SatelliteCursor";
 import { projects } from "@/lib/projects";
 
 export const metadata: Metadata = { title: "Projects" };
@@ -10,8 +9,6 @@ export const metadata: Metadata = { title: "Projects" };
 export default function ProjectsPage() {
   return (
     <>
-      <SatelliteCursor />
-
       <PageHeader
         eyebrow="Projects"
         title="GIS & Geology Projects"

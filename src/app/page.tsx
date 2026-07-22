@@ -4,7 +4,6 @@ import { featuredProjects, projects } from "@/lib/projects";
 import ProjectCard from "@/components/ProjectCard";
 import Reveal from "@/components/Reveal";
 import TextReveal from "@/components/TextReveal";
-import CursorEffects from "@/components/CursorEffects";
 import { recordHomeVisitIfNeeded } from "@/lib/record-home-visit";
 
 export default async function HomePage() {
@@ -12,9 +11,6 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* Cursor smoke trail + click ripple/fireworks — Home page only */}
-      <CursorEffects />
-
       <section className="relative isolate overflow-hidden">
         <div className="container-content relative py-28 sm:py-36 lg:py-44">
           <div className="max-w-3xl">

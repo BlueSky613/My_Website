@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import StatsBadge from "@/components/StatsBadge";
 import ScrollProgress from "@/components/ScrollProgress";
 import MagneticCursor from "@/components/MagneticCursor";
+import CursorEffects from "@/components/CursorEffects";
 import AnimatedFavicon from "@/components/AnimatedFavicon";
 import ViewportProvider from "@/components/ViewportProvider";
 import { getMetadataBase } from "@/lib/metadata-base";
@@ -35,6 +36,7 @@ export default function RootLayout({
         <ScrollProgress />
         <AnimatedFavicon />
         <MagneticCursor />
+        <CursorEffects />
         <StatsBadge />
         <Navbar />
         <main className="flex-1">{children}</main>

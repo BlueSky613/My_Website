@@ -5,8 +5,6 @@ import { getInternalProjects, getProject } from "@/lib/projects";
 import DownloadLink from "@/components/DownloadLink";
 import Reveal from "@/components/Reveal";
 import TextReveal from "@/components/TextReveal";
-import SatelliteCursor from "@/components/SatelliteCursor";
-
 export function generateStaticParams() {
   // External-link projects open off-site; do not generate detail pages for them.
   return getInternalProjects().map((p) => ({ slug: p.slug }));
@@ -33,8 +31,6 @@ export default function ProjectDetailPage({
 
   return (
     <>
-      <SatelliteCursor />
-
       <div className="border-b border-black/10">
         <div className="container-content py-14 sm:py-20">
           <Link

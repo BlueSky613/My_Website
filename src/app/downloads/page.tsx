@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 import DownloadLink from "@/components/DownloadLink";
 import Reveal from "@/components/Reveal";
-import SatelliteCursor from "@/components/SatelliteCursor";
-
 export const metadata: Metadata = { title: "Downloads" };
 
 const files = [
@@ -32,7 +30,6 @@ const files = [
 export default function DownloadsPage() {
   return (
     <>
-      <SatelliteCursor />
       <PageHeader
         eyebrow="Downloads"
         title="Resume & Portfolio Files"

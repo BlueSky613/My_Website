@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 import Reveal from "@/components/Reveal";
-import WaterCursor from "@/components/WaterCursor";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = { title: "About" };
@@ -16,7 +15,6 @@ export default function AboutPage() {
 
   return (
     <>
-      <WaterCursor />
       <PageHeader
         eyebrow="About Me"
         title="GIS & Geological Mapping Specialist"

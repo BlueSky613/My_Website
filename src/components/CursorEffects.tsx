@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-// Canvas-based cursor effects for the Home page only:
+// Canvas-based cursor effects (global — mounted from root layout):
 //  - a trail of soft "smoke" particles following the pointer
 //  - an expanding ripple + spark burst on click ("fireworks")
 // Disabled on touch devices and when the user prefers reduced motion.

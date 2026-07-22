@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 import Reveal from "@/components/Reveal";
-import WaterCursor from "@/components/WaterCursor";
-
 export const metadata: Metadata = { title: "Skills" };
 
 const skillGroups = [
@@ -32,7 +30,6 @@ const skillGroups = [
 export default function SkillsPage() {
   return (
     <>
-      <WaterCursor />
       <PageHeader
         eyebrow="Skills"
         title="Core Technical Skills"

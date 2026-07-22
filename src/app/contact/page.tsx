@@ -3,7 +3,6 @@ import PageHeader from "@/components/PageHeader";
 import ContactForm from "@/components/ContactForm";
 import ContactChannels from "@/components/ContactChannels";
 import Reveal from "@/components/Reveal";
-import SatelliteCursor from "@/components/SatelliteCursor";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = { title: "Contact" };
@@ -21,7 +20,6 @@ export default function ContactPage() {
 
   return (
     <>
-      <SatelliteCursor />
       <PageHeader eyebrow="Contact" title="Get in Touch" />
 
       <section className="section">
