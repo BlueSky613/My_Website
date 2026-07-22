@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { site } from "@/lib/site";
 import { featuredProjects, projects } from "@/lib/projects";
+import { cvHref, expertiseAreas } from "@/lib/resume";
 import ProjectCard from "@/components/ProjectCard";
+import ContactForm from "@/components/ContactForm";
 import Reveal from "@/components/Reveal";
 import TextReveal from "@/components/TextReveal";
 import { recordHomeVisitIfNeeded } from "@/lib/record-home-visit";
@@ -9,8 +11,19 @@ import { recordHomeVisitIfNeeded } from "@/lib/record-home-visit";
 export default async function HomePage() {
   await recordHomeVisitIfNeeded();
 
+  const highlight =
+    (featuredProjects.length ? featuredProjects : projects)[0] ?? null;
+  const featuredList = (featuredProjects.length ? featuredProjects : projects).slice(
+    0,
+    3,
+  );
+  const highlightHref = highlight
+    ? highlight.externalUrl ?? `/projects/${highlight.slug}`
+    : "/projects";
+
   return (
     <>
+      {/* Hero */}
       <section className="relative isolate overflow-hidden">
         <div className="container-content relative py-28 sm:py-36 lg:py-44">
           <div className="max-w-3xl">
@@ -18,6 +31,7 @@ export default async function HomePage() {
               data-tilt
               className="animate-float rounded-2xl border border-black/10 bg-white/50 px-7 py-8 shadow-sm backdrop-blur-md motion-reduce:animate-none sm:px-9 sm:py-10"
             >
+              <p className="eyebrow mb-4">Geospatial Solutions by {site.name}</p>
               <h1 className="text-4xl font-bold leading-tight tracking-tight text-black sm:text-5xl lg:text-6xl">
                 <TextReveal as="span" className="block" text={site.taglines[0]} />
                 <TextReveal
@@ -43,8 +57,8 @@ export default async function HomePage() {
                 <Link href="/projects" className="btn-primary">
                   View Projects
                 </Link>
-                <Link href="/contact" className="btn-ghost">
-                  Get in Touch
+                <Link href="/resume" className="btn-ghost">
+                  Resume
                 </Link>
               </div>
             </Reveal>
@@ -52,6 +66,74 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Featured Project (single highlight) */}
+      {highlight && (
+        <section className="relative isolate overflow-hidden border-t border-black/10">
+          <div className="container-content section">
+            <Reveal>
+              <p className="eyebrow mb-3">Featured Project</p>
+              <div className="card max-w-3xl">
+                <h2 className="text-2xl font-bold tracking-tight text-black sm:text-3xl">
+                  {highlight.title}
+                </h2>
+                <p className="mt-2 text-sm text-black/55">{highlight.location}</p>
+                <p className="mt-4 text-black/80 leading-relaxed">
+                  {highlight.summary}
+                </p>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {highlight.tags.map((tag) => (
+                    <span key={tag} className="tag">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <Link
+                  href={highlightHref}
+                  {...(highlight.externalUrl
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
+                  className="btn-primary mt-8"
+                >
+                  {highlight.externalUrl ? "Open live viewer" : "View project"}
+                </Link>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      )}
+
+      {/* Expertise / GIS Skills */}
+      <section className="relative isolate overflow-hidden border-t border-black/10">
+        <div className="container-content section">
+          <Reveal>
+            <p className="eyebrow mb-3">Expertise</p>
+            <h2 className="text-2xl font-bold tracking-tight text-black sm:text-3xl">
+              GIS Skills &amp; Technologies
+            </h2>
+            <p className="mt-3 max-w-2xl text-black/75">
+              Specialized in geological mapping, remote sensing, and reproducible
+              spatial analysis for mineral exploration.
+            </p>
+          </Reveal>
+
+          <div className="mt-10 grid gap-6 sm:grid-cols-3">
+            {expertiseAreas.map((item, i) => (
+              <Reveal key={item.title} delay={i * 120} zoom>
+                <div className="card group h-full">
+                  <h3 className="text-lg font-semibold text-black transition group-hover:text-black/70">
+                    {item.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-black/75">
+                    {item.description}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Projects grid */}
       <section className="relative isolate overflow-hidden border-t border-black/10">
         <div className="container-content section">
           <Reveal>
@@ -61,63 +143,70 @@ export default async function HomePage() {
                 <h2 className="text-2xl font-bold tracking-tight text-black sm:text-3xl">
                   Featured Projects
                 </h2>
+                <p className="mt-3 max-w-2xl text-black/75">
+                  Explore recent GIS projects spanning structural geology, remote
+                  sensing and 3D geological modelling.
+                </p>
               </div>
-              <Link
-                href="/projects"
-                className="hidden text-sm font-medium text-black/70 transition hover:text-black sm:inline"
-              >
-                All projects →
-              </Link>
             </div>
           </Reveal>
 
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {(featuredProjects.length ? featuredProjects : projects)
-              .slice(0, 3)
-              .map((project, i) => (
-                <Reveal key={project.slug} delay={i * 120} zoom>
-                  <ProjectCard project={project} />
-                </Reveal>
-              ))}
+            {featuredList.map((project, i) => (
+              <Reveal key={project.slug} delay={i * 120} zoom>
+                <ProjectCard project={project} />
+              </Reveal>
+            ))}
           </div>
+
+          <Reveal delay={200}>
+            <div className="mt-10">
+              <Link href="/projects" className="btn-ghost">
+                View All Projects
+              </Link>
+            </div>
+          </Reveal>
         </div>
       </section>
 
-      <section className="relative isolate overflow-hidden border-t border-black/10">
+      {/* Get in Touch */}
+      <section
+        id="contact"
+        className="relative isolate scroll-mt-24 overflow-hidden border-t border-black/10"
+      >
         <div className="container-content section">
-          <Reveal>
-            <p className="eyebrow mb-3">What I Do</p>
-            <h2 className="text-2xl font-bold tracking-tight text-black sm:text-3xl">
-              Spatial analysis for the resources sector
-            </h2>
-          </Reveal>
+          <div className="grid gap-12 md:grid-cols-[1fr_1fr] md:items-start">
+            <Reveal from="left">
+              <p className="eyebrow mb-3">Get in Touch</p>
+              <h2 className="text-2xl font-bold tracking-tight text-black sm:text-3xl">
+                Interested in working together?
+              </h2>
+              <p className="mt-4 max-w-xl text-black/75 leading-relaxed">
+                I&apos;m always open to discussing GIS projects, mineral exploration
+                collaboration, or opportunities to contribute spatial analysis.
+              </p>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <a href={`mailto:${site.email}`} className="btn-primary">
+                  Contact Me
+                </a>
+                <Link href="/resume" className="btn-ghost">
+                  Download Resume
+                </Link>
+                <a
+                  href={cvHref}
+                  className="btn-ghost"
+                  download
+                >
+                  CV PDF
+                </a>
+              </div>
+            </Reveal>
 
-          <div className="mt-10 grid gap-6 sm:grid-cols-3">
-            {[
-              {
-                title: "Geological Mapping",
-                desc: "Lithological and structural mapping using QGIS, ArcGIS and field-ready GIS workflows.",
-              },
-              {
-                title: "Remote Sensing",
-                desc: "Sentinel-2 and Landsat band ratios, DEM/terrain analysis and alteration mapping.",
-              },
-              {
-                title: "Spatial Automation",
-                desc: "Reproducible Python (GeoPandas, GDAL) and PostGIS pipelines for repeatable analysis.",
-              },
-            ].map((item, i) => (
-              <Reveal key={item.title} delay={i * 120} zoom>
-                <div className="card group h-full">
-                  <h3 className="text-lg font-semibold text-black transition group-hover:text-black/70">
-                    {item.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-black/75">
-                    {item.desc}
-                  </p>
-                </div>
-              </Reveal>
-            ))}
+            <Reveal from="right" delay={120}>
+              <div className="rounded-xl border border-black/10 bg-white/55 p-6 shadow-sm backdrop-blur-sm">
+                <ContactForm />
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>

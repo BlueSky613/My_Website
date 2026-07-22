@@ -28,6 +28,11 @@ export default function Footer() {
             <p className="eyebrow mb-3">Connect</p>
             <ul className="space-y-2 text-sm">
               <li>
+                <Link href="/#contact" className="link-underline text-black hover:text-black/70">
+                  Contact
+                </Link>
+              </li>
+              <li>
                 <a href={`mailto:${site.email}`} className="link-underline text-black hover:text-black/70">
                   Email
                 </a>

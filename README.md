@@ -3,15 +3,16 @@
 Personal portfolio for a GIS Analyst / Geological Mapping Specialist, built with
 **Next.js (App Router) + TypeScript + TailwindCSS**.
 
-## Pages (Phase 1)
+Site structure mirrors a simple GIS portfolio IA (Home / Projects / Resume).
 
-- `/` — Home (hero, intro, featured projects, focus areas)
-- `/about` — About Me
-- `/skills` — Core skills (GIS, Programming, Remote Sensing, Geology)
-- `/projects` — Project list
-- `/projects/[slug]` — Project detail (Kalgoorlie structural control)
-- `/downloads` — Resume / CV / report downloads
-- `/contact` — Contact form + links
+## Pages
+
+- `/` — Home (hero, featured project, skills, featured projects, contact)
+- `/projects` — Project list with category filters
+- `/projects/[slug]` — Project detail
+- `/resume` — Resume summary, skills, PDF downloads
+
+Legacy routes redirect: `/about` & `/skills` → `/`, `/downloads` → `/resume`, `/contact` → `/#contact`.
 
 ## Getting started
 
@@ -29,9 +30,8 @@ npm start        # serve the production build
 
 - **Name, role, email, social links:** `src/lib/site.ts`
 - **Projects (list + detail):** `src/lib/projects.ts`
-- **Skills:** `src/app/skills/page.tsx`
-- **Theme colours:** `tailwind.config.ts`
-- **Profile photo:** add `public/profile.jpg` and wire it into `src/app/page.tsx`
+- **Resume / skills / documents:** `src/lib/resume.ts`
+- **Theme colours:** `tailwind.config.ts` / `src/app/globals.css`
 - **Downloadable PDFs:** drop files into `public/downloads/`
 
 ## Roadmap
@@ -45,3 +45,4 @@ npm start        # serve the production build
 ## Deploy
 
 Optimised for **Vercel** — push to a Git repo and import the project.
+Production URL: https://bluesky613-gis.vercel.app

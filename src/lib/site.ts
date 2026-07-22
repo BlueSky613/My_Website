@@ -31,9 +31,6 @@ export const initials = site.name
 
 export const nav = [
   { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/skills", label: "Skills" },
   { href: "/projects", label: "Projects" },
-  { href: "/downloads", label: "Downloads" },
-  { href: "/contact", label: "Contact" },
+  { href: "/resume", label: "Resume" },
 ];

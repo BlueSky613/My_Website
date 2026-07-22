@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
-import ProjectCard from "@/components/ProjectCard";
-import Reveal from "@/components/Reveal";
+import ProjectFilters from "@/components/ProjectFilters";
 import { projects } from "@/lib/projects";
 
 export const metadata: Metadata = { title: "Projects" };
@@ -11,17 +10,13 @@ export default function ProjectsPage() {
     <>
       <PageHeader
         eyebrow="Projects"
-        title="GIS & Geology Projects"
-        description="Spatial analysis projects spanning structural geology, remote sensing, DEM analysis and Python automation."
+        title="GIS Projects"
+        description="Browse through my collection of GIS and geology projects, including structural analysis, remote sensing and interactive 3D viewers."
       />
 
       <section className="section">
-        <div className="container-content grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {projects.map((project, i) => (
-            <Reveal key={project.slug} delay={i * 100} zoom>
-              <ProjectCard project={project} />
-            </Reveal>
-          ))}
+        <div className="container-content">
+          <ProjectFilters projects={projects} />
         </div>
       </section>
     </>
