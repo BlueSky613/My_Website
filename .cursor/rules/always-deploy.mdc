@@ -1,5 +1,5 @@
 ---
-description: After any code change, commit/push and deploy to production
+description: After any code change, commit/push and verify production domain shows the new build
 alwaysApply: true
 ---
 
@@ -9,8 +9,18 @@ Whenever you finish making code or content changes in this project:
 
 1. Commit the relevant changes (user has requested ongoing deploy-after-change).
 2. Push to `origin` on the current branch (usually `main`) so Vercel production redeploys.
-3. Confirm the deploy started or completed (e.g. `git push` success, or `npx vercel --prod` if Git deploy is unavailable).
-4. Report the live URL when done: https://bluesky613-gis.vercel.app
+3. Wait until the newest deployment is **Ready**.
+4. **Mandatory verification** — fetch the real production URL and confirm the new HTML is live:
+   - Primary URL: https://bluesky613-gis.vercel.app
+   - Check for expected markers (e.g. a unique class/string from the change) AND absence of removed content.
+5. If `bluesky613-gis.vercel.app` still serves an old build while a newer deployment is Ready, immediately re-point the alias:
+   ```bash
+   npx vercel alias set <latest-deployment-url> bluesky613-gis.vercel.app
+   ```
+   Then re-fetch and confirm.
+6. Report the verified live URL only after step 4/5 succeeds.
+
+Known pitfall: Git push can update a deployment whose production alias is `martin-guthrie-gis-rust.vercel.app` while `bluesky613-gis.vercel.app` stays stuck on an older deployment. Always verify the primary domain, not just "Ready" status.
 
 Do not leave local-only changes undeployed after a completed task.
 If git ownership/safe.directory blocks commands, use `git -c safe.directory=<repo-path> ...` per command — do not change global git config.
