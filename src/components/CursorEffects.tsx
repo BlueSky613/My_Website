@@ -3,10 +3,10 @@
 import { useEffect, useRef } from "react";
 
 // Canvas-based cursor effects (global — mounted from root layout):
-//  - a soft smoke trail following the pointer
-//  - a ripple + spark burst on click
-// Tuned for the light silver theme: no additive ("lighter") blending, which
-// bloomed into bright white/cyan ㄱ-shaped bands on pale backgrounds.
+//  - a trail of soft cyan/gold smoke following the pointer
+//  - an expanding ripple + spark burst on click
+// Uses source-over (not additive "lighter") so colors stay vivid on the
+// light silver theme without blooming into white bands.
 // Disabled on touch devices and when the user prefers reduced motion.
 
 type Smoke = {
@@ -16,6 +16,7 @@ type Smoke = {
   vy: number;
   life: number;
   size: number;
+  hue: number;
 };
 
 type Spark = {
@@ -24,9 +25,10 @@ type Spark = {
   vx: number;
   vy: number;
   life: number;
+  hue: number;
 };
 
-type Ripple = { x: number; y: number; r: number; life: number };
+type Ripple = { x: number; y: number; r: number; life: number; hue: number };
 
 export default function CursorEffects() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -63,6 +65,9 @@ export default function CursorEffects() {
     let moved = false;
     let raf = 0;
 
+    // Cyan ↔ gold — readable on silver without additive blowout.
+    const pickHue = () => (Math.random() < 0.5 ? 188 : 42);
+
     const onMove = (e: MouseEvent) => {
       const x = e.clientX;
       const y = e.clientY;
@@ -70,15 +75,16 @@ export default function CursorEffects() {
         const dx = x - lastX;
         const dy = y - lastY;
         const dist = Math.hypot(dx, dy);
-        const count = Math.min(2, 1 + Math.floor(dist / 18));
+        const count = Math.min(3, 1 + Math.floor(dist / 14));
         for (let i = 0; i < count; i++) {
           smoke.push({
-            x: x + (Math.random() - 0.5) * 4,
-            y: y + (Math.random() - 0.5) * 4,
-            vx: dx * 0.015 + (Math.random() - 0.5) * 0.25,
-            vy: dy * 0.015 + (Math.random() - 0.5) * 0.25 - 0.2,
+            x: x + (Math.random() - 0.5) * 6,
+            y: y + (Math.random() - 0.5) * 6,
+            vx: dx * 0.02 + (Math.random() - 0.5) * 0.35,
+            vy: dy * 0.02 + (Math.random() - 0.5) * 0.35 - 0.25,
             life: 1,
-            size: 5 + Math.random() * 8,
+            size: 7 + Math.random() * 12,
+            hue: pickHue(),
           });
         }
       }
@@ -90,41 +96,44 @@ export default function CursorEffects() {
     const onClick = (e: MouseEvent) => {
       const x = e.clientX;
       const y = e.clientY;
-      ripples.push({ x, y, r: 0, life: 1 });
-      const n = 14;
+      const hue = pickHue();
+      ripples.push({ x, y, r: 0, life: 1, hue });
+      const n = 18;
       for (let i = 0; i < n; i++) {
-        const a = (Math.PI * 2 * i) / n + Math.random() * 0.25;
-        const sp = 1.8 + Math.random() * 2.4;
+        const a = (Math.PI * 2 * i) / n + Math.random() * 0.3;
+        const sp = 2.2 + Math.random() * 3;
         sparks.push({
           x,
           y,
           vx: Math.cos(a) * sp,
           vy: Math.sin(a) * sp,
           life: 1,
+          hue: Math.random() < 0.5 ? hue : pickHue(),
         });
       }
     };
 
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      // Normal blending — additive "lighter" blew out to white on silver bg.
       ctx.globalCompositeOperation = "source-over";
 
       for (let i = smoke.length - 1; i >= 0; i--) {
         const p = smoke[i];
         p.x += p.vx;
         p.y += p.vy;
-        p.vy -= 0.008;
-        p.life -= 0.03;
-        p.size += 0.25;
+        p.vy -= 0.01;
+        p.life -= 0.02;
+        p.size += 0.35;
         if (p.life <= 0) {
           smoke.splice(i, 1);
           continue;
         }
         const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
-        const a = p.life * 0.14;
-        g.addColorStop(0, `rgba(40, 44, 52, ${a})`);
-        g.addColorStop(1, `rgba(40, 44, 52, 0)`);
+        // Mid lightness (~48%) so cyan/gold read on #e4e6ea without washing white.
+        const a = p.life * 0.45;
+        g.addColorStop(0, `hsla(${p.hue}, 85%, 42%, ${a})`);
+        g.addColorStop(0.55, `hsla(${p.hue}, 80%, 48%, ${a * 0.35})`);
+        g.addColorStop(1, `hsla(${p.hue}, 80%, 50%, 0)`);
         ctx.fillStyle = g;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
@@ -133,14 +142,14 @@ export default function CursorEffects() {
 
       for (let i = ripples.length - 1; i >= 0; i--) {
         const r = ripples[i];
-        r.r += 5;
-        r.life -= 0.05;
+        r.r += 5.5;
+        r.life -= 0.04;
         if (r.life <= 0) {
           ripples.splice(i, 1);
           continue;
         }
-        ctx.strokeStyle = `rgba(20, 20, 20, ${r.life * 0.35})`;
-        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = `hsla(${r.hue}, 90%, 40%, ${r.life * 0.7})`;
+        ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.arc(r.x, r.y, r.r, 0, Math.PI * 2);
         ctx.stroke();
@@ -150,17 +159,17 @@ export default function CursorEffects() {
         const s = sparks[i];
         s.x += s.vx;
         s.y += s.vy;
-        s.vy += 0.05;
+        s.vy += 0.055;
         s.vx *= 0.98;
         s.vy *= 0.98;
-        s.life -= 0.03;
+        s.life -= 0.022;
         if (s.life <= 0) {
           sparks.splice(i, 1);
           continue;
         }
-        ctx.fillStyle = `rgba(20, 20, 20, ${s.life * 0.55})`;
+        ctx.fillStyle = `hsla(${s.hue}, 92%, 40%, ${s.life * 0.9})`;
         ctx.beginPath();
-        ctx.arc(s.x, s.y, 1.6 * s.life + 0.4, 0, Math.PI * 2);
+        ctx.arc(s.x, s.y, 2.2 * s.life + 0.5, 0, Math.PI * 2);
         ctx.fill();
       }
 
