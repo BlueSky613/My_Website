@@ -9,18 +9,18 @@ export default function ProjectCard({ project }: { project: Project }) {
   const body = (
     <>
       <div className="flex items-center justify-between">
-        <span className="font-mono text-xs text-ore-400">
+        <span className="font-mono text-xs text-black/60">
           Project {project.number}
         </span>
         <span className="tag">{project.category}</span>
       </div>
 
-      <h3 className="mt-4 text-lg font-semibold text-rock-50 transition group-hover:text-cyber-300">
+      <h3 className="mt-4 text-lg font-semibold text-black transition group-hover:text-black/70">
         {project.title}
       </h3>
-      <p className="mt-1 text-sm text-rock-400">{project.location}</p>
+      <p className="mt-1 text-sm text-black/55">{project.location}</p>
 
-      <p className="mt-4 flex-1 text-sm leading-relaxed text-rock-300">
+      <p className="mt-4 flex-1 text-sm leading-relaxed text-black/75">
         {project.summary}
       </p>
 
@@ -32,7 +32,7 @@ export default function ProjectCard({ project }: { project: Project }) {
         ))}
       </div>
 
-      <span className="mt-6 inline-flex items-center gap-1 text-sm font-medium text-ore-400">
+      <span className="mt-6 inline-flex items-center gap-1 text-sm font-medium text-black">
         {cta}
         {isExternal ? (
           <svg

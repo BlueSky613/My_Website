@@ -44,24 +44,24 @@ export default function StatsBadge() {
   }, []);
 
   return (
-    <div className="fixed left-3 top-3 z-[60] flex items-center gap-2 rounded-full border border-cyber-400/30 bg-rock-950/70 px-3 py-1.5 text-xs font-mono text-rock-300 shadow-glow-cyber backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-cyber-400/60 hover:shadow-[0_0_26px_-4px_rgba(34,211,238,0.7)]">
+    <div className="fixed left-3 top-3 z-[60] flex items-center gap-2 rounded-full border border-black/15 bg-white/70 px-3 py-1.5 text-xs font-mono text-black shadow-sm backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-black/30">
       <span className="flex items-center gap-1.5" title="Total page visits">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
           <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" />
           <circle cx="12" cy="12" r="3" />
         </svg>
-        <span className="tabular-nums text-rock-100">
+        <span className="tabular-nums text-black">
           {stats ? stats.visits.toLocaleString("en-US") : "—"}
         </span>
       </span>
 
-      <span className="h-3 w-px bg-cyber-400/30" aria-hidden />
+      <span className="h-3 w-px bg-black/20" aria-hidden />
 
       <span className="flex items-center gap-1.5" title="Total downloads">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
           <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
-        <span className="tabular-nums text-rock-100">
+        <span className="tabular-nums text-black">
           {stats ? stats.downloads.toLocaleString("en-US") : "—"}
         </span>
       </span>

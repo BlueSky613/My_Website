@@ -1,0 +1,16 @@
+---
+description: After any code change, commit/push and deploy to production
+alwaysApply: true
+---
+
+# Always deploy after changes
+
+Whenever you finish making code or content changes in this project:
+
+1. Commit the relevant changes (user has requested ongoing deploy-after-change).
+2. Push to `origin` on the current branch (usually `main`) so Vercel production redeploys.
+3. Confirm the deploy started or completed (e.g. `git push` success, or `npx vercel --prod` if Git deploy is unavailable).
+4. Report the live URL when done: https://bluesky613-gis.vercel.app
+
+Do not leave local-only changes undeployed after a completed task.
+If git ownership/safe.directory blocks commands, use `git -c safe.directory=<repo-path> ...` per command — do not change global git config.

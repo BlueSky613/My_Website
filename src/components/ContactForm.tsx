@@ -40,13 +40,13 @@ export default function ContactForm() {
   }
 
   const field =
-    "w-full rounded-lg border border-rock-700 bg-rock-900 px-4 py-2.5 text-sm text-rock-100 placeholder-rock-500 outline-none transition duration-200 hover:border-rock-600 focus:border-cyber-400 focus:shadow-glow-cyber focus:bg-rock-900/80";
+    "w-full rounded-lg border border-black/20 bg-white/70 px-4 py-2.5 text-sm text-black placeholder-black/40 outline-none transition duration-200 hover:border-black/40 focus:border-black focus:ring-1 focus:ring-black/15 focus:bg-white";
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="name" className="mb-2 block text-sm text-rock-300">
+          <label htmlFor="name" className="mb-2 block text-sm text-black">
             Name
           </label>
           <input
@@ -60,7 +60,7 @@ export default function ContactForm() {
           />
         </div>
         <div>
-          <label htmlFor="email" className="mb-2 block text-sm text-rock-300">
+          <label htmlFor="email" className="mb-2 block text-sm text-black">
             Email
           </label>
           <input
@@ -76,7 +76,7 @@ export default function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor="message" className="mb-2 block text-sm text-rock-300">
+        <label htmlFor="message" className="mb-2 block text-sm text-black">
           Message
         </label>
         <textarea
@@ -99,17 +99,17 @@ export default function ContactForm() {
       </button>
 
       {status === "sent" && (
-        <p className="text-sm text-ore-400" role="status">
+        <p className="text-sm text-black" role="status">
           Thanks — your message has been sent. I&apos;ll get back to you soon.
         </p>
       )}
       {status === "error" && (
-        <p className="text-sm text-red-400" role="alert">
+        <p className="text-sm text-red-700" role="alert">
           {errorMsg}
         </p>
       )}
       {status !== "sent" && status !== "error" && (
-        <p className="text-xs text-rock-500">
+        <p className="text-xs text-black/55">
           Your message is sent directly — no email client required.
         </p>
       )}

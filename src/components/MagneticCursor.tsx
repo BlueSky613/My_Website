@@ -166,7 +166,7 @@ export default function MagneticCursor() {
     <div
       ref={ringRef}
       aria-hidden
-      className="pointer-events-none fixed left-0 top-0 z-[65] h-8 w-8 rounded-full border-2 border-cyber-400/50 shadow-glow-cyber [transition:border-color_150ms_ease-out] will-change-transform"
+      className="pointer-events-none fixed left-0 top-0 z-[65] h-8 w-8 rounded-full border-2 border-black/40 [transition:border-color_150ms_ease-out] will-change-transform"
     />
   );
 }

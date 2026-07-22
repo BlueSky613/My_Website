@@ -13,16 +13,14 @@ export default function Navbar() {
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-cyber-400/10 bg-rock-950/20 backdrop-blur-md">
-      {/* Glowing hairline under the navbar */}
-      <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-cyber-400/40 to-transparent" />
+    <header className="sticky top-0 z-50 border-b border-black/10 bg-[#e4e6ea]/80 backdrop-blur-md">
       <nav className="container-content flex h-16 items-center justify-between">
         {/* Left margin clears the fixed StatsBadge in the top-left corner. */}
         <Link
           href="/"
-          className="group flex items-center gap-2 pl-[130px] font-mono text-sm sm:pl-[150px]"
+          className="group flex items-center gap-2 pl-[130px] font-mono text-sm text-black sm:pl-[150px]"
         >
-          <span className="grid h-8 w-8 place-items-center rounded-md bg-ore-500 font-bold text-rock-950 shadow-glow-ore transition group-hover:shadow-[0_0_22px_-2px_rgba(217,158,43,0.7)]">
+          <span className="grid h-8 w-8 place-items-center rounded-md bg-black font-bold text-white transition group-hover:bg-black/85">
             {initials}
           </span>
           <span className="hidden font-semibold tracking-tight sm:inline">
@@ -38,8 +36,8 @@ export default function Navbar() {
                 href={item.href}
                 className={`link-underline rounded-md px-3 py-2 text-sm transition ${
                   isActive(item.href)
-                    ? "text-cyber-300 [text-shadow:0_0_12px_rgba(34,211,238,0.5)]"
-                    : "text-rock-300 hover:text-rock-50"
+                    ? "font-semibold text-black"
+                    : "text-black/70 hover:text-black"
                 }`}
               >
                 {item.label}
@@ -53,7 +51,7 @@ export default function Navbar() {
           type="button"
           aria-label="Toggle menu"
           onClick={() => setOpen((v) => !v)}
-          className="md:hidden text-rock-200"
+          className="md:hidden text-black"
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             {open ? (
@@ -75,8 +73,8 @@ export default function Navbar() {
                 onClick={() => setOpen(false)}
                 className={`block rounded-md px-3 py-2 text-sm transition ${
                   isActive(item.href)
-                    ? "border border-cyber-400/30 bg-rock-800/60 text-cyber-300"
-                    : "text-rock-300 hover:bg-rock-900"
+                    ? "border border-black/20 bg-white/60 font-semibold text-black"
+                    : "text-black/70 hover:bg-black/5 hover:text-black"
                 }`}
               >
                 {item.label}

@@ -3,7 +3,6 @@ import PageHeader from "@/components/PageHeader";
 import DownloadLink from "@/components/DownloadLink";
 import Reveal from "@/components/Reveal";
 import SatelliteCursor from "@/components/SatelliteCursor";
-import DigitalGlobe from "@/components/DigitalGlobe";
 
 export const metadata: Metadata = { title: "Downloads" };
 
@@ -34,20 +33,11 @@ export default function DownloadsPage() {
   return (
     <>
       <SatelliteCursor />
-      <div className="relative isolate min-h-[280px] overflow-hidden">
-        <DigitalGlobe />
-        <div className="relative z-10">
-          <PageHeader
+      <PageHeader
         eyebrow="Downloads"
         title="Resume & Portfolio Files"
         description="Downloadable documents for recruiters and collaborators. (Add the PDF files to /public/downloads/.)"
-        />
-        </div>
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 -z-[5] bg-gradient-to-b from-transparent via-rock-950/20 to-rock-950/85"
-        />
-      </div>
+      />
 
       <section className="section">
         <div className="container-content grid gap-4 sm:grid-cols-2">
@@ -57,19 +47,19 @@ export default function DownloadsPage() {
                 href={file.href}
                 className="group card flex items-center gap-4"
               >
-                <span className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-rock-800 text-ore-400">
+                <span className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-black text-white">
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" strokeLinejoin="round" />
                     <path d="M14 2v6h6" strokeLinejoin="round" />
                   </svg>
                 </span>
                 <div className="flex-1">
-                  <p className="font-medium text-rock-50 group-hover:text-ore-400">
+                  <p className="font-medium text-black group-hover:text-black/70">
                     {file.name}
                   </p>
-                  <p className="mt-0.5 text-sm text-rock-400">{file.desc}</p>
+                  <p className="mt-0.5 text-sm text-black/60">{file.desc}</p>
                 </div>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-rock-500 transition group-hover:text-ore-400">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-black/40 transition group-hover:text-black">
                   <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </DownloadLink>
@@ -78,9 +68,9 @@ export default function DownloadsPage() {
         </div>
 
         <div className="container-content mt-8">
-          <p className="text-sm text-rock-500">
+          <p className="text-sm text-black/55">
             Note: Place the actual PDF files in{" "}
-            <code className="font-mono text-rock-300">public/downloads/</code> so
+            <code className="font-mono text-black">public/downloads/</code> so
             these links resolve.
           </p>
         </div>

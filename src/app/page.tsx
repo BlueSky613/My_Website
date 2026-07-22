@@ -1,9 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
 import { site } from "@/lib/site";
 import { featuredProjects, projects } from "@/lib/projects";
 import ProjectCard from "@/components/ProjectCard";
-import HeroSlideshow from "@/components/HeroSlideshow";
 import Reveal from "@/components/Reveal";
 import TextReveal from "@/components/TextReveal";
 import CursorEffects from "@/components/CursorEffects";
@@ -17,44 +15,33 @@ export default async function HomePage() {
       {/* Cursor smoke trail + click ripple/fireworks — Home page only */}
       <CursorEffects />
 
-      {/* Hero — full-bleed background slideshow (4 cross-fading images) */}
       <section className="relative isolate overflow-hidden">
-        {/* Rotating background images */}
-        <HeroSlideshow />
-        {/* Light overlay — keeps the image vivid while softening it behind text */}
-        <div
-          aria-hidden
-          className="absolute inset-0 -z-10 bg-gradient-to-r from-rock-950/75 via-rock-950/30 to-transparent"
-        />
-
         <div className="container-content relative py-28 sm:py-36 lg:py-44">
           <div className="max-w-3xl">
-            {/* Glassmorphism panel — floating text block */}
             <div
               data-tilt
-              className="animate-float rounded-2xl border border-cyber-400/20 bg-rock-950/40 px-7 py-8 shadow-glow-soft backdrop-blur-md motion-reduce:animate-none sm:px-9 sm:py-10"
+              className="animate-float rounded-2xl border border-black/10 bg-white/50 px-7 py-8 shadow-sm backdrop-blur-md motion-reduce:animate-none sm:px-9 sm:py-10"
             >
-              <h1 className="text-4xl font-bold leading-tight tracking-tight text-rock-50 drop-shadow sm:text-5xl lg:text-6xl">
+              <h1 className="text-4xl font-bold leading-tight tracking-tight text-black sm:text-5xl lg:text-6xl">
                 <TextReveal as="span" className="block" text={site.taglines[0]} />
                 <TextReveal
                   as="span"
-                  className="mt-1 block text-rock-100 drop-shadow"
+                  className="mt-1 block text-black"
                   text={site.taglines[1]}
                   delay={site.taglines[0].split(" ").length * 90}
                 />
               </h1>
               <Reveal delay={120}>
-                <p className="mt-6 max-w-xl text-lg text-rock-200 drop-shadow">
+                <p className="mt-6 max-w-xl text-lg text-black/80">
                   {site.intro}
                 </p>
               </Reveal>
             </div>
 
-            {/* Floating glass button bar — offset phase for a parallax feel */}
             <Reveal delay={240}>
               <div
                 data-tilt
-                className="animate-float mt-8 inline-flex flex-wrap gap-3 rounded-2xl border border-cyber-400/20 bg-rock-950/40 p-3 shadow-glow-soft backdrop-blur-md motion-reduce:animate-none"
+                className="animate-float mt-8 inline-flex flex-wrap gap-3 rounded-2xl border border-black/10 bg-white/50 p-3 shadow-sm backdrop-blur-md motion-reduce:animate-none"
                 style={{ animationDelay: "-2.6s" }}
               >
                 <Link href="/projects" className="btn-primary">
@@ -69,35 +56,19 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Featured projects — Kalgoorlie map as background */}
-      <section className="relative isolate overflow-hidden border-t border-cyber-400/10">
-        {/* Background image */}
-        <Image
-          src="/images/featured-projects-bg.png"
-          alt="Satellite, global network and terrain data visualization"
-          fill
-          sizes="100vw"
-          unoptimized
-          className="-z-10 object-cover"
-        />
-        {/* Darker overlay over the background artwork — background stays faintly visible */}
-        <div
-          aria-hidden
-          className="absolute inset-0 -z-10 bg-rock-950/82"
-        />
-
+      <section className="relative isolate overflow-hidden border-t border-black/10">
         <div className="container-content section">
           <Reveal>
             <div className="flex items-end justify-between gap-4">
               <div>
                 <p className="eyebrow mb-3">Selected Work</p>
-                <h2 className="text-2xl font-bold tracking-tight text-rock-50 drop-shadow sm:text-3xl">
+                <h2 className="text-2xl font-bold tracking-tight text-black sm:text-3xl">
                   Featured Projects
                 </h2>
               </div>
               <Link
                 href="/projects"
-                className="hidden text-sm font-medium text-cyber-300 transition hover:text-cyber-400 sm:inline"
+                className="hidden text-sm font-medium text-black/70 transition hover:text-black sm:inline"
               >
                 All projects →
               </Link>
@@ -116,27 +87,11 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Focus areas — Python/GIS stack as background */}
-      <section className="relative isolate overflow-hidden border-t border-cyber-400/10">
-        {/* Background image */}
-        <Image
-          src="/images/python-gis-stack.png"
-          alt="Python connecting ArcGIS and QGIS in a geospatial data processing stack"
-          fill
-          sizes="100vw"
-          unoptimized
-          className="-z-10 object-cover"
-        />
-        {/* Very dark overlay — background artwork only faintly visible */}
-        <div
-          aria-hidden
-          className="absolute inset-0 -z-10 bg-rock-950/92"
-        />
-
+      <section className="relative isolate overflow-hidden border-t border-black/10">
         <div className="container-content section">
           <Reveal>
             <p className="eyebrow mb-3">What I Do</p>
-            <h2 className="text-2xl font-bold tracking-tight text-rock-50 drop-shadow sm:text-3xl">
+            <h2 className="text-2xl font-bold tracking-tight text-black sm:text-3xl">
               Spatial analysis for the resources sector
             </h2>
           </Reveal>
@@ -157,11 +112,11 @@ export default async function HomePage() {
               },
             ].map((item, i) => (
               <Reveal key={item.title} delay={i * 120} zoom>
-                <div className="card group h-full bg-rock-900/70 backdrop-blur">
-                  <h3 className="text-lg font-semibold text-rock-50 transition group-hover:text-cyber-300">
+                <div className="card group h-full">
+                  <h3 className="text-lg font-semibold text-black transition group-hover:text-black/70">
                     {item.title}
                   </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-rock-200">
+                  <p className="mt-3 text-sm leading-relaxed text-black/75">
                     {item.desc}
                   </p>
                 </div>

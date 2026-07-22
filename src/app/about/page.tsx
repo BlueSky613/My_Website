@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 import Reveal from "@/components/Reveal";
-import ContourLines from "@/components/ContourLines";
 import WaterCursor from "@/components/WaterCursor";
 import { site } from "@/lib/site";
 
@@ -18,19 +17,15 @@ export default function AboutPage() {
   return (
     <>
       <WaterCursor />
-      <div className="relative isolate">
-        <PageHeader
-          eyebrow="About Me"
-          title="GIS & Geological Mapping Specialist"
-          description="Aspiring GIS and Geological Mapping Specialist focused on mineral exploration, remote sensing and spatial analysis."
-        />
-        <ContourLines />
-      </div>
+      <PageHeader
+        eyebrow="About Me"
+        title="GIS & Geological Mapping Specialist"
+        description="Aspiring GIS and Geological Mapping Specialist focused on mineral exploration, remote sensing and spatial analysis."
+      />
 
       <section className="relative isolate overflow-hidden section">
-        <ContourLines />
         <div className="container-content grid gap-12 md:grid-cols-[1fr_320px]">
-          <Reveal from="left" className="space-y-6 text-rock-300 leading-relaxed">
+          <Reveal from="left" className="space-y-6 text-black/80 leading-relaxed">
             <p>
               I am an aspiring GIS and Geological Mapping Specialist with a strong
               interest in mineral exploration across Western Australia. My work
@@ -53,7 +48,7 @@ export default function AboutPage() {
             </p>
 
             <div className="pt-4">
-              <h2 className="text-lg font-semibold text-rock-50">
+              <h2 className="text-lg font-semibold text-black">
                 Technical Background
               </h2>
               <ul className="mt-4 grid gap-2 sm:grid-cols-2">
@@ -67,9 +62,9 @@ export default function AboutPage() {
                 ].map((item) => (
                   <li
                     key={item}
-                    className="flex items-start gap-2 text-sm text-rock-300"
+                    className="flex items-start gap-2 text-sm text-black/80"
                   >
-                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-ore-400" />
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-black" />
                     {item}
                   </li>
                 ))}
@@ -77,20 +72,19 @@ export default function AboutPage() {
             </div>
           </Reveal>
 
-          {/* Quick facts */}
           <Reveal as="aside" from="right" delay={120} className="h-fit">
             <div
               data-tilt
-              className="rounded-xl border border-cyber-400/20 bg-rock-900/60 p-6 shadow-glow-soft backdrop-blur-sm"
+              className="rounded-xl border border-black/10 bg-white/55 p-6 shadow-sm backdrop-blur-sm"
             >
               <p className="eyebrow mb-4">Quick Facts</p>
               <dl className="space-y-4">
                 {facts.map((fact) => (
                   <div key={fact.label}>
-                    <dt className="text-xs font-mono uppercase tracking-wider text-rock-500">
+                    <dt className="text-xs font-mono uppercase tracking-wider text-black/50">
                       {fact.label}
                     </dt>
-                    <dd className="mt-1 text-sm text-rock-100">{fact.value}</dd>
+                    <dd className="mt-1 text-sm text-black">{fact.value}</dd>
                   </div>
                 ))}
               </dl>

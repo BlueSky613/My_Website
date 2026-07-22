@@ -41,7 +41,7 @@ export default function ScrollProgress() {
     >
       <div
         ref={barRef}
-        className="h-full w-full origin-left scale-x-0 bg-gradient-to-r from-cyber-400 via-ore-400 to-ore-500 shadow-glow-cyber"
+        className="h-full w-full origin-left scale-x-0 bg-black"
       />
     </div>
   );
