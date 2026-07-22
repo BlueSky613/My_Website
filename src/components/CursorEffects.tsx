@@ -3,20 +3,19 @@
 import { useEffect, useRef } from "react";
 
 // Canvas-based cursor effects (global — mounted from root layout):
-//  - a trail of soft "smoke" particles following the pointer
-//  - an expanding ripple + spark burst on click ("fireworks")
+//  - a soft smoke trail following the pointer
+//  - a ripple + spark burst on click
+// Tuned for the light silver theme: no additive ("lighter") blending, which
+// bloomed into bright white/cyan ㄱ-shaped bands on pale backgrounds.
 // Disabled on touch devices and when the user prefers reduced motion.
-// The canvas is fixed, full-screen, and pointer-events-none so it never
-// blocks interaction; the real cursor stays normal on every page.
 
 type Smoke = {
   x: number;
   y: number;
   vx: number;
   vy: number;
-  life: number; // 1 -> 0
+  life: number;
   size: number;
-  hue: number;
 };
 
 type Spark = {
@@ -25,16 +24,14 @@ type Spark = {
   vx: number;
   vy: number;
   life: number;
-  hue: number;
 };
 
-type Ripple = { x: number; y: number; r: number; life: number; hue: number };
+type Ripple = { x: number; y: number; r: number; life: number };
 
 export default function CursorEffects() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    // Skip on touch / reduced-motion.
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const touch = window.matchMedia("(pointer: coarse)").matches;
     if (reduce || touch) return;
@@ -47,10 +44,12 @@ export default function CursorEffects() {
     let dpr = Math.min(window.devicePixelRatio || 1, 2);
     const resize = () => {
       dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = Math.floor(window.innerWidth * dpr);
-      canvas.height = Math.floor(window.innerHeight * dpr);
-      canvas.style.width = window.innerWidth + "px";
-      canvas.style.height = window.innerHeight + "px";
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      canvas.width = Math.floor(w * dpr);
+      canvas.height = Math.floor(h * dpr);
+      canvas.style.width = "100%";
+      canvas.style.height = "100%";
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
     resize();
@@ -64,9 +63,6 @@ export default function CursorEffects() {
     let moved = false;
     let raf = 0;
 
-    // Palette: cyan -> gold, matching the site theme.
-    const pickHue = () => (Math.random() < 0.5 ? 188 : 42);
-
     const onMove = (e: MouseEvent) => {
       const x = e.clientX;
       const y = e.clientY;
@@ -74,17 +70,15 @@ export default function CursorEffects() {
         const dx = x - lastX;
         const dy = y - lastY;
         const dist = Math.hypot(dx, dy);
-        // emit a few smoke puffs proportional to movement
-        const count = Math.min(3, 1 + Math.floor(dist / 14));
+        const count = Math.min(2, 1 + Math.floor(dist / 18));
         for (let i = 0; i < count; i++) {
           smoke.push({
-            x: x + (Math.random() - 0.5) * 6,
-            y: y + (Math.random() - 0.5) * 6,
-            vx: dx * 0.02 + (Math.random() - 0.5) * 0.4,
-            vy: dy * 0.02 + (Math.random() - 0.5) * 0.4 - 0.3,
+            x: x + (Math.random() - 0.5) * 4,
+            y: y + (Math.random() - 0.5) * 4,
+            vx: dx * 0.015 + (Math.random() - 0.5) * 0.25,
+            vy: dy * 0.015 + (Math.random() - 0.5) * 0.25 - 0.2,
             life: 1,
-            size: 8 + Math.random() * 14,
-            hue: pickHue(),
+            size: 5 + Math.random() * 8,
           });
         }
       }
@@ -96,90 +90,84 @@ export default function CursorEffects() {
     const onClick = (e: MouseEvent) => {
       const x = e.clientX;
       const y = e.clientY;
-      const hue = pickHue();
-      ripples.push({ x, y, r: 0, life: 1, hue });
-      // firework spark burst
-      const n = 22;
+      ripples.push({ x, y, r: 0, life: 1 });
+      const n = 14;
       for (let i = 0; i < n; i++) {
-        const a = (Math.PI * 2 * i) / n + Math.random() * 0.3;
-        const sp = 2.5 + Math.random() * 3.5;
+        const a = (Math.PI * 2 * i) / n + Math.random() * 0.25;
+        const sp = 1.8 + Math.random() * 2.4;
         sparks.push({
           x,
           y,
           vx: Math.cos(a) * sp,
           vy: Math.sin(a) * sp,
           life: 1,
-          hue: Math.random() < 0.5 ? hue : pickHue(),
         });
       }
     };
 
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.globalCompositeOperation = "lighter";
+      // Normal blending — additive "lighter" blew out to white on silver bg.
+      ctx.globalCompositeOperation = "source-over";
 
-      // smoke
       for (let i = smoke.length - 1; i >= 0; i--) {
         const p = smoke[i];
         p.x += p.vx;
         p.y += p.vy;
-        p.vy -= 0.01; // drift up
-        p.life -= 0.018;
-        p.size += 0.4;
+        p.vy -= 0.008;
+        p.life -= 0.03;
+        p.size += 0.25;
         if (p.life <= 0) {
           smoke.splice(i, 1);
           continue;
         }
         const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
-        const a = p.life * 0.28;
-        g.addColorStop(0, `hsla(${p.hue}, 90%, 65%, ${a})`);
-        g.addColorStop(1, `hsla(${p.hue}, 90%, 65%, 0)`);
+        const a = p.life * 0.14;
+        g.addColorStop(0, `rgba(40, 44, 52, ${a})`);
+        g.addColorStop(1, `rgba(40, 44, 52, 0)`);
         ctx.fillStyle = g;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fill();
       }
 
-      // ripples
       for (let i = ripples.length - 1; i >= 0; i--) {
         const r = ripples[i];
-        r.r += 6;
-        r.life -= 0.04;
+        r.r += 5;
+        r.life -= 0.05;
         if (r.life <= 0) {
           ripples.splice(i, 1);
           continue;
         }
-        ctx.strokeStyle = `hsla(${r.hue}, 95%, 65%, ${r.life * 0.8})`;
-        ctx.lineWidth = 2;
+        ctx.strokeStyle = `rgba(20, 20, 20, ${r.life * 0.35})`;
+        ctx.lineWidth = 1.5;
         ctx.beginPath();
         ctx.arc(r.x, r.y, r.r, 0, Math.PI * 2);
         ctx.stroke();
       }
 
-      // sparks
       for (let i = sparks.length - 1; i >= 0; i--) {
         const s = sparks[i];
         s.x += s.vx;
         s.y += s.vy;
-        s.vy += 0.06; // gravity
+        s.vy += 0.05;
         s.vx *= 0.98;
         s.vy *= 0.98;
-        s.life -= 0.022;
+        s.life -= 0.03;
         if (s.life <= 0) {
           sparks.splice(i, 1);
           continue;
         }
-        ctx.fillStyle = `hsla(${s.hue}, 95%, 65%, ${s.life})`;
+        ctx.fillStyle = `rgba(20, 20, 20, ${s.life * 0.55})`;
         ctx.beginPath();
-        ctx.arc(s.x, s.y, 2.2 * s.life + 0.5, 0, Math.PI * 2);
+        ctx.arc(s.x, s.y, 1.6 * s.life + 0.4, 0, Math.PI * 2);
         ctx.fill();
       }
 
-      ctx.globalCompositeOperation = "source-over";
       raf = requestAnimationFrame(draw);
     };
 
-    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mousemove", onMove, { passive: true });
     window.addEventListener("mousedown", onClick);
     window.addEventListener("resize", resize);
     raf = requestAnimationFrame(draw);
@@ -196,7 +184,7 @@ export default function CursorEffects() {
     <canvas
       ref={canvasRef}
       aria-hidden
-      className="pointer-events-none fixed inset-0 z-[55]"
+      className="pointer-events-none fixed inset-0 z-[55] h-full w-full max-w-none"
     />
   );
 }

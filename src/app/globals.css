@@ -19,16 +19,12 @@
 html {
   scroll-behavior: smooth;
   background-color: var(--bg-silver);
-  /* Prevent a white gutter on the right (html default) forming a ㄱ-shaped band
-     with the sticky header when any child overflows horizontally. */
-  overflow-x: hidden;
 }
 
 body {
   background-color: var(--bg-silver);
   background-image: none;
-  @apply min-h-screen w-full text-black antialiased;
-  overflow-x: hidden;
+  @apply min-h-screen w-full overflow-x-clip text-black antialiased;
 }
 
 ::selection {
