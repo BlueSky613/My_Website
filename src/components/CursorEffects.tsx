@@ -3,10 +3,9 @@
 import { useEffect, useRef } from "react";
 
 // Canvas-based cursor effects (global — mounted from root layout):
-//  - a trail of soft cyan/gold smoke following the pointer
-//  - an expanding ripple + spark burst on click
-// Uses source-over (not additive "lighter") so colors stay vivid on the
-// light silver theme without blooming into white bands.
+//  - a trail of soft "smoke" particles following the pointer
+//  - an expanding ripple + spark burst on click ("fireworks")
+// Restored to the original smoke behavior (billow, drift, additive glow).
 // Disabled on touch devices and when the user prefers reduced motion.
 
 type Smoke = {
@@ -14,7 +13,7 @@ type Smoke = {
   y: number;
   vx: number;
   vy: number;
-  life: number;
+  life: number; // 1 -> 0
   size: number;
   hue: number;
 };
@@ -46,12 +45,10 @@ export default function CursorEffects() {
     let dpr = Math.min(window.devicePixelRatio || 1, 2);
     const resize = () => {
       dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      canvas.width = Math.floor(w * dpr);
-      canvas.height = Math.floor(h * dpr);
-      canvas.style.width = "100%";
-      canvas.style.height = "100%";
+      canvas.width = Math.floor(window.innerWidth * dpr);
+      canvas.height = Math.floor(window.innerHeight * dpr);
+      canvas.style.width = window.innerWidth + "px";
+      canvas.style.height = window.innerHeight + "px";
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
     resize();
@@ -65,7 +62,7 @@ export default function CursorEffects() {
     let moved = false;
     let raf = 0;
 
-    // Cyan ↔ gold — readable on silver without additive blowout.
+    // Palette: cyan -> gold
     const pickHue = () => (Math.random() < 0.5 ? 188 : 42);
 
     const onMove = (e: MouseEvent) => {
@@ -75,15 +72,16 @@ export default function CursorEffects() {
         const dx = x - lastX;
         const dy = y - lastY;
         const dist = Math.hypot(dx, dy);
+        // emit a few smoke puffs proportional to movement
         const count = Math.min(3, 1 + Math.floor(dist / 14));
         for (let i = 0; i < count; i++) {
           smoke.push({
             x: x + (Math.random() - 0.5) * 6,
             y: y + (Math.random() - 0.5) * 6,
-            vx: dx * 0.02 + (Math.random() - 0.5) * 0.35,
-            vy: dy * 0.02 + (Math.random() - 0.5) * 0.35 - 0.25,
+            vx: dx * 0.02 + (Math.random() - 0.5) * 0.4,
+            vy: dy * 0.02 + (Math.random() - 0.5) * 0.4 - 0.3,
             life: 1,
-            size: 7 + Math.random() * 12,
+            size: 8 + Math.random() * 14,
             hue: pickHue(),
           });
         }
@@ -98,10 +96,11 @@ export default function CursorEffects() {
       const y = e.clientY;
       const hue = pickHue();
       ripples.push({ x, y, r: 0, life: 1, hue });
-      const n = 18;
+      // firework spark burst
+      const n = 22;
       for (let i = 0; i < n; i++) {
         const a = (Math.PI * 2 * i) / n + Math.random() * 0.3;
-        const sp = 2.2 + Math.random() * 3;
+        const sp = 2.5 + Math.random() * 3.5;
         sparks.push({
           x,
           y,
@@ -115,51 +114,55 @@ export default function CursorEffects() {
 
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.globalCompositeOperation = "source-over";
+      // Additive blend = soft glowing smoke (original look)
+      ctx.globalCompositeOperation = "lighter";
 
+      // smoke — expands and drifts upward like vapor
       for (let i = smoke.length - 1; i >= 0; i--) {
         const p = smoke[i];
         p.x += p.vx;
         p.y += p.vy;
-        p.vy -= 0.01;
-        p.life -= 0.02;
-        p.size += 0.35;
+        p.vy -= 0.01; // drift up
+        p.vx *= 0.99;
+        p.life -= 0.018;
+        p.size += 0.4;
         if (p.life <= 0) {
           smoke.splice(i, 1);
           continue;
         }
         const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
-        // Mid lightness (~48%) so cyan/gold read on #e4e6ea without washing white.
-        const a = p.life * 0.45;
-        g.addColorStop(0, `hsla(${p.hue}, 85%, 42%, ${a})`);
-        g.addColorStop(0.55, `hsla(${p.hue}, 80%, 48%, ${a * 0.35})`);
-        g.addColorStop(1, `hsla(${p.hue}, 80%, 50%, 0)`);
+        const a = p.life * 0.28;
+        g.addColorStop(0, `hsla(${p.hue}, 90%, 65%, ${a})`);
+        g.addColorStop(0.45, `hsla(${p.hue}, 85%, 60%, ${a * 0.45})`);
+        g.addColorStop(1, `hsla(${p.hue}, 90%, 65%, 0)`);
         ctx.fillStyle = g;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fill();
       }
 
+      // ripples
       for (let i = ripples.length - 1; i >= 0; i--) {
         const r = ripples[i];
-        r.r += 5.5;
+        r.r += 6;
         r.life -= 0.04;
         if (r.life <= 0) {
           ripples.splice(i, 1);
           continue;
         }
-        ctx.strokeStyle = `hsla(${r.hue}, 90%, 40%, ${r.life * 0.7})`;
+        ctx.strokeStyle = `hsla(${r.hue}, 95%, 65%, ${r.life * 0.8})`;
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.arc(r.x, r.y, r.r, 0, Math.PI * 2);
         ctx.stroke();
       }
 
+      // sparks
       for (let i = sparks.length - 1; i >= 0; i--) {
         const s = sparks[i];
         s.x += s.vx;
         s.y += s.vy;
-        s.vy += 0.055;
+        s.vy += 0.06; // gravity
         s.vx *= 0.98;
         s.vy *= 0.98;
         s.life -= 0.022;
@@ -167,12 +170,13 @@ export default function CursorEffects() {
           sparks.splice(i, 1);
           continue;
         }
-        ctx.fillStyle = `hsla(${s.hue}, 92%, 40%, ${s.life * 0.9})`;
+        ctx.fillStyle = `hsla(${s.hue}, 95%, 65%, ${s.life})`;
         ctx.beginPath();
         ctx.arc(s.x, s.y, 2.2 * s.life + 0.5, 0, Math.PI * 2);
         ctx.fill();
       }
 
+      ctx.globalCompositeOperation = "source-over";
       raf = requestAnimationFrame(draw);
     };
 
@@ -193,7 +197,7 @@ export default function CursorEffects() {
     <canvas
       ref={canvasRef}
       aria-hidden
-      className="pointer-events-none fixed inset-0 z-[55] h-full w-full max-w-none"
+      className="pointer-events-none fixed inset-0 z-[55] h-full w-full"
     />
   );
 }
