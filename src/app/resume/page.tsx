@@ -4,7 +4,17 @@ import PageHeader from "@/components/PageHeader";
 import DownloadLink from "@/components/DownloadLink";
 import Reveal from "@/components/Reveal";
 import { site } from "@/lib/site";
-import { cvHref, documents, resumeSummary, skillGroups } from "@/lib/resume";
+import {
+  cvHref,
+  documents,
+  education,
+  experience,
+  resumeHeadline,
+  resumeName,
+  resumeSummary,
+  selectedProjects,
+  skillGroups,
+} from "@/lib/resume";
 
 export const metadata: Metadata = { title: "Resume" };
 
@@ -13,8 +23,8 @@ export default function ResumePage() {
     <>
       <PageHeader
         eyebrow="Resume"
-        title={site.name}
-        description={`${site.role} · ${site.taglines[0]}`}
+        title={resumeName}
+        description={resumeHeadline}
       />
 
       <section className="section">
@@ -22,13 +32,22 @@ export default function ResumePage() {
           {/* Profile + Download */}
           <Reveal>
             <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
-              <div>
-                <p className="text-sm text-ink-muted">{site.location}</p>
+              <div className="space-y-1 text-sm text-ink-muted">
+                <p>{site.location}</p>
                 <a
                   href={`mailto:${site.email}`}
-                  className="mt-1 block text-sm text-ink link-underline"
+                  className="block text-ink link-underline"
                 >
                   {site.email}
+                </a>
+                {site.phone && <p>{site.phone}</p>}
+                <a
+                  href={site.links.linkedin}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="block text-ink link-underline"
+                >
+                  LinkedIn
                 </a>
               </div>
               <DownloadLink href={cvHref} className="btn-primary shrink-0">
@@ -45,13 +64,13 @@ export default function ResumePage() {
             <h2 className="text-xl font-bold text-ink">Summary</h2>
             <div className="mt-4 space-y-4 leading-relaxed text-ink-soft">
               {resumeSummary.map((para) => (
-                <p key={para.slice(0, 40)}>{para}</p>
+                <p key={para.slice(0, 48)}>{para}</p>
               ))}
             </div>
           </Reveal>
 
           {/* Technical Skills */}
-          <Reveal delay={120}>
+          <Reveal delay={100}>
             <h2 className="text-xl font-bold text-ink">Technical Skills</h2>
             <div className="mt-6 grid gap-6 sm:grid-cols-2">
               {skillGroups.map((group) => (
@@ -70,12 +89,64 @@ export default function ResumePage() {
             </div>
           </Reveal>
 
-          {/* Documents */}
+          {/* Experience */}
+          <Reveal delay={120}>
+            <h2 className="text-xl font-bold text-ink">Professional Experience</h2>
+            <div className="mt-6 space-y-10">
+              {experience.map((role) => (
+                <article key={`${role.company}-${role.period}`}>
+                  <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
+                    <h3 className="font-semibold text-ink">{role.company}</h3>
+                    <p className="font-mono text-xs text-ink-muted">{role.period}</p>
+                  </div>
+                  <p className="mt-1 text-sm text-ink-soft">
+                    {role.title}
+                    <span className="text-ink-muted"> · {role.location}</span>
+                  </p>
+                  <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-ink-soft">
+                    {role.bullets.map((b) => (
+                      <li key={b.slice(0, 56)}>{b}</li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
+            </div>
+          </Reveal>
+
+          {/* Selected projects */}
+          <Reveal delay={140}>
+            <h2 className="text-xl font-bold text-ink">Selected Project Experience</h2>
+            <ul className="mt-6 space-y-5">
+              {selectedProjects.map((p) => (
+                <li key={p.title}>
+                  <h3 className="font-semibold text-ink">{p.title}</h3>
+                  <p className="mt-1.5 text-sm leading-relaxed text-ink-soft">{p.body}</p>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+
+          {/* Education */}
           <Reveal delay={160}>
+            <h2 className="text-xl font-bold text-ink">Education</h2>
+            <ul className="mt-6 space-y-5">
+              {education.map((ed) => (
+                <li key={ed.degree}>
+                  <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
+                    <h3 className="font-semibold text-ink">{ed.degree}</h3>
+                    <p className="font-mono text-xs text-ink-muted">{ed.period}</p>
+                  </div>
+                  <p className="mt-1 text-sm text-ink-soft">{ed.school}</p>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+
+          {/* Documents */}
+          <Reveal delay={180}>
             <h2 className="text-xl font-bold text-ink">Documents</h2>
             <p className="mt-2 text-sm text-ink-muted">
-              Detailed experience and project reports are in the PDF downloads.
-              For a full CV, use Download PDF above.
+              Download the full CV PDF for the complete record.
             </p>
             <ul className="mt-6 space-y-3">
               {documents.map((file) => (
