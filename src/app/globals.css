@@ -118,6 +118,57 @@ body {
   .glow-divider {
     @apply h-px w-full bg-gradient-to-r from-transparent via-black/20 to-transparent;
   }
+
+  /* Magnetic pointer: red ring at 1.2× border-2 (2.4px) with red↔yellow aurora. */
+  .cursor-aurora-ring {
+    width: 2rem;
+    height: 2rem;
+  }
+  .cursor-aurora-ring__band,
+  .cursor-aurora-ring__glow {
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    background: conic-gradient(
+      from 0deg,
+      #ef4444 0deg,
+      #facc15 70deg,
+      #ef4444 140deg,
+      #fde047 210deg,
+      #dc2626 280deg,
+      #ef4444 360deg
+    );
+    -webkit-mask: radial-gradient(
+      farthest-side,
+      transparent calc(100% - 2.4px),
+      #000 calc(100% - 2.4px)
+    );
+    mask: radial-gradient(
+      farthest-side,
+      transparent calc(100% - 2.4px),
+      #000 calc(100% - 2.4px)
+    );
+  }
+  .cursor-aurora-ring__band {
+    animation: cursor-aurora-spin 2.8s linear infinite;
+  }
+  .cursor-aurora-ring__glow {
+    filter: blur(3px) saturate(1.35);
+    opacity: 0.85;
+    animation: cursor-aurora-spin 4.2s linear infinite reverse;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cursor-aurora-ring__band,
+    .cursor-aurora-ring__glow {
+      animation: none;
+    }
+  }
+}
+
+@keyframes cursor-aurora-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @layer utilities {
