@@ -1,9 +1,10 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { initials, nav, site } from "@/lib/site";
+import { nav, site } from "@/lib/site";
 import ThemeToggle from "@/components/ThemeToggle";
 
 export default function Navbar() {
@@ -19,17 +20,23 @@ export default function Navbar() {
         <Link
           href="/"
           className="group flex items-center gap-2 font-mono text-sm text-ink"
+          aria-label={`${site.name} home`}
         >
-          <span className="grid h-8 w-8 place-items-center rounded-md bg-ink font-bold text-surface transition group-hover:opacity-90">
-            {initials}
-          </span>
+          <Image
+            src="/images/logo.png"
+            alt={site.name}
+            width={36}
+            height={36}
+            unoptimized
+            priority
+            className="h-9 w-9 rounded-md object-cover transition group-hover:opacity-90"
+          />
           <span className="hidden font-semibold tracking-tight sm:inline">
             {site.name}
           </span>
         </Link>
 
         <div className="flex items-center gap-1 sm:gap-2">
-          {/* Desktop nav */}
           <ul className="hidden items-center gap-1 md:flex">
             {nav.map((item) => (
               <li key={item.href}>
@@ -49,7 +56,6 @@ export default function Navbar() {
 
           <ThemeToggle />
 
-          {/* Mobile toggle */}
           <button
             type="button"
             aria-label="Toggle menu"
