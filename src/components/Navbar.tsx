@@ -15,9 +15,9 @@ export default function Navbar() {
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line/10 bg-surface">
-      <nav className="relative flex h-20 w-full items-center">
-        {/* Brand — pinned to the true left edge of the header */}
+    <header className="sticky top-0 z-50 overflow-visible border-b border-line/10 bg-surface">
+      <nav className="relative flex h-20 w-full items-center overflow-visible">
+        {/* Brand — pinned left; logo may overflow without growing header height */}
         <Link
           href="/"
           className="group absolute left-2 top-1/2 z-10 flex -translate-y-1/2 items-center gap-3 font-mono text-ink sm:left-3"
@@ -26,11 +26,11 @@ export default function Navbar() {
           <Image
             src="/images/logo.png"
             alt=""
-            width={72}
-            height={72}
+            width={144}
+            height={144}
             unoptimized
             priority
-            className="h-[72px] w-[72px] shrink-0 object-contain transition group-hover:opacity-90"
+            className="pointer-events-none h-[144px] w-[144px] shrink-0 object-contain transition group-hover:opacity-90"
           />
           <span className="text-[1.75rem] font-semibold leading-none tracking-tight">
             {site.name}
