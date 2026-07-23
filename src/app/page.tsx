@@ -27,12 +27,11 @@ export default async function HomePage() {
       <section className="relative overflow-hidden">
         <div className="container-content relative py-28 sm:py-36 lg:py-44">
           <div className="max-w-3xl">
-            <div
-              data-tilt
-              className="animate-float rounded-2xl border border-line/10 bg-surface-card px-7 py-8 shadow-sm motion-reduce:animate-none sm:px-9 sm:py-10"
-            >
-              <p className="eyebrow mb-4">Geospatial Solutions by {site.name}</p>
-              <h1 className="text-4xl font-bold leading-tight tracking-tight text-ink sm:text-5xl lg:text-6xl">
+            <div data-tilt className="animate-float motion-reduce:animate-none">
+              <p className="mb-4 font-mono text-xl font-bold uppercase tracking-[0.18em] text-ink sm:text-2xl lg:text-3xl">
+                Geospatial Solutions by {site.name}
+              </p>
+              <h1 className="text-lg font-normal leading-snug tracking-tight text-ink sm:text-2xl lg:text-3xl">
                 <TextReveal as="span" className="block" text={site.taglines[0]} />
                 <TextReveal
                   as="span"
@@ -51,7 +50,7 @@ export default async function HomePage() {
             <Reveal delay={240}>
               <div
                 data-tilt
-                className="animate-float mt-8 inline-flex flex-wrap gap-3 rounded-2xl border border-line/10 bg-surface-card p-3 shadow-sm motion-reduce:animate-none"
+                className="animate-float mt-8 inline-flex flex-wrap gap-3 motion-reduce:animate-none"
                 style={{ animationDelay: "-2.6s" }}
               >
                 <Link href="/projects" className="btn-primary">
