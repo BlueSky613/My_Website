@@ -32,9 +32,6 @@ export default function Navbar() {
             priority
             className="pointer-events-none h-[144px] w-[144px] shrink-0 object-contain transition group-hover:opacity-90"
           />
-          <span className="text-[1.75rem] font-semibold leading-none tracking-tight">
-            {site.name}
-          </span>
         </Link>
 
         {/* Nav + theme — right side, with normal page padding */}
