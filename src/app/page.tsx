@@ -79,7 +79,7 @@ export default async function HomePage() {
           <Reveal>
             <p className="eyebrow mb-3">Expertise</p>
             <h2 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl">
-              GIS Skills &amp; Technologies
+              Skills &amp; Technologies
             </h2>
             <p className="mt-3 max-w-2xl text-ink-soft">
               Specialized in geological mapping, remote sensing, and reproducible
@@ -153,8 +153,9 @@ export default async function HomePage() {
                 Interested in working together?
               </h2>
               <p className="mt-4 max-w-xl text-ink-soft leading-relaxed">
-                I&apos;m always open to discussing GIS projects, mineral exploration
-                collaboration, or opportunities to contribute spatial analysis.
+                Building 3D geological models, remote-sensing workflows, or WebGIS
+                that teams can trust? Let&apos;s connect—I turn complex geoscience into
+                clear, shippable software.
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
                 <a href={`mailto:${site.email}`} className="btn-primary">
