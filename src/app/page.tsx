@@ -28,8 +28,8 @@ export default async function HomePage() {
         <div className="container-content relative py-28 sm:py-36 lg:py-44">
           <div className="max-w-3xl">
             <div data-tilt className="animate-float motion-reduce:animate-none">
-              <p className="mb-4 font-mono text-xl font-bold uppercase tracking-[0.18em] text-ink sm:text-2xl lg:text-3xl">
-                Geospatial Solutions by {site.name}
+              <p className="mb-4 font-mono text-3xl font-extrabold uppercase tracking-[0.12em] text-ink sm:text-4xl lg:text-5xl">
+                Geospatial Solutions by ChunYang Lou
               </p>
               <h1 className="text-lg font-normal leading-snug tracking-tight text-ink sm:text-2xl lg:text-3xl">
                 <TextReveal as="span" className="block" text={site.taglines[0]} />
