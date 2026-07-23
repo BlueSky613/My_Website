@@ -3,20 +3,21 @@
 
 export const site = {
   name: "HoHo",
-  role: "GIS Analyst",
+  role: "Geospatial Software Engineer",
   taglines: [
     "Geospatial Software Engineer | GIS, Remote Sensing & 3D Geological Modeling",
   ],
   intro:
     "Spatial Analysis for Geology, Mineral Exploration and Mapping.",
-  location: "Columbia Falls, MT",
+  location: "New York, NY",
   // Public site URL (Open Graph, metadataBase). Override with NEXT_PUBLIC_SITE_URL if needed.
   url: "https://bluesky613-gis.vercel.app",
   // Email is used for the contact button and form.
-  email: "martinguku37@gmail.com",
+  email: "chunyanglou4@gmail.com",
+  phone: "+1 (406) 380-3324",
   links: {
     github: "https://github.com/BlueSky613",
-    linkedin: "https://www.linkedin.com/", // TODO: replace with your LinkedIn URL
+    linkedin: "https://www.linkedin.com/in/chunyang-lou-03923741a/",
   },
 };
 
