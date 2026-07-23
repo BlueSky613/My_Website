@@ -16,27 +16,29 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-line/10 bg-surface">
-      <nav className="container-content flex h-20 items-center justify-between gap-4">
+      <nav className="relative flex h-20 w-full items-center">
+        {/* Brand — pinned to the true left edge of the header */}
         <Link
           href="/"
-          className="group flex items-center gap-3 font-mono text-ink"
+          className="group absolute left-2 top-1/2 z-10 flex -translate-y-1/2 items-center gap-3 font-mono text-ink sm:left-3"
           aria-label={`${site.name} home`}
         >
           <Image
             src="/images/logo.png"
-            alt={site.name}
+            alt=""
             width={72}
             height={72}
             unoptimized
             priority
-            className="h-[72px] w-[72px] shrink-0 rounded-md object-contain transition group-hover:opacity-90"
+            className="h-[72px] w-[72px] shrink-0 object-contain transition group-hover:opacity-90"
           />
-          <span className="hidden text-[1.75rem] font-semibold leading-none tracking-tight sm:inline">
+          <span className="text-[1.75rem] font-semibold leading-none tracking-tight">
             {site.name}
           </span>
         </Link>
 
-        <div className="flex items-center gap-1 sm:gap-2">
+        {/* Nav + theme — right side, with normal page padding */}
+        <div className="ml-auto flex items-center gap-1 px-5 sm:gap-2 sm:px-8">
           <ul className="hidden items-center gap-1 md:flex">
             {nav.map((item) => (
               <li key={item.href}>
@@ -74,7 +76,7 @@ export default function Navbar() {
       </nav>
 
       {open && (
-        <ul className="container-content flex flex-col gap-1 pb-4 md:hidden">
+        <ul className="flex flex-col gap-1 px-5 pb-4 sm:px-8 md:hidden">
           {nav.map((item) => (
             <li key={item.href}>
               <Link
