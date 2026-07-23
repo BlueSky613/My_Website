@@ -11,7 +11,7 @@ export const site = {
     "3D geological modeling, GIS, remote sensing, and WebGIS — clear geoscience software teams can ship.",
   location: "New York, NY",
   // Public site URL (Open Graph, metadataBase). Override with NEXT_PUBLIC_SITE_URL if needed.
-  url: "https://bluesky613-gis.vercel.app",
+  url: "https://chunyang-lou-geospatial-software-engineer.vercel.app",
   // Email is used for the contact button and form.
   email: "chunyanglou4@gmail.com",
   phone: "+1 (406) 380-3324",

@@ -14,13 +14,28 @@ import { site } from "@/lib/site";
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
 
+const siteTitle = `${site.name} — ${site.role}`;
+
 export const metadata: Metadata = {
   metadataBase: getMetadataBase(),
   title: {
-    default: `${site.name} — ${site.role}`,
+    default: siteTitle,
     template: `%s — ${site.name}`,
   },
   description: site.intro,
+  applicationName: siteTitle,
+  openGraph: {
+    title: siteTitle,
+    description: site.intro,
+    siteName: siteTitle,
+    type: "website",
+    url: site.url,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteTitle,
+    description: site.intro,
+  },
 };
 
 const themeBootScript = `
