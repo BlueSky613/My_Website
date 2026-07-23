@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { site } from "@/lib/site";
 import { featuredProjects, getProject, projects } from "@/lib/projects";
-import { cvHref, expertiseAreas } from "@/lib/resume";
+import { expertiseAreas } from "@/lib/resume";
 import ProjectCard from "@/components/ProjectCard";
 import FeaturedHeroCard from "@/components/FeaturedHeroCard";
 import ContactForm from "@/components/ContactForm";
@@ -165,13 +165,6 @@ export default async function HomePage() {
                 <Link href="/resume" className="btn-ghost">
                   Download Resume
                 </Link>
-                <a
-                  href={cvHref}
-                  className="btn-ghost"
-                  download
-                >
-                  CV PDF
-                </a>
               </div>
             </Reveal>
 
