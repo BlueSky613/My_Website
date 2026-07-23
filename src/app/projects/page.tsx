@@ -10,7 +10,7 @@ export default function ProjectsPage() {
     <>
       <PageHeader
         eyebrow="Projects"
-        title="GIS Projects"
+        title="Projects"
         description="Browse through my collection of GIS and geology projects, including structural analysis, remote sensing and interactive 3D viewers."
       />
 
