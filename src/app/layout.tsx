@@ -23,14 +23,31 @@ export const metadata: Metadata = {
   description: site.intro,
 };
 
+const themeBootScript = `
+(function () {
+  try {
+    var stored = localStorage.getItem("theme");
+    var pref = stored === "light" || stored === "dark" || stored === "system" ? stored : "system";
+    var dark = pref === "dark" || (pref === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
+    document.documentElement.dataset.themePreference = pref;
+  } catch (e) {
+    document.documentElement.setAttribute("data-theme", "light");
+  }
+})();
+`;
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${mono.variable}`}>
-      <body className="flex min-h-screen flex-col">
+    <html lang="en" className={`${inter.variable} ${mono.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
+      </head>
+      <body className="flex min-h-screen flex-col bg-surface text-ink">
         <ViewportProvider />
         <ScrollProgress />
         <AnimatedFavicon />

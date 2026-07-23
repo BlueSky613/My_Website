@@ -9,9 +9,9 @@ export default function ContactPage() {
 
   return (
     <main className="container-content section">
-      <p className="text-sm text-black/70">
+      <p className="text-sm text-ink-soft">
         Redirecting to{" "}
-        <a href="/#contact" className="link-underline text-black">
+        <a href="/#contact" className="link-underline text-ink">
           contact
         </a>
         …

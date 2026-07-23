@@ -30,8 +30,8 @@ export default function ProjectFilters({ projects }: { projects: Project[] }) {
               onClick={() => setActive(cat)}
               className={`rounded-full border px-4 py-1.5 text-sm transition ${
                 selected
-                  ? "border-black bg-black text-white"
-                  : "border-black/20 bg-white/50 text-black hover:border-black/40"
+                  ? "border-ink bg-ink text-surface"
+                  : "border-line/20 bg-surface-card text-ink hover:border-line/40"
               }`}
             >
               {cat}
@@ -49,7 +49,7 @@ export default function ProjectFilters({ projects }: { projects: Project[] }) {
       </div>
 
       {filtered.length === 0 && (
-        <p className="mt-10 text-sm text-black/60">No projects in this category.</p>
+        <p className="mt-10 text-sm text-ink-muted">No projects in this category.</p>
       )}
     </div>
   );

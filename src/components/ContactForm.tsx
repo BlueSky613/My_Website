@@ -40,13 +40,13 @@ export default function ContactForm() {
   }
 
   const field =
-    "w-full rounded-lg border border-black/20 bg-white/70 px-4 py-2.5 text-sm text-black placeholder-black/40 outline-none transition duration-200 hover:border-black/40 focus:border-black focus:ring-1 focus:ring-black/15 focus:bg-white";
+    "w-full rounded-lg border border-line/20 bg-surface-elevated px-4 py-2.5 text-sm text-ink placeholder-ink-muted outline-none transition duration-200 hover:border-line/40 focus:border-ink focus:ring-1 focus:ring-ink/15 focus:bg-surface-elevated";
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="name" className="mb-2 block text-sm text-black">
+          <label htmlFor="name" className="mb-2 block text-sm text-ink">
             Name
           </label>
           <input
@@ -60,7 +60,7 @@ export default function ContactForm() {
           />
         </div>
         <div>
-          <label htmlFor="email" className="mb-2 block text-sm text-black">
+          <label htmlFor="email" className="mb-2 block text-sm text-ink">
             Email
           </label>
           <input
@@ -76,7 +76,7 @@ export default function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor="message" className="mb-2 block text-sm text-black">
+        <label htmlFor="message" className="mb-2 block text-sm text-ink">
           Message
         </label>
         <textarea
@@ -99,7 +99,7 @@ export default function ContactForm() {
       </button>
 
       {status === "sent" && (
-        <p className="text-sm text-black" role="status">
+        <p className="text-sm text-ink" role="status">
           Thanks — your message has been sent. I&apos;ll get back to you soon.
         </p>
       )}
@@ -109,7 +109,7 @@ export default function ContactForm() {
         </p>
       )}
       {status !== "sent" && status !== "error" && (
-        <p className="text-xs text-black/55">
+        <p className="text-xs text-ink-muted">
           Your message is sent directly — no email client required.
         </p>
       )}

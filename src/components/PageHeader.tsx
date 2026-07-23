@@ -11,7 +11,7 @@ export default function PageHeader({
   description?: string;
 }) {
   return (
-    <div className="relative border-b border-black/10">
+    <div className="relative border-b border-line/10">
       <div className="container-content py-14 sm:py-20">
         {eyebrow && (
           <Reveal>
@@ -20,13 +20,13 @@ export default function PageHeader({
         )}
         <TextReveal
           as="h1"
-          className="text-3xl font-bold tracking-tight text-black sm:text-4xl"
+          className="text-3xl font-bold tracking-tight text-ink sm:text-4xl"
           text={title}
           delay={150}
         />
         {description && (
           <Reveal delay={240}>
-            <p className="mt-4 max-w-2xl text-black/75">{description}</p>
+            <p className="mt-4 max-w-2xl text-ink-soft">{description}</p>
           </Reveal>
         )}
       </div>

@@ -6,36 +6,72 @@
   --font-sans: "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-  /* Subtle silver surface */
-  --bg-silver: #e4e6ea;
-  --bg-silver-soft: #eceef1;
-  --bg-silver-deep: #d5d8de;
+  /* Light (default): white background */
+  --bg: 255 255 255;
+  --elevated: 244 244 245;
+  --card: 244 244 245;
+  --fg: 10 10 10;
+  --fg-soft: 38 38 38;
+  --fg-muted: 82 82 82;
+  --border: 0 0 0;
+  --border-alpha: 0.1;
+  --btn-fg: 255 255 255;
+  --btn-bg: 10 10 10;
 
   /* Viewport compatibility thresholds (see src/lib/viewport.ts) */
   --viewport-max-width: 1000px;
   --viewport-max-height: 600px;
 }
 
+/* Dark: deep navy (검은 곤청색) */
+html[data-theme="dark"] {
+  --bg: 10 22 40;
+  --elevated: 16 32 56;
+  --card: 18 36 64;
+  --fg: 238 242 247;
+  --fg-soft: 203 213 225;
+  --fg-muted: 148 163 184;
+  --border: 255 255 255;
+  --border-alpha: 0.12;
+  --btn-fg: 10 22 40;
+  --btn-bg: 238 242 247;
+}
+
 html {
   scroll-behavior: smooth;
-  background-color: var(--bg-silver);
+  background-color: rgb(var(--bg));
+  color-scheme: light;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
 }
 
 body {
-  background-color: var(--bg-silver);
+  background-color: rgb(var(--bg));
   background-image: none;
-  @apply min-h-screen w-full overflow-x-clip text-black antialiased;
+  @apply min-h-screen w-full overflow-x-clip text-ink antialiased;
 }
 
 ::selection {
-  @apply bg-black/15 text-black;
+  background-color: rgb(var(--fg) / 0.15);
+  color: rgb(var(--fg));
 }
 
-/* When the magnetic cursor is active, hide the native cursor everywhere so the
-   custom ring is the pointer. (Only added on non-touch, motion-OK devices.) */
 .has-magnetic-cursor,
 .has-magnetic-cursor * {
   cursor: none !important;
+}
+
+/* Theme toggle icons: show moon in light mode, sun in dark mode */
+.theme-icon-sun {
+  display: none;
+}
+html[data-theme="dark"] .theme-icon-moon {
+  display: none;
+}
+html[data-theme="dark"] .theme-icon-sun {
+  display: block;
 }
 
 @layer components {
@@ -48,13 +84,13 @@ body {
   }
 
   .eyebrow {
-    @apply text-xs font-mono uppercase tracking-[0.25em] text-black/55;
+    @apply text-xs font-mono uppercase tracking-[0.25em] text-ink-muted;
   }
 
   .card {
-    @apply relative rounded-xl border border-black/10 bg-[#eceef1] p-6
+    @apply relative rounded-xl border border-line/10 bg-surface-card p-6
            transition duration-300 ease-out
-           hover:-translate-y-1 hover:border-black/25 hover:bg-[#e8eaee] hover:shadow-md;
+           hover:-translate-y-1 hover:border-line/25 hover:bg-surface-elevated hover:shadow-md;
   }
 
   .btn {
@@ -64,19 +100,23 @@ body {
   }
 
   .btn-primary {
-    @apply btn bg-black text-white
-           hover:bg-black/85;
+    @apply btn;
+    background-color: rgb(var(--btn-bg));
+    color: rgb(var(--btn-fg));
+  }
+  .btn-primary:hover {
+    opacity: 0.9;
   }
 
   .btn-ghost {
-    @apply btn border border-black/30 text-black
-           hover:border-black hover:bg-black/5;
+    @apply btn border border-line/30 text-ink
+           hover:border-line hover:bg-ink/5;
   }
 
   .tag {
-    @apply inline-block rounded-full border border-black/15 bg-[#e4e6ea]
-           px-3 py-1 text-xs font-mono text-black/80 transition duration-200
-           hover:border-black/40 hover:text-black;
+    @apply inline-block rounded-full border border-line/15 bg-surface-elevated
+           px-3 py-1 text-xs font-mono text-ink-soft transition duration-200
+           hover:border-line/40 hover:text-ink;
   }
 
   .link-underline {
@@ -85,7 +125,7 @@ body {
   .link-underline::after {
     content: "";
     @apply absolute -bottom-0.5 left-0 h-px w-full origin-right scale-x-0
-           bg-black transition-transform duration-300 ease-out;
+           bg-ink transition-transform duration-300 ease-out;
   }
   .link-underline:hover::after {
     @apply origin-left scale-x-100;
@@ -97,11 +137,11 @@ body {
 
   .focus-glow {
     @apply outline-none transition duration-200
-           focus:border-black focus:ring-1 focus:ring-black/20;
+           focus:border-ink focus:ring-1 focus:ring-ink/20;
   }
 
   .text-gradient {
-    @apply text-black;
+    @apply text-ink;
   }
   @supports (-webkit-background-clip: text) or (background-clip: text) {
     .text-gradient {
@@ -116,7 +156,7 @@ body {
   }
 
   .glow-divider {
-    @apply h-px w-full bg-gradient-to-r from-transparent via-black/20 to-transparent;
+    @apply h-px w-full bg-gradient-to-r from-transparent via-line/20 to-transparent;
   }
 
   /* Magnetic pointer: red ring at 1.2× border-2 (2.4px) with red↔yellow aurora. */

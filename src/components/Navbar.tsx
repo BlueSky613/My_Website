@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { initials, nav, site } from "@/lib/site";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -13,13 +14,13 @@ export default function Navbar() {
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-black/10 bg-[#e4e6ea]">
-      <nav className="container-content flex h-16 items-center justify-between">
+    <header className="sticky top-0 z-50 border-b border-line/10 bg-surface">
+      <nav className="container-content flex h-16 items-center justify-between gap-4">
         <Link
           href="/"
-          className="group flex items-center gap-2 font-mono text-sm text-black"
+          className="group flex items-center gap-2 font-mono text-sm text-ink"
         >
-          <span className="grid h-8 w-8 place-items-center rounded-md bg-black font-bold text-white transition group-hover:bg-black/85">
+          <span className="grid h-8 w-8 place-items-center rounded-md bg-ink font-bold text-surface transition group-hover:opacity-90">
             {initials}
           </span>
           <span className="hidden font-semibold tracking-tight sm:inline">
@@ -27,42 +28,45 @@ export default function Navbar() {
           </span>
         </Link>
 
-        {/* Desktop nav */}
-        <ul className="hidden items-center gap-1 md:flex">
-          {nav.map((item) => (
-            <li key={item.href}>
-              <Link
-                href={item.href}
-                className={`link-underline rounded-md px-3 py-2 text-sm transition ${
-                  isActive(item.href)
-                    ? "font-semibold text-black"
-                    : "text-black/70 hover:text-black"
-                }`}
-              >
-                {item.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <div className="flex items-center gap-1 sm:gap-2">
+          {/* Desktop nav */}
+          <ul className="hidden items-center gap-1 md:flex">
+            {nav.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className={`link-underline rounded-md px-3 py-2 text-sm transition ${
+                    isActive(item.href)
+                      ? "font-semibold text-ink"
+                      : "text-ink-soft hover:text-ink"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
 
-        {/* Mobile toggle */}
-        <button
-          type="button"
-          aria-label="Toggle menu"
-          onClick={() => setOpen((v) => !v)}
-          className="md:hidden text-black"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            {open ? (
-              <path d="M6 6l12 12M6 18L18 6" strokeLinecap="round" />
-            ) : (
-              <path d="M4 7h16M4 12h16M4 17h16" strokeLinecap="round" />
-            )}
-          </svg>
-        </button>
+          <ThemeToggle />
+
+          {/* Mobile toggle */}
+          <button
+            type="button"
+            aria-label="Toggle menu"
+            onClick={() => setOpen((v) => !v)}
+            className="md:hidden text-ink"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              {open ? (
+                <path d="M6 6l12 12M6 18L18 6" strokeLinecap="round" />
+              ) : (
+                <path d="M4 7h16M4 12h16M4 17h16" strokeLinecap="round" />
+              )}
+            </svg>
+          </button>
+        </div>
       </nav>
 
-      {/* Mobile menu */}
       {open && (
         <ul className="container-content flex flex-col gap-1 pb-4 md:hidden">
           {nav.map((item) => (
@@ -72,8 +76,8 @@ export default function Navbar() {
                 onClick={() => setOpen(false)}
                 className={`block rounded-md px-3 py-2 text-sm transition ${
                   isActive(item.href)
-                    ? "border border-black/20 bg-white/60 font-semibold text-black"
-                    : "text-black/70 hover:bg-black/5 hover:text-black"
+                    ? "border border-line/20 bg-surface-elevated font-semibold text-ink"
+                    : "text-ink-soft hover:bg-ink/5 hover:text-ink"
                 }`}
               >
                 {item.label}

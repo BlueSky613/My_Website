@@ -29,20 +29,20 @@ export default async function HomePage() {
           <div className="max-w-3xl">
             <div
               data-tilt
-              className="animate-float rounded-2xl border border-black/10 bg-[#eceef1] px-7 py-8 shadow-sm motion-reduce:animate-none sm:px-9 sm:py-10"
+              className="animate-float rounded-2xl border border-line/10 bg-surface-card px-7 py-8 shadow-sm motion-reduce:animate-none sm:px-9 sm:py-10"
             >
               <p className="eyebrow mb-4">Geospatial Solutions by {site.name}</p>
-              <h1 className="text-4xl font-bold leading-tight tracking-tight text-black sm:text-5xl lg:text-6xl">
+              <h1 className="text-4xl font-bold leading-tight tracking-tight text-ink sm:text-5xl lg:text-6xl">
                 <TextReveal as="span" className="block" text={site.taglines[0]} />
                 <TextReveal
                   as="span"
-                  className="mt-1 block text-black"
+                  className="mt-1 block text-ink"
                   text={site.taglines[1]}
                   delay={site.taglines[0].split(" ").length * 90}
                 />
               </h1>
               <Reveal delay={120}>
-                <p className="mt-6 max-w-xl text-lg text-black/80">
+                <p className="mt-6 max-w-xl text-lg text-ink-soft">
                   {site.intro}
                 </p>
               </Reveal>
@@ -51,7 +51,7 @@ export default async function HomePage() {
             <Reveal delay={240}>
               <div
                 data-tilt
-                className="animate-float mt-8 inline-flex flex-wrap gap-3 rounded-2xl border border-black/10 bg-[#eceef1] p-3 shadow-sm motion-reduce:animate-none"
+                className="animate-float mt-8 inline-flex flex-wrap gap-3 rounded-2xl border border-line/10 bg-surface-card p-3 shadow-sm motion-reduce:animate-none"
                 style={{ animationDelay: "-2.6s" }}
               >
                 <Link href="/projects" className="btn-primary">
@@ -73,11 +73,11 @@ export default async function HomePage() {
             <Reveal>
               <p className="eyebrow mb-3">Featured Project</p>
               <div className="card max-w-3xl">
-                <h2 className="text-2xl font-bold tracking-tight text-black sm:text-3xl">
+                <h2 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl">
                   {highlight.title}
                 </h2>
-                <p className="mt-2 text-sm text-black/55">{highlight.location}</p>
-                <p className="mt-4 text-black/80 leading-relaxed">
+                <p className="mt-2 text-sm text-ink-muted">{highlight.location}</p>
+                <p className="mt-4 text-ink-soft leading-relaxed">
                   {highlight.summary}
                 </p>
                 <div className="mt-5 flex flex-wrap gap-2">
@@ -107,10 +107,10 @@ export default async function HomePage() {
         <div className="container-content section">
           <Reveal>
             <p className="eyebrow mb-3">Expertise</p>
-            <h2 className="text-2xl font-bold tracking-tight text-black sm:text-3xl">
+            <h2 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl">
               GIS Skills &amp; Technologies
             </h2>
-            <p className="mt-3 max-w-2xl text-black/75">
+            <p className="mt-3 max-w-2xl text-ink-soft">
               Specialized in geological mapping, remote sensing, and reproducible
               spatial analysis for mineral exploration.
             </p>
@@ -120,10 +120,10 @@ export default async function HomePage() {
             {expertiseAreas.map((item, i) => (
               <Reveal key={item.title} delay={i * 120} zoom>
                 <div className="card group h-full">
-                  <h3 className="text-lg font-semibold text-black transition group-hover:text-black/70">
+                  <h3 className="text-lg font-semibold text-ink transition group-hover:text-ink-soft">
                     {item.title}
                   </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-black/75">
+                  <p className="mt-3 text-sm leading-relaxed text-ink-soft">
                     {item.description}
                   </p>
                 </div>
@@ -140,10 +140,10 @@ export default async function HomePage() {
             <div className="flex items-end justify-between gap-4">
               <div>
                 <p className="eyebrow mb-3">Selected Work</p>
-                <h2 className="text-2xl font-bold tracking-tight text-black sm:text-3xl">
+                <h2 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl">
                   Featured Projects
                 </h2>
-                <p className="mt-3 max-w-2xl text-black/75">
+                <p className="mt-3 max-w-2xl text-ink-soft">
                   Explore recent GIS projects spanning structural geology, remote
                   sensing and 3D geological modelling.
                 </p>
@@ -178,10 +178,10 @@ export default async function HomePage() {
           <div className="grid gap-12 md:grid-cols-[1fr_1fr] md:items-start">
             <Reveal from="left">
               <p className="eyebrow mb-3">Get in Touch</p>
-              <h2 className="text-2xl font-bold tracking-tight text-black sm:text-3xl">
+              <h2 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl">
                 Interested in working together?
               </h2>
-              <p className="mt-4 max-w-xl text-black/75 leading-relaxed">
+              <p className="mt-4 max-w-xl text-ink-soft leading-relaxed">
                 I&apos;m always open to discussing GIS projects, mineral exploration
                 collaboration, or opportunities to contribute spatial analysis.
               </p>
@@ -203,7 +203,7 @@ export default async function HomePage() {
             </Reveal>
 
             <Reveal from="right" delay={120}>
-              <div className="rounded-xl border border-black/10 bg-[#eceef1] p-6 shadow-sm">
+              <div className="rounded-xl border border-line/10 bg-surface-card p-6 shadow-sm">
                 <ContactForm />
               </div>
             </Reveal>

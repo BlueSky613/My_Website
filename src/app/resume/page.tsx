@@ -23,10 +23,10 @@ export default function ResumePage() {
           <Reveal>
             <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
               <div>
-                <p className="text-sm text-black/60">{site.location}</p>
+                <p className="text-sm text-ink-muted">{site.location}</p>
                 <a
                   href={`mailto:${site.email}`}
-                  className="mt-1 block text-sm text-black link-underline"
+                  className="mt-1 block text-sm text-ink link-underline"
                 >
                   {site.email}
                 </a>
@@ -42,8 +42,8 @@ export default function ResumePage() {
 
           {/* Summary */}
           <Reveal delay={80}>
-            <h2 className="text-xl font-bold text-black">Summary</h2>
-            <div className="mt-4 space-y-4 leading-relaxed text-black/80">
+            <h2 className="text-xl font-bold text-ink">Summary</h2>
+            <div className="mt-4 space-y-4 leading-relaxed text-ink-soft">
               {resumeSummary.map((para) => (
                 <p key={para.slice(0, 40)}>{para}</p>
               ))}
@@ -52,12 +52,12 @@ export default function ResumePage() {
 
           {/* Technical Skills */}
           <Reveal delay={120}>
-            <h2 className="text-xl font-bold text-black">Technical Skills</h2>
+            <h2 className="text-xl font-bold text-ink">Technical Skills</h2>
             <div className="mt-6 grid gap-6 sm:grid-cols-2">
               {skillGroups.map((group) => (
                 <div key={group.title} className="card">
-                  <h3 className="font-semibold text-black">{group.title}</h3>
-                  <p className="mt-2 text-sm text-black/65">{group.description}</p>
+                  <h3 className="font-semibold text-ink">{group.title}</h3>
+                  <p className="mt-2 text-sm text-ink-muted">{group.description}</p>
                   <ul className="mt-4 flex flex-wrap gap-2">
                     {group.items.map((item) => (
                       <li key={item} className="tag">
@@ -72,8 +72,8 @@ export default function ResumePage() {
 
           {/* Documents */}
           <Reveal delay={160}>
-            <h2 className="text-xl font-bold text-black">Documents</h2>
-            <p className="mt-2 text-sm text-black/65">
+            <h2 className="text-xl font-bold text-ink">Documents</h2>
+            <p className="mt-2 text-sm text-ink-muted">
               Detailed experience and project reports are in the PDF downloads.
               For a full CV, use Download PDF above.
             </p>
@@ -84,17 +84,17 @@ export default function ResumePage() {
                     href={file.href}
                     className="group card flex items-center gap-4"
                   >
-                    <span className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-black text-white">
+                    <span className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-ink text-surface">
                       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" strokeLinejoin="round" />
                         <path d="M14 2v6h6" strokeLinejoin="round" />
                       </svg>
                     </span>
                     <div className="flex-1">
-                      <p className="font-medium text-black group-hover:text-black/70">
+                      <p className="font-medium text-ink group-hover:text-ink-soft">
                         {file.name}
                       </p>
-                      <p className="mt-0.5 text-sm text-black/60">{file.desc}</p>
+                      <p className="mt-0.5 text-sm text-ink-muted">{file.desc}</p>
                     </div>
                   </DownloadLink>
                 </li>
@@ -103,9 +103,9 @@ export default function ResumePage() {
           </Reveal>
 
           <Reveal delay={200}>
-            <p className="text-sm text-black/55">
+            <p className="text-sm text-ink-muted">
               Prefer to talk first?{" "}
-              <Link href="/#contact" className="link-underline text-black">
+              <Link href="/#contact" className="link-underline text-ink">
                 Get in touch
               </Link>
               .

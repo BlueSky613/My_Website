@@ -31,11 +31,11 @@ export default function ProjectDetailPage({
 
   return (
     <>
-      <div className="border-b border-black/10">
+      <div className="border-b border-line/10">
         <div className="container-content py-14 sm:py-20">
           <Link
             href="/projects"
-            className="mb-6 inline-flex items-center gap-1 text-sm text-black/60 hover:text-black"
+            className="mb-6 inline-flex items-center gap-1 text-sm text-ink-muted hover:text-ink"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M19 12H5M11 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
@@ -46,11 +46,11 @@ export default function ProjectDetailPage({
           <p className="eyebrow mb-3">Project {project.number}</p>
           <TextReveal
             as="h1"
-            className="text-3xl font-bold tracking-tight text-black sm:text-4xl"
+            className="text-3xl font-bold tracking-tight text-ink sm:text-4xl"
             text={project.title}
             delay={120}
           />
-          <p className="mt-3 text-black/60">{project.location}</p>
+          <p className="mt-3 text-ink-muted">{project.location}</p>
 
           <div className="mt-6 flex flex-wrap gap-2">
             {project.tags.map((tag) => (
@@ -96,7 +96,7 @@ export default function ProjectDetailPage({
                   <li key={s.heading}>
                     <a
                       href={`#${slugify(s.heading)}`}
-                      className="text-black/60 hover:text-black"
+                      className="text-ink-muted hover:text-ink"
                     >
                       {s.heading}
                     </a>
@@ -114,11 +114,11 @@ export default function ProjectDetailPage({
                 className="scroll-mt-24"
               >
                 <div id={slugify(s.heading)} className="scroll-mt-24">
-                  <h2 className="flex items-center gap-3 text-xl font-bold text-black">
+                  <h2 className="flex items-center gap-3 text-xl font-bold text-ink">
                     <span className="h-5 w-1 rounded-full bg-black" />
                     {s.heading}
                   </h2>
-                  <div className="mt-4 space-y-4 leading-relaxed text-black/80">
+                  <div className="mt-4 space-y-4 leading-relaxed text-ink-soft">
                     {s.body.map((para, i) => (
                       <p key={i}>{para}</p>
                     ))}
@@ -128,7 +128,7 @@ export default function ProjectDetailPage({
                       {s.bullets.map((b) => (
                         <li
                           key={b}
-                          className="flex items-start gap-2 text-sm text-black/80"
+                          className="flex items-start gap-2 text-sm text-ink-soft"
                         >
                           <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-black" />
                           {b}
@@ -141,14 +141,14 @@ export default function ProjectDetailPage({
             ))}
 
             {project.downloads && project.downloads.length > 0 && (
-              <div id="downloads" className="scroll-mt-24 border-t border-black/10 pt-10">
-                <h2 className="text-xl font-bold text-black">Downloads</h2>
+              <div id="downloads" className="scroll-mt-24 border-t border-line/10 pt-10">
+                <h2 className="text-xl font-bold text-ink">Downloads</h2>
                 <ul className="mt-4 space-y-3">
                   {project.downloads.map((dl) => (
                     <li key={dl.href}>
                       <DownloadLink
                         href={dl.href}
-                        className="inline-flex items-center gap-2 text-sm text-black hover:text-black/70"
+                        className="inline-flex items-center gap-2 text-sm text-ink hover:text-ink-soft"
                       >
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                           <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" strokeLinecap="round" strokeLinejoin="round" />

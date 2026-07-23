@@ -23,6 +23,18 @@ const config: Config = {
     },
     extend: {
       colors: {
+        // Theme tokens (light / dark via data-theme CSS variables)
+        ink: {
+          DEFAULT: "rgb(var(--fg) / <alpha-value>)",
+          soft: "rgb(var(--fg-soft) / <alpha-value>)",
+          muted: "rgb(var(--fg-muted) / <alpha-value>)",
+        },
+        surface: {
+          DEFAULT: "rgb(var(--bg) / <alpha-value>)",
+          card: "rgb(var(--card) / <alpha-value>)",
+          elevated: "rgb(var(--elevated) / <alpha-value>)",
+        },
+        line: "rgb(var(--border) / <alpha-value>)",
         // Earthy / geological palette
         rock: {
           50: "#f6f5f3",

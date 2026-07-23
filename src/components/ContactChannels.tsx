@@ -18,7 +18,7 @@ export default function ContactChannels({ channels }: { channels: Channel[] }) {
         const isActive = c.label === activeLabel;
         return (
           <li key={c.label}>
-            <p className="text-xs font-mono uppercase tracking-wider text-black/50">
+            <p className="text-xs font-mono uppercase tracking-wider text-ink-muted">
               {c.label}
             </p>
             <a
@@ -26,8 +26,8 @@ export default function ContactChannels({ channels }: { channels: Channel[] }) {
               target={c.href.startsWith("http") ? "_blank" : undefined}
               rel="noreferrer"
               onClick={() => setActiveLabel(c.label)}
-              className={`mt-1 block text-sm break-words transition-colors hover:text-black/70 ${
-                isActive ? "font-semibold text-black" : "text-black"
+              className={`mt-1 block text-sm break-words transition-colors hover:text-ink-soft ${
+                isActive ? "font-semibold text-ink" : "text-ink"
               }`}
             >
               {c.value}
