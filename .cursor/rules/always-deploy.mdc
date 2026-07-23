@@ -11,16 +11,16 @@ Whenever you finish making code or content changes in this project:
 2. Push to `origin` on the current branch (usually `main`) so Vercel production redeploys.
 3. Wait until the newest deployment is **Ready**.
 4. **Mandatory verification** — fetch the real production URL and confirm the new HTML is live:
-   - Primary URL: https://bluesky613-gis.vercel.app
+   - Primary URL: https://hoho-geospatial-software-engineer.vercel.app
    - Check for expected markers (e.g. a unique class/string from the change) AND absence of removed content.
-5. If `bluesky613-gis.vercel.app` still serves an old build while a newer deployment is Ready, immediately re-point the alias:
+5. If `hoho-geospatial-software-engineer.vercel.app` still serves an old build while a newer deployment is Ready, immediately re-point the alias:
    ```bash
-   npx vercel alias set <latest-deployment-url> bluesky613-gis.vercel.app
+   npx vercel alias set <latest-deployment-url> hoho-geospatial-software-engineer.vercel.app
    ```
    Then re-fetch and confirm.
 6. Report the verified live URL only after step 4/5 succeeds.
 
-Known pitfall: Git push can update a deployment whose production alias is `martin-guthrie-gis-rust.vercel.app` while `bluesky613-gis.vercel.app` stays stuck on an older deployment. Always verify the primary domain, not just "Ready" status.
+Known pitfall: Git push can update a deployment whose production alias is `martin-guthrie-gis-rust.vercel.app` while `hoho-geospatial-software-engineer.vercel.app` stays stuck on an older deployment. Always verify the primary domain, not just "Ready" status. Prefer `npx vercel --prod` then explicitly alias the returned Production URL when needed.
 
 Do not leave local-only changes undeployed after a completed task.
 If git ownership/safe.directory blocks commands, use `git -c safe.directory=<repo-path> ...` per command — do not change global git config.
