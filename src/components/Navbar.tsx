@@ -17,10 +17,10 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 overflow-visible border-b border-line/10 bg-surface">
       <nav className="relative flex h-20 w-full items-center overflow-visible">
-        {/* Brand — pinned left; logo may overflow without growing header height */}
+        {/* Brand — straddles header/body boundary; header height stays fixed */}
         <Link
           href="/"
-          className="group absolute left-2 top-1/2 z-10 flex -translate-y-1/2 items-center gap-3 font-mono text-ink sm:left-3"
+          className="group absolute left-2 top-full z-10 flex -translate-y-1/2 items-center gap-3 font-mono text-ink sm:left-3"
           aria-label={`${site.name} home`}
         >
           <Image
