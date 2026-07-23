@@ -14,9 +14,11 @@
   --fg-soft: 38 38 38;
   --fg-muted: 82 82 82;
   --border: 0 0 0;
-  --border-alpha: 0.1;
   --btn-fg: 255 255 255;
   --btn-bg: 10 10 10;
+
+  /* Cursor ring stroke (grows inward). Was 2.4px; ×1.2 → 2.88px */
+  --cursor-ring-thickness: 2.88px;
 
   /* Viewport compatibility thresholds (see src/lib/viewport.ts) */
   --viewport-max-width: 1000px;
@@ -32,7 +34,6 @@ html[data-theme="dark"] {
   --fg-soft: 203 213 225;
   --fg-muted: 148 163 184;
   --border: 255 255 255;
-  --border-alpha: 0.12;
   --btn-fg: 10 22 40;
   --btn-bg: 238 242 247;
 }
@@ -48,9 +49,14 @@ html[data-theme="dark"] {
 }
 
 body {
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: clip;
   background-color: rgb(var(--bg));
   background-image: none;
-  @apply min-h-screen w-full overflow-x-clip text-ink antialiased;
+  color: rgb(var(--fg));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 ::selection {
@@ -83,14 +89,20 @@ html[data-theme="dark"] .theme-icon-sun {
     @apply py-16 sm:py-24;
   }
 
+  /* Theme tokens use raw CSS — @apply cannot resolve ink/surface/line here. */
   .eyebrow {
-    @apply text-xs font-mono uppercase tracking-[0.25em] text-ink-muted;
+    @apply text-xs font-mono uppercase tracking-[0.25em];
+    color: rgb(var(--fg-muted));
   }
 
   .card {
-    @apply relative rounded-xl border border-line/10 bg-surface-card p-6
-           transition duration-300 ease-out
-           hover:-translate-y-1 hover:border-line/25 hover:bg-surface-elevated hover:shadow-md;
+    @apply relative rounded-xl p-6 transition duration-300 ease-out hover:-translate-y-1 hover:shadow-md;
+    border: 1px solid rgb(var(--border) / 0.1);
+    background-color: rgb(var(--card));
+  }
+  .card:hover {
+    border-color: rgb(var(--border) / 0.25);
+    background-color: rgb(var(--elevated));
   }
 
   .btn {
@@ -109,14 +121,24 @@ html[data-theme="dark"] .theme-icon-sun {
   }
 
   .btn-ghost {
-    @apply btn border border-line/30 text-ink
-           hover:border-line hover:bg-ink/5;
+    @apply btn;
+    border: 1px solid rgb(var(--border) / 0.3);
+    color: rgb(var(--fg));
+  }
+  .btn-ghost:hover {
+    border-color: rgb(var(--border) / 1);
+    background-color: rgb(var(--fg) / 0.05);
   }
 
   .tag {
-    @apply inline-block rounded-full border border-line/15 bg-surface-elevated
-           px-3 py-1 text-xs font-mono text-ink-soft transition duration-200
-           hover:border-line/40 hover:text-ink;
+    @apply inline-block rounded-full px-3 py-1 text-xs font-mono transition duration-200;
+    border: 1px solid rgb(var(--border) / 0.15);
+    background-color: rgb(var(--elevated));
+    color: rgb(var(--fg-soft));
+  }
+  .tag:hover {
+    border-color: rgb(var(--border) / 0.4);
+    color: rgb(var(--fg));
   }
 
   .link-underline {
@@ -124,8 +146,8 @@ html[data-theme="dark"] .theme-icon-sun {
   }
   .link-underline::after {
     content: "";
-    @apply absolute -bottom-0.5 left-0 h-px w-full origin-right scale-x-0
-           bg-ink transition-transform duration-300 ease-out;
+    @apply absolute -bottom-0.5 left-0 h-px w-full origin-right scale-x-0 transition-transform duration-300 ease-out;
+    background-color: rgb(var(--fg));
   }
   .link-underline:hover::after {
     @apply origin-left scale-x-100;
@@ -136,12 +158,15 @@ html[data-theme="dark"] .theme-icon-sun {
   }
 
   .focus-glow {
-    @apply outline-none transition duration-200
-           focus:border-ink focus:ring-1 focus:ring-ink/20;
+    @apply outline-none transition duration-200;
+  }
+  .focus-glow:focus {
+    border-color: rgb(var(--fg));
+    box-shadow: 0 0 0 1px rgb(var(--fg) / 0.2);
   }
 
   .text-gradient {
-    @apply text-ink;
+    color: rgb(var(--fg));
   }
   @supports (-webkit-background-clip: text) or (background-clip: text) {
     .text-gradient {
@@ -156,10 +181,16 @@ html[data-theme="dark"] .theme-icon-sun {
   }
 
   .glow-divider {
-    @apply h-px w-full bg-gradient-to-r from-transparent via-line/20 to-transparent;
+    @apply h-px w-full;
+    background-image: linear-gradient(
+      to right,
+      transparent,
+      rgb(var(--border) / 0.2),
+      transparent
+    );
   }
 
-  /* Magnetic pointer: red ring at 1.2× border-2 (2.4px) with red↔yellow aurora. */
+  /* Magnetic pointer: thicker ring (inward) + red↔yellow aurora */
   .cursor-aurora-ring {
     width: 2rem;
     height: 2rem;
@@ -180,13 +211,13 @@ html[data-theme="dark"] .theme-icon-sun {
     );
     -webkit-mask: radial-gradient(
       farthest-side,
-      transparent calc(100% - 2.4px),
-      #000 calc(100% - 2.4px)
+      transparent calc(100% - var(--cursor-ring-thickness)),
+      #000 calc(100% - var(--cursor-ring-thickness))
     );
     mask: radial-gradient(
       farthest-side,
-      transparent calc(100% - 2.4px),
-      #000 calc(100% - 2.4px)
+      transparent calc(100% - var(--cursor-ring-thickness)),
+      #000 calc(100% - var(--cursor-ring-thickness))
     );
   }
   .cursor-aurora-ring__band {
