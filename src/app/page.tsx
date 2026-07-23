@@ -122,9 +122,9 @@ export default async function HomePage() {
             </div>
           </Reveal>
 
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid auto-rows-fr gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {featuredList.map((project, i) => (
-              <Reveal key={project.slug} delay={i * 120} zoom>
+              <Reveal key={project.slug} delay={i * 120} zoom className="h-full">
                 <ProjectCard project={project} />
               </Reveal>
             ))}

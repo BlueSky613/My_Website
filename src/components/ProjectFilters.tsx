@@ -40,9 +40,9 @@ export default function ProjectFilters({ projects }: { projects: Project[] }) {
         })}
       </div>
 
-      <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-10 grid auto-rows-fr gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {filtered.map((project, i) => (
-          <Reveal key={project.slug} delay={i * 80} zoom>
+          <Reveal key={project.slug} delay={i * 80} zoom className="h-full">
             <ProjectCard project={project} />
           </Reveal>
         ))}

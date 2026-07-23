@@ -32,7 +32,7 @@ export default function ProjectCard({ project }: { project: Project }) {
         ))}
       </div>
 
-      <span className="mt-6 inline-flex items-center gap-1 text-sm font-medium text-ink">
+      <span className="mt-auto inline-flex items-center gap-1 pt-6 text-sm font-medium text-ink">
         {cta}
         {isExternal ? (
           <svg
@@ -79,7 +79,7 @@ export default function ProjectCard({ project }: { project: Project }) {
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className="group card flex flex-col"
+        className="group card flex h-full flex-col"
       >
         {body}
       </a>
@@ -87,7 +87,7 @@ export default function ProjectCard({ project }: { project: Project }) {
   }
 
   return (
-    <Link href={href} className="group card flex flex-col">
+    <Link href={href} className="group card flex h-full flex-col">
       {body}
     </Link>
   );
