@@ -19,7 +19,7 @@ export default function Navbar() {
       <nav className="container-content flex h-20 items-center justify-between gap-4">
         <Link
           href="/"
-          className="group flex items-center gap-2 font-mono text-sm text-ink"
+          className="group flex items-center gap-3 font-mono text-ink"
           aria-label={`${site.name} home`}
         >
           <Image
@@ -29,9 +29,9 @@ export default function Navbar() {
             height={72}
             unoptimized
             priority
-            className="h-[72px] w-[72px] rounded-md object-cover transition group-hover:opacity-90"
+            className="h-[72px] w-[72px] shrink-0 rounded-md object-contain transition group-hover:opacity-90"
           />
-          <span className="hidden font-semibold tracking-tight sm:inline">
+          <span className="hidden text-[1.75rem] font-semibold leading-none tracking-tight sm:inline">
             {site.name}
           </span>
         </Link>
