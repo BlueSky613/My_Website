@@ -5,8 +5,7 @@ export const site = {
   name: "HoHo",
   role: "GIS Analyst",
   taglines: [
-    "Geological Mapping Specialist",
-    "Remote Sensing & Spatial Analysis",
+    "Geospatial Software Engineer | GIS, Remote Sensing & 3D Geological Modeling",
   ],
   intro:
     "Spatial Analysis for Geology, Mineral Exploration and Mapping.",

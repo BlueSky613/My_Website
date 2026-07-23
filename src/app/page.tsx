@@ -33,12 +33,6 @@ export default async function HomePage() {
               </p>
               <h1 className="text-lg font-normal leading-snug tracking-tight text-ink sm:text-2xl lg:text-3xl">
                 <TextReveal as="span" className="block" text={site.taglines[0]} />
-                <TextReveal
-                  as="span"
-                  className="mt-1 block text-ink"
-                  text={site.taglines[1]}
-                  delay={site.taglines[0].split(" ").length * 90}
-                />
               </h1>
               <Reveal delay={120}>
                 <p className="mt-6 max-w-xl text-lg text-ink-soft">
