@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { site } from "@/lib/site";
-import { featuredProjects, projects } from "@/lib/projects";
+import { featuredProjects, getProject, projects } from "@/lib/projects";
 import { cvHref, expertiseAreas } from "@/lib/resume";
 import ProjectCard from "@/components/ProjectCard";
 import FeaturedHeroCard from "@/components/FeaturedHeroCard";
@@ -11,8 +11,11 @@ import { recordHomeVisitIfNeeded } from "@/lib/record-home-visit";
 export default async function HomePage() {
   await recordHomeVisitIfNeeded();
 
+  // Hero card shows the Illinois Basin / IBDP model matching the block graphic
   const highlight =
-    (featuredProjects.length ? featuredProjects : projects)[0] ?? null;
+    getProject("ibdp-geological-model-viewer") ??
+    (featuredProjects.length ? featuredProjects : projects)[0] ??
+    null;
   const featuredList = (featuredProjects.length ? featuredProjects : projects).slice(
     0,
     3,
