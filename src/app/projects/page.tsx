@@ -11,7 +11,7 @@ export default function ProjectsPage() {
       <PageHeader
         eyebrow="Projects"
         title="Projects"
-        description="Browse through my collection of GIS and geology projects, including structural analysis, remote sensing and interactive 3D viewers."
+        description="Structural analysis, remote sensing, and interactive 3D geological viewers from applied geospatial software work."
       />
 
       <section className="section">

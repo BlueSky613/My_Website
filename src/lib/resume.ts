@@ -1,6 +1,8 @@
 // Resume content summarized from chunyang.pdf (ChunYang Lou CV).
 
-export const resumeName = "ChunYang Lou";
+import { site } from "@/lib/site";
+
+export const resumeName = site.name;
 
 export const resumeHeadline =
   "Geospatial Software Engineer | GIS, Remote Sensing & 3D Geological Modeling";

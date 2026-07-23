@@ -82,8 +82,9 @@ export default async function HomePage() {
               Skills &amp; Technologies
             </h2>
             <p className="mt-3 max-w-2xl text-ink-soft">
-              Specialized in geological mapping, remote sensing, and reproducible
-              spatial analysis for mineral exploration.
+              3D geological modeling, GIS &amp; spatial analysis, and remote
+              sensing &amp; terrain — tools and workflows from applied geoscience
+              software engineering.
             </p>
           </Reveal>
 
@@ -115,8 +116,8 @@ export default async function HomePage() {
                   Featured Projects
                 </h2>
                 <p className="mt-3 max-w-2xl text-ink-soft">
-                  Explore recent GIS projects spanning structural geology, remote
-                  sensing and 3D geological modelling.
+                  Selected work spanning structural analysis, remote sensing, and
+                  interactive 3D geological viewers.
                 </p>
               </div>
             </div>

@@ -2,16 +2,16 @@
 // Edit values here to update your name, links, and contact details everywhere.
 
 export const site = {
-  name: "HoHo",
+  name: "ChunYang Lou",
   role: "Geospatial Software Engineer",
   taglines: [
     "Geospatial Software Engineer | GIS, Remote Sensing & 3D Geological Modeling",
   ],
   intro:
-    "Spatial Analysis for Geology, Mineral Exploration and Mapping.",
+    "3D geological modeling, GIS, remote sensing, and WebGIS — clear geoscience software teams can ship.",
   location: "New York, NY",
   // Public site URL (Open Graph, metadataBase). Override with NEXT_PUBLIC_SITE_URL if needed.
-  url: "https://hoho-geospatial-software-engineer.vercel.app",
+  url: "https://bluesky613-gis.vercel.app",
   // Email is used for the contact button and form.
   email: "chunyanglou4@gmail.com",
   phone: "+1 (406) 380-3324",
@@ -21,7 +21,7 @@ export const site = {
   },
 };
 
-// Two-letter monogram from the name, e.g. "Alexandros Martin" -> "AM".
+// Two-letter monogram from the name, e.g. "ChunYang Lou" -> "CL".
 export const initials = site.name
   .split(/\s+/)
   .map((w) => w[0])
