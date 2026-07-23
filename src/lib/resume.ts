@@ -38,22 +38,22 @@ export const skillGroups = [
   },
 ];
 
-/** Compact expertise cards for the home page (jugangill-style). */
+/** Compact expertise cards for the home page (from chunyang.pdf Technical Skills). */
 export const expertiseAreas = [
   {
-    title: "Geological Mapping",
+    title: "3D Geological Modeling",
     description:
-      "Lithological and structural mapping using QGIS, ArcGIS and field-ready GIS workflows.",
+      "SKUA-GOCAD, Leapfrog Geo, Petrel and Move — implicit surfaces, lithological domains, fault/stratigraphy surfaces, cross-sections and fence diagrams.",
   },
   {
-    title: "Remote Sensing",
+    title: "GIS & Spatial Analysis",
     description:
-      "Sentinel-2 and Landsat band ratios, DEM/terrain analysis and alteration mapping.",
+      "ArcGIS Pro, ArcMap, QGIS and ArcGIS Online — cartography, georeferencing, coordinate systems, spatial joins, overlay analysis and topology QA/QC.",
   },
   {
-    title: "Spatial Automation",
+    title: "Remote Sensing & Terrain",
     description:
-      "Reproducible Python (GeoPandas, GDAL) and PostGIS pipelines for repeatable analysis.",
+      "ENVI, ERDAS Imagine, satellite and aerial imagery, LiDAR, DEM/DSM, hillshade, slope, DEM-of-Difference and change detection.",
   },
 ];
 
