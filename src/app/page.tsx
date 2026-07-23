@@ -3,6 +3,7 @@ import { site } from "@/lib/site";
 import { featuredProjects, projects } from "@/lib/projects";
 import { cvHref, expertiseAreas } from "@/lib/resume";
 import ProjectCard from "@/components/ProjectCard";
+import FeaturedHeroCard from "@/components/FeaturedHeroCard";
 import ContactForm from "@/components/ContactForm";
 import Reveal from "@/components/Reveal";
 import { recordHomeVisitIfNeeded } from "@/lib/record-home-visit";
@@ -16,16 +17,12 @@ export default async function HomePage() {
     0,
     3,
   );
-  const highlightHref = highlight
-    ? highlight.externalUrl ?? `/projects/${highlight.slug}`
-    : "/projects";
-
   return (
     <>
-      {/* Hero */}
+      {/* Hero — copy left, featured card right */}
       <section className="relative overflow-hidden">
         <div className="container-content relative py-28 sm:py-36 lg:py-44">
-          <div className="max-w-6xl">
+          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
             <div className="flex flex-col items-start">
               <p className="font-mono text-[2.8125rem] font-black uppercase leading-none tracking-[0.06em] text-ink sm:text-[3.375rem] lg:text-[4.5rem]">
                 <span className="flex items-end whitespace-nowrap">
@@ -35,69 +32,39 @@ export default async function HomePage() {
                 <span className="mt-[0.35em] block leading-none">Solutions by</span>
                 <span className="mt-[0.35em] block leading-none">ChunYang Lou</span>
               </p>
-              <h1 className="mt-[0.8em] max-w-3xl text-lg font-normal leading-snug tracking-tight text-ink sm:text-2xl lg:text-3xl">
+              <h1 className="mt-[0.8em] max-w-xl text-lg font-normal leading-snug tracking-tight text-ink sm:text-2xl lg:text-3xl">
                 {site.taglines[0]}
               </h1>
               <Reveal delay={120}>
-                <p className="mt-[0.6em] max-w-3xl text-lg leading-snug text-ink-soft">
+                <p className="mt-[0.6em] max-w-xl text-lg leading-snug text-ink-soft">
                   {site.intro}
                 </p>
               </Reveal>
+
+              <Reveal delay={240}>
+                <div
+                  data-tilt
+                  className="animate-float mt-8 inline-flex flex-wrap gap-3 motion-reduce:animate-none"
+                  style={{ animationDelay: "-2.6s" }}
+                >
+                  <Link href="/projects" className="btn-primary">
+                    View Projects
+                  </Link>
+                  <Link href="/resume" className="btn-ghost">
+                    Resume
+                  </Link>
+                </div>
+              </Reveal>
             </div>
 
-            <Reveal delay={240}>
-              <div
-                data-tilt
-                className="animate-float mt-8 inline-flex flex-wrap gap-3 motion-reduce:animate-none"
-                style={{ animationDelay: "-2.6s" }}
-              >
-                <Link href="/projects" className="btn-primary">
-                  View Projects
-                </Link>
-                <Link href="/resume" className="btn-ghost">
-                  Resume
-                </Link>
-              </div>
-            </Reveal>
+            {highlight && (
+              <Reveal delay={160} className="w-full lg:justify-self-end">
+                <FeaturedHeroCard project={highlight} />
+              </Reveal>
+            )}
           </div>
         </div>
       </section>
-
-      {/* Featured Project (single highlight) */}
-      {highlight && (
-        <section className="relative overflow-hidden">
-          <div className="container-content section">
-            <Reveal>
-              <p className="eyebrow mb-3">Featured Project</p>
-              <div className="card max-w-3xl">
-                <h2 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl">
-                  {highlight.title}
-                </h2>
-                <p className="mt-2 text-sm text-ink-muted">{highlight.location}</p>
-                <p className="mt-4 text-ink-soft leading-relaxed">
-                  {highlight.summary}
-                </p>
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {highlight.tags.map((tag) => (
-                    <span key={tag} className="tag">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <Link
-                  href={highlightHref}
-                  {...(highlight.externalUrl
-                    ? { target: "_blank", rel: "noopener noreferrer" }
-                    : {})}
-                  className="btn-primary mt-8"
-                >
-                  {highlight.externalUrl ? "Open live viewer" : "View project"}
-                </Link>
-              </div>
-            </Reveal>
-          </div>
-        </section>
-      )}
 
       {/* Expertise / GIS Skills */}
       <section className="relative overflow-hidden">
