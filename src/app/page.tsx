@@ -28,11 +28,9 @@ export default async function HomePage() {
         <div className="container-content relative py-28 sm:py-36 lg:py-44">
           <div className="max-w-3xl">
             <div data-tilt className="animate-float motion-reduce:animate-none">
-              <p className="mb-4 font-mono text-[2.8125rem] font-black uppercase leading-none tracking-[0.12em] text-ink sm:text-[3.375rem] lg:text-[4.5rem]">
-                <span className="inline-block align-[-0.2em] text-[2em] font-black leading-none">
-                  G
-                </span>
-                eospatial Solutions by ChunYang Lou
+              <p className="mb-4 flex flex-wrap items-baseline font-mono text-[2.8125rem] font-black uppercase leading-none tracking-[0.12em] text-ink sm:text-[3.375rem] lg:text-[4.5rem]">
+                <span className="text-[2em] font-black leading-none">G</span>
+                <span className="leading-none">eospatial Solutions by ChunYang Lou</span>
               </p>
               <h1 className="text-lg font-normal leading-snug tracking-tight text-ink sm:text-2xl lg:text-3xl">
                 <TextReveal as="span" className="block" text={site.taglines[0]} />
