@@ -126,6 +126,18 @@ export const projects: Project[] = [
     featured: true,
     externalUrl: "https://mount-brockman.vercel.app/",
   },
+  {
+    slug: "ibdp-geological-model-viewer",
+    number: "04",
+    title: "IBDP Geological Model Viewer",
+    location: "Illinois Basin — Decatur Project, USA",
+    category: "3D Geological Modelling",
+    summary:
+      "Interactive web viewer for the Illinois Basin–Decatur Project (IBDP) CCS geological model — 11 stratigraphic units, 28 faults, CCS1 well, N–S/E–W sections, lithology/porosity colouring, LOD meshes, and provenance validation (NAD27 Illinois East).",
+    tags: ["VTK.js", "CCS", "3D Geology", "WebGL", "IBDP", "ISGS"],
+    featured: false,
+    externalUrl: "https://illinoisbasin-model.vercel.app/",
+  },
 ];
 
 export function getProject(slug: string): Project | undefined {
