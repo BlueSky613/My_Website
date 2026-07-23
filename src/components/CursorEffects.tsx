@@ -2,9 +2,9 @@
 
 import { useEffect, useRef } from "react";
 
-// Canvas-based cursor effects (global — mounted from root layout):
-//  - a trail of soft black circles following the pointer (smoke-like)
-//  - expanding black ring + circle burst on click
+// Canvas-based cursor trail (global — mounted from root layout):
+//  - original cyan/gold additive smoke following the pointer
+//  - expanding ripple + spark burst on click
 // Disabled on touch devices and when the user prefers reduced motion.
 
 type Smoke = {
@@ -14,6 +14,7 @@ type Smoke = {
   vy: number;
   life: number;
   size: number;
+  hue: number;
 };
 
 type Spark = {
@@ -22,9 +23,10 @@ type Spark = {
   vx: number;
   vy: number;
   life: number;
+  hue: number;
 };
 
-type Ripple = { x: number; y: number; r: number; life: number };
+type Ripple = { x: number; y: number; r: number; life: number; hue: number };
 
 export default function CursorEffects() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -59,6 +61,8 @@ export default function CursorEffects() {
     let moved = false;
     let raf = 0;
 
+    const pickHue = () => (Math.random() < 0.5 ? 188 : 42);
+
     const onMove = (e: MouseEvent) => {
       const x = e.clientX;
       const y = e.clientY;
@@ -75,6 +79,7 @@ export default function CursorEffects() {
             vy: dy * 0.02 + (Math.random() - 0.5) * 0.4 - 0.3,
             life: 1,
             size: 8 + Math.random() * 14,
+            hue: pickHue(),
           });
         }
       }
@@ -86,7 +91,8 @@ export default function CursorEffects() {
     const onClick = (e: MouseEvent) => {
       const x = e.clientX;
       const y = e.clientY;
-      ripples.push({ x, y, r: 0, life: 1 });
+      const hue = pickHue();
+      ripples.push({ x, y, r: 0, life: 1, hue });
       const n = 22;
       for (let i = 0; i < n; i++) {
         const a = (Math.PI * 2 * i) / n + Math.random() * 0.3;
@@ -97,15 +103,15 @@ export default function CursorEffects() {
           vx: Math.cos(a) * sp,
           vy: Math.sin(a) * sp,
           life: 1,
+          hue: Math.random() < 0.5 ? hue : pickHue(),
         });
       }
     };
 
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.globalCompositeOperation = "source-over";
+      ctx.globalCompositeOperation = "lighter";
 
-      // Soft black circles that expand and drift like smoke
       for (let i = smoke.length - 1; i >= 0; i--) {
         const p = smoke[i];
         p.x += p.vx;
@@ -119,10 +125,10 @@ export default function CursorEffects() {
           continue;
         }
         const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
-        const a = p.life * 0.35;
-        g.addColorStop(0, `rgba(0, 0, 0, ${a})`);
-        g.addColorStop(0.5, `rgba(0, 0, 0, ${a * 0.4})`);
-        g.addColorStop(1, "rgba(0, 0, 0, 0)");
+        const a = p.life * 0.28;
+        g.addColorStop(0, `hsla(${p.hue}, 90%, 65%, ${a})`);
+        g.addColorStop(0.45, `hsla(${p.hue}, 85%, 60%, ${a * 0.45})`);
+        g.addColorStop(1, `hsla(${p.hue}, 90%, 65%, 0)`);
         ctx.fillStyle = g;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
@@ -137,7 +143,7 @@ export default function CursorEffects() {
           ripples.splice(i, 1);
           continue;
         }
-        ctx.strokeStyle = `rgba(0, 0, 0, ${r.life * 0.7})`;
+        ctx.strokeStyle = `hsla(${r.hue}, 95%, 65%, ${r.life * 0.8})`;
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.arc(r.x, r.y, r.r, 0, Math.PI * 2);
@@ -156,12 +162,13 @@ export default function CursorEffects() {
           sparks.splice(i, 1);
           continue;
         }
-        ctx.fillStyle = `rgba(0, 0, 0, ${s.life})`;
+        ctx.fillStyle = `hsla(${s.hue}, 95%, 65%, ${s.life})`;
         ctx.beginPath();
         ctx.arc(s.x, s.y, 2.2 * s.life + 0.5, 0, Math.PI * 2);
         ctx.fill();
       }
 
+      ctx.globalCompositeOperation = "source-over";
       raf = requestAnimationFrame(draw);
     };
 
