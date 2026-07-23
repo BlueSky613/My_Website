@@ -105,6 +105,12 @@ export default function MagneticCursor() {
       let destY = mouseY;
       let scale = 1;
 
+      // True hover: pointer is actually over a button/link (not just nearby).
+      const hot =
+        !!node &&
+        !!node.closest(SELECTOR) &&
+        !node.closest(".cursor-aurora-ring");
+
       if (target) {
         const reach =
           Math.max(
@@ -116,7 +122,15 @@ export default function MagneticCursor() {
         const pull = 1 - Math.min(target.d / reach, 1);
         destX = mouseX + (target.cx - mouseX) * pull * 0.6;
         destY = mouseY + (target.cy - mouseY) * pull * 0.6;
-        scale = 1 + pull * 1.4;
+        // Base grow when near interactive targets…
+        const base = 1 + pull * 1.15;
+        // …and when directly over a button/link, pulse larger ↔ smaller.
+        if (hot) {
+          const beat = Math.sin(performance.now() / 160); // ~3.1 Hz
+          scale = base + 0.22 + beat * 0.28;
+        } else {
+          scale = base;
+        }
 
         if (nudgeTarget) {
           const nudge = 0.22 * pull;
@@ -129,6 +143,7 @@ export default function MagneticCursor() {
       ringX += (destX - ringX) * 0.2;
       ringY += (destY - ringY) * 0.2;
       ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%) scale(${scale})`;
+      ring.classList.toggle("is-hot", hot);
 
       raf = requestAnimationFrame(tick);
     };

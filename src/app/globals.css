@@ -228,6 +228,11 @@ html[data-theme="dark"] .theme-icon-sun {
     opacity: 0.85;
     animation: cursor-aurora-spin 4.2s linear infinite reverse;
   }
+  /* Extra glow while pulsing over buttons/links */
+  .cursor-aurora-ring.is-hot .cursor-aurora-ring__glow {
+    filter: blur(5px) saturate(1.55);
+    opacity: 1;
+  }
   @media (prefers-reduced-motion: reduce) {
     .cursor-aurora-ring__band,
     .cursor-aurora-ring__glow {
