@@ -25,11 +25,11 @@ export default function Navbar() {
           <Image
             src="/images/logo.png"
             alt={site.name}
-            width={36}
-            height={36}
+            width={72}
+            height={72}
             unoptimized
             priority
-            className="h-9 w-9 rounded-md object-cover transition group-hover:opacity-90"
+            className="h-[72px] w-[72px] rounded-md object-cover transition group-hover:opacity-90"
           />
           <span className="hidden font-semibold tracking-tight sm:inline">
             {site.name}
