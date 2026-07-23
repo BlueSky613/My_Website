@@ -16,7 +16,7 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-line/10 bg-surface">
-      <nav className="container-content flex h-16 items-center justify-between gap-4">
+      <nav className="container-content flex h-20 items-center justify-between gap-4">
         <Link
           href="/"
           className="group flex items-center gap-2 font-mono text-sm text-ink"
