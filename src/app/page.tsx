@@ -26,14 +26,16 @@ export default async function HomePage() {
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="container-content relative py-28 sm:py-36 lg:py-44">
-          <div className="max-w-5xl">
-            <div data-tilt className="animate-float motion-reduce:animate-none">
-              <p className="mb-4 font-mono text-[2.8125rem] font-black uppercase leading-none tracking-[0.08em] text-ink sm:text-[3.375rem] lg:text-[4.5rem]">
+          <div className="max-w-6xl">
+            <div>
+              <p className="mb-4 flex flex-wrap items-end gap-x-[0.35em] font-mono text-[2.8125rem] font-black uppercase leading-none tracking-[0.06em] text-ink sm:text-[3.375rem] lg:text-[4.5rem]">
                 <span className="inline-flex items-end whitespace-nowrap">
                   <span className="text-[2em] font-black leading-none">G</span>
                   <span className="leading-none">eospatial</span>
-                </span>{" "}
-                <span className="leading-none">Solutions by ChunYang Lou</span>
+                </span>
+                <span className="leading-none whitespace-nowrap">
+                  Solutions by ChunYang Lou
+                </span>
               </p>
               <h1 className="text-lg font-normal leading-snug tracking-tight text-ink sm:text-2xl lg:text-3xl">
                 <TextReveal as="span" className="block" text={site.taglines[0]} />
