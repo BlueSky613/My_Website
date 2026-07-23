@@ -114,6 +114,18 @@ export const projects: Project[] = [
     featured: true,
     externalUrl: "https://stavely-geology-viewer.vercel.app/",
   },
+  {
+    slug: "mount-brockman-solid-model",
+    number: "03",
+    title: "Mount Brockman Solid Geological Model",
+    location: "Mount Brockman Syncline, Western Australia",
+    category: "3D Geological Modelling",
+    summary:
+      "Browser-based vtk.js viewer for the GSWA Mount Brockman Syncline solid model — GoCAD VS* volumes with GeoModeller colors, interactive faults and contacts, in-scene cross-sections, topography, wells, and gravity overlays (GDA94 / MGA50).",
+    tags: ["VTK.js", "GoCAD", "GeoModeller", "3D Geology", "WebGL", "GSWA"],
+    featured: true,
+    externalUrl: "https://mount-brockman.vercel.app/",
+  },
 ];
 
 export function getProject(slug: string): Project | undefined {
