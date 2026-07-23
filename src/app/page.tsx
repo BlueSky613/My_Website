@@ -5,8 +5,38 @@ import { cvHref, expertiseAreas } from "@/lib/resume";
 import ProjectCard from "@/components/ProjectCard";
 import ContactForm from "@/components/ContactForm";
 import Reveal from "@/components/Reveal";
-import TextReveal from "@/components/TextReveal";
 import { recordHomeVisitIfNeeded } from "@/lib/record-home-visit";
+
+/** Wrap text into lines of at most `max` characters (word-aware). */
+function wrapAtMaxChars(text: string, max = 12): string[] {
+  const words = text.split(/\s+/).filter(Boolean);
+  const lines: string[] = [];
+  let current = "";
+
+  for (const word of words) {
+    if (word.length > max) {
+      if (current) {
+        lines.push(current);
+        current = "";
+      }
+      for (let i = 0; i < word.length; i += max) {
+        lines.push(word.slice(i, i + max));
+      }
+      continue;
+    }
+
+    const next = current ? `${current} ${word}` : word;
+    if (next.length <= max) {
+      current = next;
+    } else {
+      lines.push(current);
+      current = word;
+    }
+  }
+
+  if (current) lines.push(current);
+  return lines;
+}
 
 export default async function HomePage() {
   await recordHomeVisitIfNeeded();
@@ -21,6 +51,11 @@ export default async function HomePage() {
     ? highlight.externalUrl ?? `/projects/${highlight.slug}`
     : "/projects";
 
+  // Large byline: oversized G alone, then remaining text ≤12 chars per line
+  const bylineLines = wrapAtMaxChars("eospatial Solutions by ChunYang Lou", 12);
+  const taglineLines = wrapAtMaxChars(site.taglines[0], 12);
+  const introLines = wrapAtMaxChars(site.intro, 12);
+
   return (
     <>
       {/* Hero */}
@@ -29,21 +64,30 @@ export default async function HomePage() {
           <div className="max-w-6xl">
             <div>
               <p className="mb-4 font-mono text-[2.8125rem] font-black uppercase leading-none tracking-[0.06em] text-ink sm:text-[3.375rem] lg:text-[4.5rem]">
-                <span className="flex flex-wrap items-end gap-x-[0.35em]">
-                  <span className="inline-flex items-end whitespace-nowrap">
-                    <span className="text-[2em] font-black leading-none">G</span>
-                    <span className="leading-none">eospatial</span>
+                <span className="block text-[2em] font-black leading-none">G</span>
+                {bylineLines.map((line) => (
+                  <span
+                    key={line}
+                    className="mt-[0.35em] block max-w-[12ch] leading-none"
+                  >
+                    {line}
                   </span>
-                  <span className="leading-none whitespace-nowrap">Solutions by</span>
-                </span>
-                <span className="mt-[0.35em] block leading-none">ChunYang Lou</span>
+                ))}
               </p>
               <h1 className="text-lg font-normal leading-snug tracking-tight text-ink sm:text-2xl lg:text-3xl">
-                <TextReveal as="span" className="block" text={site.taglines[0]} />
+                {taglineLines.map((line) => (
+                  <span key={line} className="block max-w-[12ch]">
+                    {line}
+                  </span>
+                ))}
               </h1>
               <Reveal delay={120}>
-                <p className="mt-6 max-w-xl text-lg text-ink-soft">
-                  {site.intro}
+                <p className="mt-6 text-lg text-ink-soft">
+                  {introLines.map((line) => (
+                    <span key={line} className="block max-w-[12ch]">
+                      {line}
+                    </span>
+                  ))}
                 </p>
               </Reveal>
             </div>
