@@ -3,9 +3,8 @@
 import { useEffect, useRef } from "react";
 
 // Canvas-based cursor effects (global — mounted from root layout):
-//  - a trail of soft "smoke" particles following the pointer
-//  - an expanding ripple + spark burst on click ("fireworks")
-// Restored to the original smoke behavior (billow, drift, additive glow).
+//  - a trail of soft black circles following the pointer (smoke-like)
+//  - expanding black ring + circle burst on click
 // Disabled on touch devices and when the user prefers reduced motion.
 
 type Smoke = {
@@ -13,9 +12,8 @@ type Smoke = {
   y: number;
   vx: number;
   vy: number;
-  life: number; // 1 -> 0
+  life: number;
   size: number;
-  hue: number;
 };
 
 type Spark = {
@@ -24,10 +22,9 @@ type Spark = {
   vx: number;
   vy: number;
   life: number;
-  hue: number;
 };
 
-type Ripple = { x: number; y: number; r: number; life: number; hue: number };
+type Ripple = { x: number; y: number; r: number; life: number };
 
 export default function CursorEffects() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -62,9 +59,6 @@ export default function CursorEffects() {
     let moved = false;
     let raf = 0;
 
-    // Palette: cyan -> gold
-    const pickHue = () => (Math.random() < 0.5 ? 188 : 42);
-
     const onMove = (e: MouseEvent) => {
       const x = e.clientX;
       const y = e.clientY;
@@ -72,7 +66,6 @@ export default function CursorEffects() {
         const dx = x - lastX;
         const dy = y - lastY;
         const dist = Math.hypot(dx, dy);
-        // emit a few smoke puffs proportional to movement
         const count = Math.min(3, 1 + Math.floor(dist / 14));
         for (let i = 0; i < count; i++) {
           smoke.push({
@@ -82,7 +75,6 @@ export default function CursorEffects() {
             vy: dy * 0.02 + (Math.random() - 0.5) * 0.4 - 0.3,
             life: 1,
             size: 8 + Math.random() * 14,
-            hue: pickHue(),
           });
         }
       }
@@ -94,9 +86,7 @@ export default function CursorEffects() {
     const onClick = (e: MouseEvent) => {
       const x = e.clientX;
       const y = e.clientY;
-      const hue = pickHue();
-      ripples.push({ x, y, r: 0, life: 1, hue });
-      // firework spark burst
+      ripples.push({ x, y, r: 0, life: 1 });
       const n = 22;
       for (let i = 0; i < n; i++) {
         const a = (Math.PI * 2 * i) / n + Math.random() * 0.3;
@@ -107,22 +97,20 @@ export default function CursorEffects() {
           vx: Math.cos(a) * sp,
           vy: Math.sin(a) * sp,
           life: 1,
-          hue: Math.random() < 0.5 ? hue : pickHue(),
         });
       }
     };
 
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      // Additive blend = soft glowing smoke (original look)
-      ctx.globalCompositeOperation = "lighter";
+      ctx.globalCompositeOperation = "source-over";
 
-      // smoke — expands and drifts upward like vapor
+      // Soft black circles that expand and drift like smoke
       for (let i = smoke.length - 1; i >= 0; i--) {
         const p = smoke[i];
         p.x += p.vx;
         p.y += p.vy;
-        p.vy -= 0.01; // drift up
+        p.vy -= 0.01;
         p.vx *= 0.99;
         p.life -= 0.018;
         p.size += 0.4;
@@ -131,17 +119,16 @@ export default function CursorEffects() {
           continue;
         }
         const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
-        const a = p.life * 0.28;
-        g.addColorStop(0, `hsla(${p.hue}, 90%, 65%, ${a})`);
-        g.addColorStop(0.45, `hsla(${p.hue}, 85%, 60%, ${a * 0.45})`);
-        g.addColorStop(1, `hsla(${p.hue}, 90%, 65%, 0)`);
+        const a = p.life * 0.35;
+        g.addColorStop(0, `rgba(0, 0, 0, ${a})`);
+        g.addColorStop(0.5, `rgba(0, 0, 0, ${a * 0.4})`);
+        g.addColorStop(1, "rgba(0, 0, 0, 0)");
         ctx.fillStyle = g;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fill();
       }
 
-      // ripples
       for (let i = ripples.length - 1; i >= 0; i--) {
         const r = ripples[i];
         r.r += 6;
@@ -150,19 +137,18 @@ export default function CursorEffects() {
           ripples.splice(i, 1);
           continue;
         }
-        ctx.strokeStyle = `hsla(${r.hue}, 95%, 65%, ${r.life * 0.8})`;
+        ctx.strokeStyle = `rgba(0, 0, 0, ${r.life * 0.7})`;
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.arc(r.x, r.y, r.r, 0, Math.PI * 2);
         ctx.stroke();
       }
 
-      // sparks
       for (let i = sparks.length - 1; i >= 0; i--) {
         const s = sparks[i];
         s.x += s.vx;
         s.y += s.vy;
-        s.vy += 0.06; // gravity
+        s.vy += 0.06;
         s.vx *= 0.98;
         s.vy *= 0.98;
         s.life -= 0.022;
@@ -170,13 +156,12 @@ export default function CursorEffects() {
           sparks.splice(i, 1);
           continue;
         }
-        ctx.fillStyle = `hsla(${s.hue}, 95%, 65%, ${s.life})`;
+        ctx.fillStyle = `rgba(0, 0, 0, ${s.life})`;
         ctx.beginPath();
         ctx.arc(s.x, s.y, 2.2 * s.life + 0.5, 0, Math.PI * 2);
         ctx.fill();
       }
 
-      ctx.globalCompositeOperation = "source-over";
       raf = requestAnimationFrame(draw);
     };
 

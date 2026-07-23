@@ -143,9 +143,6 @@ export default function MagneticCursor() {
       ringX += (destX - ringX) * 0.2;
       ringY += (destY - ringY) * 0.2;
       ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%) scale(${scale})`;
-      ring.style.borderColor = target
-        ? "rgba(34,211,238,0.9)"
-        : "rgba(34,211,238,0.45)";
 
       raf = requestAnimationFrame(tick);
     };
@@ -166,7 +163,7 @@ export default function MagneticCursor() {
     <div
       ref={ringRef}
       aria-hidden
-      className="pointer-events-none fixed left-0 top-0 z-[65] h-8 w-8 rounded-full border-2 border-black/40 [transition:border-color_150ms_ease-out] will-change-transform"
+      className="pointer-events-none fixed left-0 top-0 z-[65] h-3.5 w-3.5 rounded-full bg-black [transition:transform_150ms_ease-out,width_150ms_ease-out,height_150ms_ease-out] will-change-transform"
     />
   );
 }
