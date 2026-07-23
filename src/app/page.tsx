@@ -22,15 +22,19 @@ export default async function HomePage() {
       {/* Hero — copy left, featured card right */}
       <section className="relative overflow-hidden">
         <div className="container-content relative py-28 sm:py-36 lg:py-44">
-          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-            <div className="flex flex-col items-start">
+          <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-12">
+            <div className="flex min-w-0 flex-col items-start overflow-visible">
               <p className="font-mono text-[2.8125rem] font-black uppercase leading-none tracking-[0.06em] text-ink sm:text-[3.375rem] lg:text-[4.5rem]">
                 <span className="flex items-end whitespace-nowrap">
                   <span className="text-[2em] font-black leading-none">G</span>
                   <span className="leading-none">eospatial</span>
                 </span>
-                <span className="mt-[0.35em] block leading-none">Solutions by</span>
-                <span className="mt-[0.35em] block leading-none">ChunYang Lou</span>
+                <span className="mt-[0.35em] block whitespace-nowrap leading-none">
+                  Solutions by
+                </span>
+                <span className="mt-[0.35em] block whitespace-nowrap leading-none">
+                  ChunYang Lou
+                </span>
               </p>
               <h1 className="mt-[0.8em] max-w-xl text-lg font-normal leading-snug tracking-tight text-ink sm:text-2xl lg:text-3xl">
                 {site.taglines[0]}
