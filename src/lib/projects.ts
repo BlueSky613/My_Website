@@ -138,6 +138,18 @@ export const projects: Project[] = [
     featured: false,
     externalUrl: "https://illinoisbasin-model.vercel.app/",
   },
+  {
+    slug: "southern-ontario-grs019-viewer",
+    number: "05",
+    title: "GRS019 Southern Ontario 3D Viewer",
+    location: "Southern Ontario, Canada",
+    category: "3D Geological Modelling",
+    summary:
+      "Browser viewer for the GRS019 Paleozoic bedrock model of southern Ontario — volumetric X/Y/Z cross-section slices, age-based layer toggles, vertical exaggeration, solid outlines, and interactive 3D navigation over the regional lithostratigraphic volume.",
+    tags: ["VTK.js", "3D Geology", "WebGL", "GRS019", "Cross-sections", "Ontario"],
+    featured: false,
+    externalUrl: "https://southernontario1-3dviewer.vercel.app/",
+  },
 ];
 
 export function getProject(slug: string): Project | undefined {
